@@ -7,12 +7,15 @@ import json
 from .data import SITE, STATUSES
 
 # ---------------------------------------------------------------------------
-# Navigation — seven top-level items, exactly as required by the brief.
+# Navigation — eight top-level items: the seven the brief specifies, plus an
+# explicit Home link added at the Foundation's request. (The brief asks for
+# seven maximum; the logo also links home, as it does on most sites.)
 # Nothing important lives only in a dropdown: every section landing page
 # repeats its children as links, and the mobile menu renders them all inline.
 # ---------------------------------------------------------------------------
 
 NAV = [
+    {"label": "Home", "url": "/", "children": []},
     {"label": "About Us", "url": "/about/", "children": [
         {"label": "Who We Are", "url": "/about/", "desc": "Story, vision, mission and values"},
         {"label": "Our Story", "url": "/about/our-story/", "desc": "Milestones from 2018"},
@@ -378,6 +381,7 @@ def footer():
       <nav class="footer__col" aria-label="Explore">
         <h2 class="footer__h">Explore</h2>
         <ul>
+          <li><a href="/">Home</a></li>
           <li><a href="/about/">Who we are</a></li>
           <li><a href="/what-we-do/">What we do</a></li>
           <li><a href="/who-we-serve/">Who we serve</a></li>

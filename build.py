@@ -249,7 +249,8 @@ def register_pages():
 
 def sitemap_groups():
     return [
-        ("About us", [(c["label"], c["url"]) for c in NAV[0]["children"]]),
+        ("Home", [("Home", "/")]),
+        ("About us", [(c["label"], c["url"]) for c in NAV[1]["children"]]),
         ("What we do", [("Overview", "/what-we-do/")]
          + [(p["name"], pillar_url(p["slug"])) for p in D.PILLARS]
          + [(p["short_name"], programme_url(p["slug"])) for p in D.PROGRAMMES]
@@ -261,7 +262,7 @@ def sitemap_groups():
                           ("Partner with us", "/get-involved/partner/"),
                           ("Volunteer", "/get-involved/volunteer/"),
                           ("Become an ambassador", "/get-involved/ambassador/")]),
-        ("Accountability", [(c["label"], c["url"]) for c in NAV[4]["children"]]
+        ("Accountability", [(c["label"], c["url"]) for c in NAV[5]["children"]]
          + [("Safeguarding statement", "/safeguarding/"), ("Complaints", "/complaints/")]),
         ("News", [("All news", "/news/")] + [(n["title"], f'/news/{n["slug"]}/') for n in D.NEWS]),
         ("Contact and utility", [("Contact", "/contact/"), ("Search", "/search/")]

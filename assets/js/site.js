@@ -64,7 +64,7 @@
   });
 
   // Keep state honest when resizing across the desktop breakpoint.
-  var desktop = window.matchMedia('(min-width: 1080px)');
+  var desktop = window.matchMedia('(min-width: 1140px)');
   var onBreak = function (e) { if (e.matches) setNav(false); };
   if (desktop.addEventListener) desktop.addEventListener('change', onBreak);
   else if (desktop.addListener) desktop.addListener(onBreak);

@@ -180,7 +180,7 @@ Four things, offered as the brief invited.
 | Requirement | Status |
 |---|---|
 | Full sitemap as specified | Built — 55 pages |
-| Main menu of exactly seven items | Built — About Us · What We Do · Our Impact · Get Involved · Accountability · News · Contact |
+| Main menu of exactly seven items | **Departed from at the Foundation's request.** The menu now carries eight: an explicit Home link ahead of the seven specified. The brief says "seven items maximum — do not add an eighth", and the logo already links home, so this was raised before it was implemented. The desktop breakpoint moved from 1080px to 1140px to keep the bar from crowding the Donate button |
 | Persistent Donate button in header, on every page including mobile — MUST | Built, visually distinct, orange with navy text (AA contrast) |
 | Programme pages within two clicks of home | Built — home → pillar card → programme, and home → What We Do → programme |
 | Footer with contact, registration number, socials, four Get Involved routes, utility pages | Built |

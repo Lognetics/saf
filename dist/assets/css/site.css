@@ -380,8 +380,11 @@ button { font: inherit; }
 }
 .nav-scrim.is-open { opacity: 1; }
 
-/* --- desktop navigation --- */
-@media (min-width: 1080px) {
+/* --- desktop navigation ---
+   The bar carries eight items plus the brand lockup and a persistent Donate
+   button. Below this width they no longer fit, so the off-canvas menu holds
+   until there is genuinely room. */
+@media (min-width: 1140px) {
   .burger { display: none; }
   .header__search { display: inline-flex; }
   .nav {
@@ -420,9 +423,11 @@ button { font: inherit; }
   .nav__footer { display: none; }
   .nav-scrim { display: none; }
 }
-@media (min-width: 1080px) and (max-width: 1200px) {
-  .nav__link { padding-inline: .45rem; font-size: 0.7875rem; }
+@media (min-width: 1140px) and (max-width: 1320px) {
+  .nav__link { padding-inline: .38rem; font-size: 0.7875rem; }
   .brand__tag { display: none; }
+  .btn--donate { padding: .6rem .95rem; }
+  .header__search { width: 36px; }
 }
 
 /* --------------------------------------------------------------------------
