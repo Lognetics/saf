@@ -74,6 +74,7 @@ def get_involved():
         </div>
       </div>
       <div>
+        {photo("classroom-lesson", "4x3", sizes="(min-width: 880px) 540px, 100vw", cls="mb-5")}
         <div class="card">
           <h3>What a funder can expect from us</h3>
           {bullets(D.FUNDER_EXPECTATIONS)}
@@ -284,6 +285,18 @@ def donate():
   </div>
 </section>
 
+<section class="section section--tight">
+  <div class="container">
+    <div class="photo-band">
+      {photo("classroom-boy-desk", "4x3", sizes="(min-width: 700px) 25vw, 50vw", max_width=640)}
+      {photo("classroom-group", "4x3", sizes="(min-width: 700px) 25vw, 50vw", max_width=640)}
+      {photo("woman-portrait", "4x3", sizes="(min-width: 700px) 25vw, 50vw", max_width=640)}
+      {photo("children-outside", "4x3", sizes="(min-width: 700px) 25vw, 50vw", max_width=640)}
+    </div>
+    <p class="small text-muted mt-4">What your gift pays for. {photo_credit_line()}</p>
+  </div>
+</section>
+
 <section class="section section--surface" id="bank-transfer">
   <div class="container">
     <div class="grid grid--split">
@@ -312,6 +325,7 @@ def donate():
   <div class="container">
     <div class="grid grid--split">
       <div>
+        {photo("children-laughing", "4x3", sizes="(min-width: 880px) 540px, 100vw", cls="mb-5")}
         {section_head("Questions about giving", None, eyebrow_text="Before you give")}
         <p>If your question is not answered here, call us on
           <a href="tel:{D.SITE["phone_href"]}">{D.SITE["phone"]}</a> or email
@@ -354,6 +368,13 @@ def thank_you():
             call us and we will cancel it and confirm in writing.</p></div></li>
         </ol>
 
+        <div class="photo-band mt-6 mb-6">
+          {photo("classroom-friends", "1x1", sizes="(min-width: 700px) 25vw, 50vw", max_width=640)}
+          {photo("women-smiling", "1x1", sizes="(min-width: 700px) 25vw, 50vw", max_width=640)}
+          {photo("children-yard", "1x1", sizes="(min-width: 700px) 25vw, 50vw", max_width=640)}
+          {photo("elder-smiling", "1x1", sizes="(min-width: 700px) 25vw, 50vw", max_width=640)}
+        </div>
+
         <h2>One more thing that would help</h2>
         <p>Most people who support us heard about the Foundation from someone they know. If you would tell one
            person about this work, that is worth more to us than you might expect.</p>
@@ -363,6 +384,7 @@ def thank_you():
         </div>
       </div>
       <aside>
+        {photo("children-laughing", "4x3", sizes="(min-width: 940px) 336px, 100vw", cls="mb-5", max_width=640)}
         <div class="card">
           <h3>Join the newsletter</h3>
           <p class="small">A short email when there is something real to report. Separate from your donation —
@@ -435,6 +457,7 @@ def partner():
 
 <section class="section section--surface">
   <div class="container">
+    {photo("women-gathering", "21x9", sizes="100vw", cls="mb-6", caption=photo_credit_line())}
     {section_head("The kinds of partnership we seek", None, eyebrow_text="Four routes")}
     <div class="grid grid--4">{type_cards}</div>
     {note('<p>Every partner whose personnel come into contact with children is bound by our Safeguarding Policy '
@@ -546,6 +569,13 @@ def volunteer():
                   "we will match you to something real rather than keeping you on a list.",
                   eyebrow_text="Current opportunities")}
     <div class="grid grid--4">{roles}</div>
+    <div class="photo-band mt-7">
+      {photo("classroom-desks", "4x3", sizes="(min-width: 700px) 25vw, 50vw", max_width=640)}
+      {photo("children-community", "4x3", sizes="(min-width: 700px) 25vw, 50vw", max_width=640)}
+      {photo("women-gathering", "4x3", sizes="(min-width: 700px) 25vw, 50vw", max_width=640)}
+      {photo("elder-seated", "4x3", sizes="(min-width: 700px) 25vw, 50vw", max_width=640)}
+    </div>
+    <p class="small text-muted mt-4">{photo_credit_line()}</p>
   </div>
 </section>
 
@@ -652,6 +682,7 @@ def ambassador():
           Nigerian foundation with three programmes running and nine more scheduled.</p>
       </div>
       <div>
+        {photo("women-smiling", "4x3", sizes="(min-width: 880px) 540px, 100vw", cls="mb-5")}
         <div class="card">
           <h3>What we give you</h3>
           {bullets([
@@ -714,6 +745,7 @@ def ambassador():
         </form>
       </div>
       <aside>
+        {photo("classroom-boy-yellow", "4x3", sizes="(min-width: 940px) 336px, 100vw", cls="mb-5", max_width=640)}
         <div class="card card--quiet">
           <h3>Not quite what you had in mind?</h3>
           <p class="small">There are three other ways to stand with the Foundation.</p>

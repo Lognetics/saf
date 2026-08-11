@@ -66,14 +66,21 @@ def programme_card(p, show_pillar=False):
            if p.get("public_name") else "")
     pil = (f'<p class="card__meta">{esc(pillar_name(p["pillar"]))}</p>' if show_pillar else "")
     flag = f'<span class="tag tag--muted">{esc(p["flagship"])}</span>' if p.get("flagship") else ""
+    key = D.PROGRAMME_PHOTOS.get(p["slug"])
+    media = (photo(key, "3x2", sizes="(min-width: 940px) 360px, 100vw", max_width=640)
+             if key else "")
+    cls = "card card--link card--programme" + (" card--photo" if media else "")
     return f'''
-<article class="card card--link card--programme" data-facets="{p["pillar"]} {p["status"]}">
-  <div class="card__top">{chip(p["status"])}{flag}</div>
-  <h3><a class="stretched" href="{programme_url(p["slug"])}">{esc(p["short_name"])}</a></h3>
-  {pub}{pil}
-  <p>{esc(p["one_line"])}</p>
-  {f'<p class="card__meta small">{esc(st_note)}</p>' if st_note else ''}
-  <p class="card__foot"><span class="card__more">Read the programme{icon("arrow-right", "", 18)}</span></p>
+<article class="{cls}" data-facets="{p["pillar"]} {p["status"]}">
+  {media}
+  <div class="card__body">
+    <div class="card__top">{chip(p["status"])}{flag}</div>
+    <h3><a class="stretched" href="{programme_url(p["slug"])}">{esc(p["short_name"])}</a></h3>
+    {pub}{pil}
+    <p>{esc(p["one_line"])}</p>
+    {f'<p class="card__meta small">{esc(st_note)}</p>' if st_note else ''}
+    <p class="card__foot"><span class="card__more">Read the programme{icon("arrow-right", "", 18)}</span></p>
+  </div>
 </article>'''
 
 
@@ -129,28 +136,42 @@ def partner_card(partner):
 </article>'''
 
 
-def news_card(item):
+def news_card(item, with_photo=True):
     pil = f' {item["pillar"]}' if item.get("pillar") else ""
+    key = D.NEWS_PHOTOS.get(item["slug"])
+    media = (photo(key, "3x2", sizes="(min-width: 940px) 360px, 100vw", max_width=640)
+             if (with_photo and key) else "")
+    cls = "card card--link card--news" + (" card--photo" if media else "")
     return f'''
-<article class="card card--link card--news" data-facets="{esc(item["category"])}{pil}">
-  <p class="card__cat">{esc(item["category"])}</p>
-  <h3><a class="stretched" href="/news/{item["slug"]}/">{esc(item["title"])}</a></h3>
-  <p class="card__meta">{esc(item["date_display"])}</p>
-  <p>{esc(item["excerpt"])}</p>
-  <p class="card__foot"><span class="card__more">Read more{icon("arrow-right", "", 18)}</span></p>
+<article class="{cls}" data-facets="{esc(item["category"])}{pil}">
+  {media}
+  <div class="card__body">
+    <p class="card__cat">{esc(item["category"])}</p>
+    <h3><a class="stretched" href="/news/{item["slug"]}/">{esc(item["title"])}</a></h3>
+    <p class="card__meta">{esc(item["date_display"])}</p>
+    <p>{esc(item["excerpt"])}</p>
+    <p class="card__foot"><span class="card__more">Read more{icon("arrow-right", "", 18)}</span></p>
+  </div>
 </article>'''
 
 
-def story_card(item):
+def story_card(item, with_photo=True):
     pil = item.get("pillar") or ""
     fmt_icon = {"Film": "film", "Photo essay": "camera", "Written": "doc"}.get(item["format"], "doc")
+    key = D.STORY_PHOTOS.get(item["slug"])
+    media = (photo(key, "3x2", sizes="(min-width: 940px) 360px, 100vw", max_width=640)
+             if (with_photo and key) else "")
+    cls = "card card--link" + (" card--photo" if media else "")
     return f'''
-<article class="card card--link" data-facets="{pil} {item["format"].lower().replace(" ", "-")}">
-  <p class="card__cat"><span class="tag">{icon(fmt_icon, "", 16)} {esc(item["format"])}</span></p>
-  <h3><a class="stretched" href="/impact/stories/{item["slug"]}/">{esc(item["title"])}</a></h3>
-  <p class="card__meta">{esc(item["date_display"])}{" · " + esc(pillar_name(pil)) if pil else ""}</p>
-  <p>{esc(item["excerpt"])}</p>
-  <p class="card__foot"><span class="card__more">Read the story{icon("arrow-right", "", 18)}</span></p>
+<article class="{cls}" data-facets="{pil} {item["format"].lower().replace(" ", "-")}">
+  {media}
+  <div class="card__body">
+    <p class="card__cat"><span class="tag">{icon(fmt_icon, "", 16)} {esc(item["format"])}</span></p>
+    <h3><a class="stretched" href="/impact/stories/{item["slug"]}/">{esc(item["title"])}</a></h3>
+    <p class="card__meta">{esc(item["date_display"])}{" · " + esc(pillar_name(pil)) if pil else ""}</p>
+    <p>{esc(item["excerpt"])}</p>
+    <p class="card__foot"><span class="card__more">Read the story{icon("arrow-right", "", 18)}</span></p>
+  </div>
 </article>'''
 
 
@@ -174,12 +195,17 @@ def get_involved_grid(exclude=None):
         if g["slug"] == exclude:
             continue
         url = "/donate/" if g["slug"] == "donate" else f'/get-involved/{g["slug"]}/'
+        key = D.GET_INVOLVED_PHOTOS.get(g["slug"])
+        media = photo(key, "3x2", sizes="(min-width: 940px) 280px, 50vw", max_width=640) if key else ""
         cards.append(f'''
-<article class="card card--link">
-  <span class="pillar__icon">{icon(g["icon"], "", 26)}</span>
-  <h3><a class="stretched" href="{url}">{esc(g["title"])}</a></h3>
-  <p>{esc(g["summary"])}</p>
-  <p class="card__foot"><span class="card__more">{esc(g["cta"])}{icon("arrow-right", "", 18)}</span></p>
+<article class="card card--link card--photo">
+  {media}
+  <div class="card__body">
+    <span class="pillar__icon">{icon(g["icon"], "", 26)}</span>
+    <h3><a class="stretched" href="{url}">{esc(g["title"])}</a></h3>
+    <p>{esc(g["summary"])}</p>
+    <p class="card__foot"><span class="card__more">{esc(g["cta"])}{icon("arrow-right", "", 18)}</span></p>
+  </div>
 </article>''')
     return f'<div class="grid grid--4">{"".join(cards)}</div>'
 

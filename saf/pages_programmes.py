@@ -112,6 +112,8 @@ def what_we_do():
     {section_head(esc(D.CROSS_CUTTING["name"]), esc(D.CROSS_CUTTING["lede"]),
                   eyebrow_text="Running through everything")}
     <div class="grid grid--2">{cross}</div>
+    {photo("children-community", "21x9", sizes="100vw", cls="mt-6",
+           caption=photo_credit_line())}
     {note('<p>Every person delivering our work is vetted and bound by a code of conduct; no child is ever met '
           'alone; and a plain-language route to raise a concern is displayed wherever we work. A programme does '
           'not begin until this is in place. Safeguarding is not a section of our plan — it is a condition of '
@@ -144,6 +146,14 @@ def what_we_do():
           healthy.</blockquote>
       </div>
     </div>
+    <div class="photo-band mt-7">
+      {photo("classroom-writing", "4x3", sizes="(min-width: 700px) 25vw, 50vw", max_width=640)}
+      {photo("woman-portrait", "4x3", sizes="(min-width: 700px) 25vw, 50vw", max_width=640)}
+      {photo("children-outside", "4x3", sizes="(min-width: 700px) 25vw, 50vw", max_width=640)}
+      {photo("elder-seated", "4x3", sizes="(min-width: 700px) 25vw, 50vw", max_width=640)}
+    </div>
+    <p class="small text-muted mt-4">Educate the mind, equip the hands, secure the home. {photo_credit_line()}</p>
+
     <h3 class="mt-7">The assumptions we test</h3>
     <p class="measure">A theory of change that carries no assumptions is not a theory; it is a wish. Ours rests
       on four, each of which we test rather than presume.</p>
@@ -210,6 +220,13 @@ def pillar_page(p):
                   f"{len(progs)} programmes. Each carries a status label showing whether it is running today.",
                   eyebrow_text="The work")}
     <div class="grid grid--3">{cards}</div>
+    <div class="photo-band mt-7">
+      {photo("classroom-friends", "4x3", sizes="(min-width: 700px) 25vw, 50vw", max_width=640)}
+      {photo("children-laughing", "4x3", sizes="(min-width: 700px) 25vw, 50vw", max_width=640)}
+      {photo("women-smiling", "4x3", sizes="(min-width: 700px) 25vw, 50vw", max_width=640)}
+      {photo("elder-smiling", "4x3", sizes="(min-width: 700px) 25vw, 50vw", max_width=640)}
+    </div>
+    <p class="small text-muted mt-4">{photo_credit_line()}</p>
   </div>
 </section>
 
@@ -327,6 +344,7 @@ def programme_page(p):
           <p class="small text-muted mt-4">You can direct your gift to this programme, to a pillar, or to
             wherever it is most needed.</p>
         </div>
+        {photo("children-community", "4x3", sizes="(min-width: 940px) 336px, 100vw", cls="mt-5", max_width=640)}
         <div class="card mt-5">{partners_html}</div>
         {sib_html}
       </aside>
@@ -385,6 +403,7 @@ def impact():
         </div>
       </div>
       <div>
+        {photo("classroom-writing", "4x3", sizes="(min-width: 880px) 540px, 100vw", cls="mb-5")}
         <blockquote class="pullquote">We would rather publish a smaller number we can defend than a larger one
           we cannot.<cite>Corporate Profile 2026, Section 16</cite></blockquote>
       </div>
@@ -443,6 +462,8 @@ def stories_index():
 
 <section class="section section--tight">
   <div class="container">
+    {photo("classroom-lesson", "21x9", sizes="100vw", cls="mb-6", eager=True,
+           caption=photo_credit_line())}
     {note(f'<p>{esc(D.STORIES_NOTE)}</p>', "Documentary work from September 2026", "info", "film")}
 
     <div data-filter-group="stories">
@@ -492,6 +513,11 @@ def story_page(s):
                sizes="(min-width: 940px) 720px, 100vw", eager=True,
                caption=photo_credit_line())}
         <div class="article-body mt-6">{body}</div>
+        <div class="gallery mt-6">
+          {photo("classroom-friends", "1x1", sizes="(min-width: 760px) 220px, 33vw", max_width=640)}
+          {photo("children-laughing", "1x1", sizes="(min-width: 760px) 220px, 33vw", max_width=640)}
+          {photo("classroom-doorway", "1x1", sizes="(min-width: 760px) 220px, 33vw", max_width=640)}
+        </div>
         <div class="share">
           <span class="share__label">Share</span>
           <a href="https://www.facebook.com/sharer/sharer.php?u={D.SITE["base_url"]}/impact/stories/{s["slug"]}/"
@@ -503,6 +529,7 @@ def story_page(s):
       </div>
       <aside>
         <h2 class="visually-hidden">Support this work, and more stories</h2>
+        {photo("women-smiling", "4x3", sizes="(min-width: 940px) 336px, 100vw", cls="mb-5", max_width=640)}
         <div class="card">
           <h3>Support this work</h3>
           <p class="small">You can direct your gift to a pillar or a programme, or give where it is most needed.</p>
@@ -579,6 +606,12 @@ def projects():
     </div>
 
     <h2 class="visually-hidden">All projects</h2>
+    <div class="photo-band mb-6">
+      {photo("classroom-group", "4x3", sizes="(min-width: 700px) 25vw, 50vw", max_width=640)}
+      {photo("women-gathering", "4x3", sizes="(min-width: 700px) 25vw, 50vw", max_width=640)}
+      {photo("children-playing", "4x3", sizes="(min-width: 700px) 25vw, 50vw", max_width=640)}
+      {photo("elder-seated", "4x3", sizes="(min-width: 700px) 25vw, 50vw", max_width=640)}
+    </div>
     <div class="grid grid--3" data-filter-target="projects">{cards}</div>
     <div class="empty-state mt-5" data-filter-empty="projects" hidden>
       <p>No projects match that combination.</p>
@@ -588,6 +621,7 @@ def projects():
 
 <section class="section section--surface">
   <div class="container">
+    {photo("boys-lorry", "21x9", sizes="100vw", cls="mb-6", caption=photo_credit_line())}
     {section_head("The full record", None, eyebrow_text="2019 to date")}
     {tbl}
     <p class="small text-muted mt-5">Figures and descriptions are drawn from project records and reported
@@ -618,6 +652,8 @@ def news_index():
     ) + f'''
 <section class="section section--tight">
   <div class="container">
+    {photo("children-community", "21x9", sizes="100vw", cls="mb-6", eager=True,
+           caption=photo_credit_line())}
     <div data-filter-group="news">
       <div class="filters">
         <span class="filters__label">Category</span>
@@ -683,6 +719,7 @@ def news_page(n, prev_item, next_item):
       </div>
       <aside>
         <h2 class="visually-hidden">Support the work, and more news</h2>
+        {photo("children-outside", "4x3", sizes="(min-width: 940px) 336px, 100vw", cls="mb-5", max_width=640)}
         <div class="card">
           <h3>Support the work</h3>
           <p class="small">One-off or monthly gifts, from ₦5,000 upward.</p>

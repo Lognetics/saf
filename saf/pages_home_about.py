@@ -269,6 +269,13 @@ def who_we_are():
 
         <blockquote class="pullquote">Relief meets the need of today. Education, livelihoods and legal
           protection determine whether that need returns next year.</blockquote>
+
+        <div class="gallery mt-6">
+          {photo("classroom-lesson", "1x1", sizes="(min-width: 760px) 200px, 33vw", max_width=640)}
+          {photo("women-smiling", "1x1", sizes="(min-width: 760px) 200px, 33vw", max_width=640)}
+          {photo("children-outside", "1x1", sizes="(min-width: 760px) 200px, 33vw", max_width=640)}
+        </div>
+        <p class="small text-muted">{photo_credit_line()}</p>
       </div>
 
       <aside>
@@ -319,6 +326,12 @@ def who_we_are():
                   "Independence is why we maintain a conflicts of interest register.",
                   eyebrow_text="What governs how we work")}
     <div class="grid grid--4">{values}</div>
+    <div class="photo-band mt-7">
+      {photo("classroom-friends", "4x3", sizes="(min-width: 700px) 25vw, 50vw", max_width=640)}
+      {photo("children-laughing", "4x3", sizes="(min-width: 700px) 25vw, 50vw", max_width=640)}
+      {photo("women-gathering", "4x3", sizes="(min-width: 700px) 25vw, 50vw", max_width=640)}
+      {photo("elder-smiling", "4x3", sizes="(min-width: 700px) 25vw, 50vw", max_width=640)}
+    </div>
   </div>
 </section>
 
@@ -327,6 +340,7 @@ def who_we_are():
     <div class="grid grid--split">
       <div>
         {section_head("What distinguishes us", None, eyebrow_text="Our position")}
+        {photo("wheelchair-crossing", "4x3", sizes="(min-width: 880px) 540px, 100vw", cls="mb-5")}
         {note(f'<p>{esc(D.WHAT_WE_ARE_NOT)}</p>', "What we are not", "warn", "alert")}
       </div>
       <div><dl class="definition-list">{distinctions}</dl></div>
@@ -371,6 +385,8 @@ def our_story():
 <section class="section section--tight">
   <div class="container">
     <h2 class="visually-hidden">Milestones from 2018</h2>
+    {photo("children-community", "21x9", sizes="100vw", cls="mb-7", eager=True,
+           caption=photo_credit_line())}
     <div class="grid grid--sidebar">
       <div>
         <ol class="timeline">{items}</ol>
@@ -384,6 +400,7 @@ def our_story():
           <p class="card__foot"><a class="card__more" href="/about/leadership/#mmaobi-nwafor-orizu-bio">
             Read the founder's biography{icon("arrow-right", "", 18)}</a></p>
         </div>
+        {photo("classroom-boy-desk", "4x5", sizes="(min-width: 940px) 336px, 100vw", cls="mt-5")}
         <div class="card card--quiet mt-5">
           <h3>2026 — into programmes</h3>
           <p class="small">2026 is the year the Foundation moved from campaigns to structured programmes —
@@ -401,6 +418,12 @@ def our_story():
     {section_head("How we work", None, eyebrow_text="Operating principles")}
     <div class="grid grid--3">
       {"".join(f'<div class="card"><h3>{esc(t)}</h3><p>{esc(b)}</p></div>' for t, b in D.OPERATING_PRINCIPLES)}
+    </div>
+    <div class="photo-band mt-7">
+      {photo("classroom-writing", "4x3", sizes="(min-width: 700px) 25vw, 50vw", max_width=640)}
+      {photo("children-yard", "4x3", sizes="(min-width: 700px) 25vw, 50vw", max_width=640)}
+      {photo("boys-lorry", "4x3", sizes="(min-width: 700px) 25vw, 50vw", max_width=640)}
+      {photo("elder-seated", "4x3", sizes="(min-width: 700px) 25vw, 50vw", max_width=640)}
     </div>
   </div>
 </section>
@@ -452,6 +475,9 @@ def leadership():
 
 <section class="section section--tight">
   <div class="container">
+    {photo("women-gathering", "21x9", sizes="100vw", cls="mb-6", eager=True,
+           caption="The Board and executive team are supported by ambassadors and a volunteer network across "
+                   "several Nigerian states. " + photo_credit_line())}
     {note('<p>Advisers at Board level inform decisions without holding executive responsibility for delivery. '
           'Keeping the two separate is part of the governance architecture donors and regulators expect of a '
           'credible foundation, and it is why our advisers are listed here as part of the Board rather than as '
@@ -486,6 +512,12 @@ def leadership():
   <div class="container">
     {section_head("How decisions are made", None, eyebrow_text="Governance structure")}
     {bodies}
+    <div class="photo-band mt-7 mb-6">
+      {photo("classroom-group", "4x3", sizes="(min-width: 700px) 25vw, 50vw", max_width=640)}
+      {photo("woman-portrait", "4x3", sizes="(min-width: 700px) 25vw, 50vw", max_width=640)}
+      {photo("children-playing", "4x3", sizes="(min-width: 700px) 25vw, 50vw", max_width=640)}
+      {photo("classroom-girl-bench", "4x3", sizes="(min-width: 700px) 25vw, 50vw", max_width=640)}
+    </div>
     <h3 class="mt-7">Strengthening our governance</h3>
     <p class="measure">{esc(D.GOVERNANCE_CANDOUR)}</p>
     <div class="mt-5">{commitments}</div>
@@ -542,6 +574,18 @@ def partners():
 <div class="container">{section_nav(ABOUT_NAV, "/about/partners/")}</div>
 {"".join(blocks)}
 
+<section class="section section--tight">
+  <div class="container">
+    <div class="photo-band">
+      {photo("classroom-desks", "4x3", sizes="(min-width: 700px) 25vw, 50vw", max_width=640)}
+      {photo("women-smiling", "4x3", sizes="(min-width: 700px) 25vw, 50vw", max_width=640)}
+      {photo("children-outside", "4x3", sizes="(min-width: 700px) 25vw, 50vw", max_width=640)}
+      {photo("elder-smiling", "4x3", sizes="(min-width: 700px) 25vw, 50vw", max_width=640)}
+    </div>
+    <p class="small text-muted mt-4">Work delivered alongside our partners. {photo_credit_line()}</p>
+  </div>
+</section>
+
 <section class="section section--surface">
   <div class="container">
     <div class="grid grid--split">
@@ -568,6 +612,7 @@ def partners():
         </div>
       </div>
       <div>
+        {photo("classroom-boy-yellow", "4x3", sizes="(min-width: 880px) 540px, 100vw", cls="mb-5")}
         <div class="card">
           <h3>What we offer a partner</h3>
           {bullets(D.WHAT_WE_OFFER_PARTNERS)}
@@ -663,6 +708,12 @@ def who_we_serve():
                   "politics or any other interest. Selection follows a consistent process across every "
                   "programme.", eyebrow_text="Selection")}
     <ol class="steps">{steps}</ol>
+    <div class="photo-band mt-6 mb-6">
+      {photo("classroom-doorway", "4x3", sizes="(min-width: 700px) 25vw, 50vw", max_width=640)}
+      {photo("children-playing", "4x3", sizes="(min-width: 700px) 25vw, 50vw", max_width=640)}
+      {photo("boys-lorry", "4x3", sizes="(min-width: 700px) 25vw, 50vw", max_width=640)}
+      {photo("women-gathering", "4x3", sizes="(min-width: 700px) 25vw, 50vw", max_width=640)}
+    </div>
     {note(f'<p>{esc(D.CONDUCT_COMMITMENT)}</p>', "A commitment on conduct", "good", "shield")}
   </div>
 </section>
@@ -672,7 +723,10 @@ def who_we_serve():
     {section_head("Where we work", None, eyebrow_text="Our footprint")}
     {locations}
     <div class="grid grid--split mt-7">
-      <div>{paras([esc(p) for p in D.FOOTPRINT_NOTE])}</div>
+      <div>
+        {photo("children-yard", "16x9", sizes="(min-width: 880px) 540px, 100vw", cls="mb-5")}
+        {paras([esc(p) for p in D.FOOTPRINT_NOTE])}
+      </div>
       <div>
         <blockquote class="pullquote">Most displaced Nigerians do not live in camps. The response is weakest
           where displacement is least visible — in host communities, in cities, and among families who have

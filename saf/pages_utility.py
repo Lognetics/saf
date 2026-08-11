@@ -4,7 +4,8 @@
 from . import data as D
 from .layout import (icon, esc, btn, section_head, note, table, bullets, paras,
                      newsletter_form, cta_band)
-from .components import page_hero, contact_strip, programme_url
+from .components import (page_hero, contact_strip, programme_url, photo,
+                         photo_credit_line)
 
 DRAFT_MARK = ('<p class="small"><span class="placeholder-value">Version 1.0 · pending final review by the '
               'Foundation\'s Nigerian-qualified legal adviser before launch</span></p>')
@@ -80,6 +81,7 @@ def contact():
       </div>
 
       <aside>
+        {photo("women-gathering", "4x3", sizes="(min-width: 940px) 336px, 100vw", cls="mb-5", max_width=640)}
         <div class="card">
           <h3>Head office</h3>
           <address class="mt-4">
@@ -112,6 +114,13 @@ def contact():
 
 <section class="section section--surface">
   <div class="container">
+    <div class="photo-band mb-7">
+      {photo("classroom-friends", "4x3", sizes="(min-width: 700px) 25vw, 50vw", max_width=640)}
+      {photo("children-outside", "4x3", sizes="(min-width: 700px) 25vw, 50vw", max_width=640)}
+      {photo("woman-portrait", "4x3", sizes="(min-width: 700px) 25vw, 50vw", max_width=640)}
+      {photo("elder-smiling", "4x3", sizes="(min-width: 700px) 25vw, 50vw", max_width=640)}
+    </div>
+    <p class="small text-muted mb-6">{photo_credit_line()}</p>
     {section_head("Find us", None, eyebrow_text="Maitama, Abuja")}
     <div class="card" style="padding:0;overflow:hidden">
       <iframe title="Map showing the location of Synia Aid Foundation, Maitama, Abuja"
@@ -153,6 +162,9 @@ def complaints():
 
 <section class="section section--tight">
   <div class="container">
+    {photo("elder-smiling", "21x9", sizes="100vw", cls="mb-7",
+           caption="Anyone may raise a concern, without going through the person whose conduct is in "
+                   "question. " + photo_credit_line())}
     {section_head("How to reach us", None, eyebrow_text="Three routes")}
     <div class="grid grid--3">
       <div class="card">
@@ -220,6 +232,7 @@ def complaints():
 
 <section class="section section--surface">
   <div class="container">
+    {photo("women-smiling", "21x9", sizes="100vw", cls="mb-7", caption=photo_credit_line())}
     {section_head("Four things we will never do", None, eyebrow_text="Our undertaking to you")}
     <div class="grid grid--4">
       <div class="card"><h3>Ask you to prove it first</h3><p>Concerns are acted on, not weighed. Nobody is
@@ -255,6 +268,8 @@ def safeguarding():
   <div class="container">
     <div class="grid grid--sidebar">
       <div class="prose">
+        {photo("classroom-group", "3x2", sizes="(min-width: 940px) 720px, 100vw", cls="mb-6", eager=True,
+               caption=photo_credit_line())}
         <p class="lede">{esc(D.SAFEGUARDING_COMMITMENT)}</p>
 
         <h2>Our principles</h2>
@@ -296,6 +311,7 @@ def safeguarding():
         <p><a href="/complaints/"><strong>Read how to raise a concern, and what happens next</strong></a>.</p>
       </div>
       <aside>
+        {photo("children-outside", "4x3", sizes="(min-width: 940px) 336px, 100vw", cls="mb-5", max_width=640)}
         <div class="card">
           <h3>Report a concern now</h3>
           <p><a href="tel:{D.SITE["hotline_href"]}"><strong>{D.SITE["hotline"]}</strong></a>
@@ -321,6 +337,12 @@ def safeguarding():
 
 <section class="section section--surface">
   <div class="container">
+    <div class="photo-band mb-7">
+      {photo("classroom-girl-bench", "4x3", sizes="(min-width: 700px) 25vw, 50vw", max_width=640)}
+      {photo("children-laughing", "4x3", sizes="(min-width: 700px) 25vw, 50vw", max_width=640)}
+      {photo("classroom-doorway", "4x3", sizes="(min-width: 700px) 25vw, 50vw", max_width=640)}
+      {photo("children-playing", "4x3", sizes="(min-width: 700px) 25vw, 50vw", max_width=640)}
+    </div>
     {section_head("What this means in practice", None, eyebrow_text="Controls")}
     {controls}
   </div>
@@ -454,6 +476,7 @@ def privacy():
            change is significant we will say so on the site.</p>
       </div>
       <aside>
+        {photo("women-gathering", "4x3", sizes="(min-width: 940px) 336px, 100vw", cls="mb-5", max_width=640)}
         <div class="card card--quiet">
           <h3>Exercise your rights</h3>
           <p class="small">Ask us for a copy of your data, ask us to correct it, or ask us to delete it.</p>
@@ -499,6 +522,8 @@ def cookies():
 <section class="section section--tight">
   <div class="container">
     <div class="prose">
+      {photo("children-community", "3x2", sizes="(min-width: 940px) 720px, 100vw", cls="mb-6",
+             caption=photo_credit_line())}
       {DRAFT_MARK}
       <h2>Our approach</h2>
       <p>We set no non-essential cookie and run no analytics script until you have told us you are happy for us
@@ -537,6 +562,8 @@ def terms():
 <section class="section section--tight">
   <div class="container">
     <div class="prose">
+      {photo("classroom-desks", "3x2", sizes="(min-width: 940px) 720px, 100vw", cls="mb-6",
+             caption=photo_credit_line())}
       {DRAFT_MARK}
       <h2>Who we are</h2>
       <p>This website is operated by Synia Aid Foundation, Incorporated Trustees registered with the Corporate
@@ -604,6 +631,9 @@ def accessibility():
   <div class="container">
     <div class="grid grid--sidebar">
       <div class="prose">
+        {photo("wheelchair-crossing", "3x2", sizes="(min-width: 940px) 720px, 100vw", cls="mb-6", eager=True,
+               caption="We work with people with disabilities; our site should not exclude them. "
+                       + photo_credit_line())}
         <h2>The standard we aim for</h2>
         <p>This site is built to meet <strong>WCAG 2.1 Level AA</strong>. That means, among other things:</p>
         {bullets([
@@ -640,6 +670,7 @@ def accessibility():
            <a href="tel:{D.SITE["phone_href"]}">{D.SITE["phone"]}</a></p>
       </div>
       <aside>
+        {photo("elder-seated", "4x3", sizes="(min-width: 940px) 336px, 100vw", cls="mb-5", max_width=640)}
         <div class="card card--quiet">
           <h3>Need something another way?</h3>
           <p class="small">We can send any document by email, read it to you over the phone, or provide it in
@@ -687,6 +718,18 @@ def search():
     </noscript>
   </div>
 </section>
+
+<section class="section section--tight section--surface">
+  <div class="container">
+    <div class="photo-band">
+      {photo("classroom-writing", "4x3", sizes="(min-width: 700px) 25vw, 50vw", max_width=640)}
+      {photo("women-smiling", "4x3", sizes="(min-width: 700px) 25vw, 50vw", max_width=640)}
+      {photo("children-outside", "4x3", sizes="(min-width: 700px) 25vw, 50vw", max_width=640)}
+      {photo("elder-smiling", "4x3", sizes="(min-width: 700px) 25vw, 50vw", max_width=640)}
+    </div>
+    <p class="small text-muted mt-4">{photo_credit_line()}</p>
+  </div>
+</section>
 '''
 
 
@@ -708,6 +751,12 @@ def sitemap_page(groups):
     ) + f'''
 <section class="section section--tight">
   <div class="container">
+    <div class="photo-band mb-7">
+      {photo("classroom-lesson", "4x3", sizes="(min-width: 700px) 25vw, 50vw", max_width=640)}
+      {photo("woman-portrait", "4x3", sizes="(min-width: 700px) 25vw, 50vw", max_width=640)}
+      {photo("children-yard", "4x3", sizes="(min-width: 700px) 25vw, 50vw", max_width=640)}
+      {photo("classroom-boy-yellow", "4x3", sizes="(min-width: 700px) 25vw, 50vw", max_width=640)}
+    </div>
     <div class="grid grid--3">{"".join(blocks)}</div>
   </div>
 </section>
@@ -734,6 +783,7 @@ def not_found():
 <section class="section section--tight">
   <div class="container">
     <h2 class="visually-hidden">Where to go next</h2>
+    {photo("children-laughing", "21x9", sizes="100vw", cls="mb-6", eager=True)}
     <div class="grid grid--3">
       <article class="card card--link">
         <h3><a class="stretched" href="/what-we-do/">What we do</a></h3>

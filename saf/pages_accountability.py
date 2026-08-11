@@ -4,7 +4,8 @@
 from . import data as D
 from .layout import (icon, esc, btn, section_head, note, table, bullets, paras,
                      section_nav, cta_band, stat_grid)
-from .components import page_hero, doc_card, donate_band, contact_strip, status_board
+from .components import (page_hero, doc_card, donate_band, contact_strip, status_board,
+                         photo, photo_credit_line)
 
 ACC_NAV = [
     ("Overview", "/accountability/"),
@@ -27,6 +28,9 @@ def accountability():
 <section class="section section--tight">
   <div class="container">
     <h2 class="visually-hidden">Explore this section</h2>
+    {photo("classroom-desks", "21x9", sizes="100vw", cls="mb-6", eager=True,
+           caption="Accountability is what makes the rest of this site worth reading. "
+                   + photo_credit_line())}
     <div class="grid grid--3">
       <article class="card card--link">
         <span class="doc__icon">{icon("scale", "", 22)}</span>
@@ -82,6 +86,12 @@ def accountability():
   <div class="container">
     {section_head("The portfolio as it actually stands", None, eyebrow_text="No programme is presented as more than it is")}
     {status_board()}
+    <div class="photo-band mt-6">
+      {photo("classroom-boy-desk", "4x3", sizes="(min-width: 700px) 25vw, 50vw", max_width=640)}
+      {photo("woman-portrait", "4x3", sizes="(min-width: 700px) 25vw, 50vw", max_width=640)}
+      {photo("children-outside", "4x3", sizes="(min-width: 700px) 25vw, 50vw", max_width=640)}
+      {photo("women-smiling", "4x3", sizes="(min-width: 700px) 25vw, 50vw", max_width=640)}
+    </div>
     <p class="small text-muted mt-5">Programmes move to <strong>Running now</strong> only when they have a
       written model, a named owner, a unit cost and an indicator set.
       <a href="/what-we-do/">See the full portfolio</a>.</p>
@@ -121,6 +131,7 @@ def accountability():
 
 <section class="section">
   <div class="container">
+    {photo("elder-smiling", "21x9", sizes="100vw", cls="mb-6", caption=photo_credit_line())}
     {section_head("Managing risk",
                   "The Board maintains a live risk register. We publish it because an organisation that cannot "
                   "name its own risks is unlikely to be managing them.", eyebrow_text="Risk")}
@@ -218,6 +229,9 @@ def governance_policies():
                   "We work with children, with displaced families and with people in circumstances of acute "
                   "vulnerability. That imposes obligations which come before programme delivery, before growth "
                   "and before fundraising.", eyebrow_text="Our obligations")}
+    {photo("classroom-group", "21x9", sizes="100vw", cls="mb-6",
+           caption="Safeguarding is a condition of operating, not a section of the plan. "
+                   + photo_credit_line())}
     {note(f'<p>{esc(D.SAFEGUARDING_COMMITMENT)}</p>', "Our safeguarding commitment", "good", "shield")}
     <h3 class="mt-6">What this means in practice</h3>
     <div class="mt-5">{controls}</div>
@@ -230,6 +244,12 @@ def governance_policies():
 
 <section class="section" id="policies">
   <div class="container">
+    <div class="photo-band mb-7">
+      {photo("classroom-girl-bench", "4x3", sizes="(min-width: 700px) 25vw, 50vw", max_width=640)}
+      {photo("children-laughing", "4x3", sizes="(min-width: 700px) 25vw, 50vw", max_width=640)}
+      {photo("women-gathering", "4x3", sizes="(min-width: 700px) 25vw, 50vw", max_width=640)}
+      {photo("elder-seated", "4x3", sizes="(min-width: 700px) 25vw, 50vw", max_width=640)}
+    </div>
     {section_head("Our policy suite",
                   "Adopted policies are published in full. Everyone acting in the Foundation's name — trustees, "
                   "staff, volunteers, consultants, ambassadors and partner personnel — is bound by them.",
@@ -303,6 +323,8 @@ def reports_publications():
 
 <section class="section section--tight">
   <div class="container">
+    {photo("classroom-writing", "21x9", sizes="100vw", cls="mb-6", eager=True,
+           caption=photo_credit_line())}
     {section_head("Corporate documents", None, eyebrow_text="Who we are and what we do")}
     <div class="grid grid--2">{pubs}</div>
   </div>
@@ -323,6 +345,7 @@ def reports_publications():
   <div class="container">
     <div class="grid grid--split">
       <div>
+        {photo("children-yard", "4x3", sizes="(min-width: 880px) 540px, 100vw", cls="mb-5")}
         {section_head("Not yet published", None, eyebrow_text="Scheduled")}
         <p>We build the section and leave it empty rather than omitting it. When each document exists it will
            appear here, with its date and its source data.</p>
@@ -371,6 +394,7 @@ def how_we_measure_impact():
            limitation, not an achievement, and it is the single thing we are working hardest to correct.</p>
       </div>
       <div>
+        {photo("classroom-boy-yellow", "4x3", sizes="(min-width: 880px) 540px, 100vw", cls="mb-5")}
         <blockquote class="pullquote">We measure not only how much relief was delivered, but whether children
           stayed in school, whether adults sustained an income, and whether families remained housed and
           healthy.</blockquote>
@@ -391,6 +415,7 @@ def how_we_measure_impact():
 
 <section class="section">
   <div class="container">
+    {photo("classroom-lesson", "21x9", sizes="100vw", cls="mb-6", caption=photo_credit_line())}
     {section_head("Illustrative indicators by pillar", None, eyebrow_text="What we count")}
     {indicators}
     <p class="small text-muted mt-5">All indicators are disaggregated by sex, displacement status, disability

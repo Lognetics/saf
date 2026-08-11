@@ -1858,3 +1858,11 @@ STORY_PHOTOS = {
     "a-classroom-built-from-within-the-camp": "classroom-desks",
     "the-market-women-of-keffi": "woman-portrait",
 }
+
+
+GET_INVOLVED_PHOTOS = {
+    "donate": "classroom-boy-yellow",
+    "partner": "women-gathering",
+    "volunteer": "children-community",
+    "ambassador": "woman-portrait",
+}

@@ -161,9 +161,14 @@ every decision below.
   JPEG fallback — and no wider than it is ever displayed, so a square thumbnail
   never ships a 1400 px file. **All EXIF, including GPS, is stripped.**
 - **Total page weight:** roughly 12 KB of gzipped HTML plus a 12 KB stylesheet
-  and a 5 KB script, both cached for a year after first visit. The home page's
-  hero photograph is the only image loaded eagerly; everything else is lazy.
-  Well inside the three-second target on a normal Nigerian mobile connection.
+  and a 5 KB script, both cached for a year after first visit. One photograph
+  per page is loaded eagerly; every other image is lazy, so a visitor who never
+  scrolls pays for almost none of them.
+- **The type scale is set 10% below the usual browser default**, tuned in the
+  `--step-*` tokens in one block at the top of `site.css`. Form fields are the
+  single exception, pinned at 16px: anything smaller makes iOS Safari zoom the
+  viewport the moment a field is focused, which throws a donor out of the
+  donate form mid-gift.
 - **Progressive enhancement.** Every page works with JavaScript disabled.
   Filters, search and the donate widget degrade to plain content and clear
   instructions rather than to a blank screen.
