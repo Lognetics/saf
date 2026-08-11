@@ -1,0 +1,21 @@
+{
+  "name": "Synia Aid Foundation",
+  "short_name": "Synia Aid",
+  "description": "A Nigerian humanitarian and development foundation working with internally displaced persons and indigent communities.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#FFFFFF",
+  "theme_color": "#0F2A47",
+  "icons": [
+    {
+      "src": "/assets/img/icon-180.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    },
+    {
+      "src": "/assets/img/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /search/
+Disallow: /donate/thank-you/
+
+Sitemap: https://www.syniafoundation.org/sitemap.xml

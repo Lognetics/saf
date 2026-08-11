@@ -1,0 +1,14 @@
+# Old site URLs -> new equivalents. Confirm against the live site's
+# analytics and search-console coverage report before launch.
+/index.html            /                       301
+/about.html            /about/                 301
+/about-us              /about/                 301
+/programs              /what-we-do/            301
+/programmes            /what-we-do/            301
+/our-programs          /what-we-do/            301
+/team                  /about/leadership/      301
+/partners              /about/partners/        301
+/gallery               /impact/stories/        301
+/blog/*                /news/:splat            301
+/donate.html           /donate/                301
+/contact.html          /contact/               301
