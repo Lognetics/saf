@@ -1105,8 +1105,8 @@ legend { font-weight: 700; color: var(--navy); padding: 0; margin-bottom: .6rem;
 @media (max-width: 819px) { .topbar__reg { display: block; text-align: center; } }
 
 /* Logo */
-.brand__logo { height: 62px; width: auto; display: block; }
-@media (max-width: 560px) { .brand__logo { height: 52px; } }
+.brand__logo { height: 46px; width: auto; display: block; }
+@media (max-width: 560px) { .brand__logo { height: 40px; } }
 .footer__logo-card {
   display: inline-block; background: #fff; border-radius: var(--r-lg); padding: .6rem .7rem .5rem;
   margin-bottom: .9rem;

@@ -41,7 +41,7 @@ SITE = {
     "phone_href": "+2347034463791",
     "hotline": "+234 814 129 4061",
     "hotline_href": "+2348141294061",
-    "hours": "Monday – Saturday, 8am – 6pm",
+    "hours": "Monday to Saturday, 8am to 6pm",
     "domain": "www.syniafoundation.org",
     "base_url": "https://www.syniafoundation.org",
     "profile_edition": "Edition 2 · issued July 2026",
@@ -311,7 +311,7 @@ PROGRAMMES = [
             "Young people aged approximately 15 to 24, particularly those who left school without a qualification.",
         ],
         "success": "The young person is certified and in work.",
-        "where": "Planned for the FCT–Nasarawa–Keffi corridor, where the Foundation already operates. "
+        "where": "The FCT–Nasarawa–Keffi corridor, where the Foundation already operates. "
                  "Locations are confirmed at launch.",
         "delivery": "To be delivered with training institutions and employers. Nasarawa State College of Health "
                     "is a current partner in education, awareness and empowerment for students.",
@@ -392,7 +392,7 @@ PROGRAMMES = [
         ],
         "success": "Members hold real savings and can absorb an illness or a bad month without selling the tools "
                    "of their trade.",
-        "where": "Planned alongside Enterprise Development in Nasarawa State (Keffi) and the Federal Capital Territory.",
+        "where": "Alongside Enterprise Development in Nasarawa State (Keffi) and the Federal Capital Territory.",
         "delivery": "Group facilitation by trained community mobilisers, with the group continuing independently "
                     "after facilitation ends.",
         "partners": [],
@@ -416,7 +416,7 @@ PROGRAMMES = [
             "Women and female-headed households, including widows and women displaced with dependent children.",
         ],
         "success": "Women earning independently, and holding decisions about their own income.",
-        "where": "Planned for the FCT–Nasarawa–Keffi corridor. Locations are confirmed at launch.",
+        "where": "The FCT–Nasarawa–Keffi corridor. Locations are confirmed at launch.",
         "delivery": "To be delivered alongside Enterprise Development and Protection & Rights, so that economic "
                     "support and rights awareness reach the same households.",
         "partners": [],
@@ -489,7 +489,7 @@ PROGRAMMES = [
             "Camps, resettlement sites and host communities where water and sanitation are inadequate.",
         ],
         "success": "Facilities still functioning a year on, and fewer preventable illnesses in the community.",
-        "where": "Planned for camps, resettlement sites and host communities within our existing footprint.",
+        "where": "Camps, resettlement sites and host communities within our existing footprint.",
         "delivery": "Technical work delivered with specialist WASH partners. Partner to be confirmed at launch.",
         "partners": [],
         "extra": [],
@@ -513,7 +513,7 @@ PROGRAMMES = [
             "Newly displaced or relocated households, and families recovering from conflict, flood or fire.",
         ],
         "success": "The household meets its basic needs without selling the assets it will need to recover.",
-        "where": "Planned within our existing footprint, with response location determined by the crisis.",
+        "where": "Within our existing footprint, with response location determined by the crisis.",
         "delivery": "Delivered with community relief partners. Rotary Club of Nigeria (Nnewi) is our partner "
                     "in community relief and charity drives.",
         "partners": ["rotary-club-nigeria-nnewi"],
@@ -540,7 +540,7 @@ PROGRAMMES = [
             "Displaced households whose right to remain, or whose legal identity, is uncertain or contested.",
         ],
         "success": "Households hold the documents they need, and families are not evicted from homes they have rebuilt.",
-        "where": "Planned for the FCT–Nasarawa–Keffi corridor, alongside Safe Shelter and Durable Solutions.",
+        "where": "The FCT–Nasarawa–Keffi corridor, alongside Safe Shelter and Durable Solutions.",
         "delivery": "Technical oversight from the Foundation's Legal Adviser, with referral pathways to "
                     "specialist services.",
         "partners": [],
@@ -1372,7 +1372,7 @@ PUBLICATIONS = [
     {"title": "Our Programmes — structure guide", "category": "Programmes", "date": "July 2026",
      "file": "SAF-Our-Programmes-Structure-Guide.pdf",
      "summary": "A plain-language guide to the three pillars and the twelve programmes within them — what each "
-                "one does, who it is for, what it sets out to change, and which are running today.",
+                "one does, who it is for, what it sets out to change.",
      "pages": "10 pages"},
     {"title": "Leadership Biographies", "category": "Governance", "date": "July 2026",
      "file": "SAF-Leadership-Biographies.pdf",
