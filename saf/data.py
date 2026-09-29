@@ -65,7 +65,7 @@ GLANCE_STATS = [
     {"figure": "2018", "label": "Established and registered", "sub": "Corporate Affairs Commission"},
     {"figure": "7",    "label": "States and territories of operation", "sub": "FCT, Nasarawa, Anambra, Lagos, Rivers, Oyo, Ogun"},
     {"figure": "10+",  "label": "Programmes and campaigns delivered", "sub": "2019 to date, with partners"},
-    {"figure": "9",    "label": "Named delivery partners", "sub": "Schools, health bodies and foundations"},
+    {"figure": "7",    "label": "Named delivery partners", "sub": "Schools, health bodies and foundations"},
 ]
 
 AT_A_GLANCE = [
@@ -81,7 +81,7 @@ AT_A_GLANCE = [
     ("Areas of operation", "Federal Capital Territory; Nasarawa (Keffi); Anambra (Nnewi); Lagos; Rivers (Port Harcourt); Oyo (Ibadan); Ogun"),
     ("Geographic priority", "The FCT–Nasarawa–Keffi resettlement corridor"),
     ("Pillars", "Education & Skills; Livelihoods & Economic Inclusion; Shelter, WASH & Protection"),
-    ("Programmes", "Twelve, of which three are running and one is in set-up as at July 2026"),
+    ("Programmes", "Twelve programmes across three pillars"),
     ("Tagline", "Hope for the Common Man"),
 ]
 
@@ -690,13 +690,13 @@ CONDUCT_COMMITMENT = ("No payment, favour or relationship is ever a condition of
 
 # [CP 05] — IOM DTM figures, with sources cited.
 NEED_STATS = [
-    {"figure": "2.33m", "label": "IDPs in the north-east",
+    {"figure": "2.33m", "icon": "people", "label": "IDPs in the north-east",
      "sub": "IOM DTM Round 51, assessed September–October 2025"},
-    {"figure": "1.38m", "label": "IDPs across ten north-central & north-west states",
+    {"figure": "1.38m", "icon": "pin", "label": "IDPs across ten north-central & north-west states",
      "sub": "IOM DTM Site Assessment Round 18, October 2025"},
-    {"figure": "56%",   "label": "of north-east IDPs live in host communities, not camps",
+    {"figure": "56%", "icon": "house",   "label": "of north-east IDPs live in host communities, not camps",
      "sub": "1,300,127 of 2,333,190 people"},
-    {"figure": "2.25m", "label": "returnees recorded in the north-east",
+    {"figure": "2.25m", "icon": "globe", "label": "returnees recorded in the north-east",
      "sub": "IOM DTM Round 51"},
 ]
 
@@ -761,9 +761,12 @@ FOOTPRINT_NOTE = [
     "and the federal commission responsible has publicly identified funding as its principal constraint and "
     "appealed for partnerships with private sector and civil society actors. This is precisely where we already "
     "work and are already known.",
-    "Our growth strategy is therefore depth before breadth: to become genuinely expert in urban and non-camp "
-    "displacement and in post-relocation recovery along one corridor, rather than to claim a presence in many "
-    "states we could not properly serve.",
+    "Synia Aid Foundation supports internally displaced people wherever assessed need exists, including those "
+    "living in formal IDP camps and those living outside them, in host communities, cities and informal "
+    "settings. Because the response to non-camp displacement is often weaker and less visible, we make a "
+    "deliberate effort to reach it, without that meaning camp-based communities are outside our scope. Our "
+    "growth strategy concentrates on depth within the FCT–Nasarawa–Keffi corridor, in both camp and non-camp "
+    "settings, rather than breadth across many states.",
 ]
 
 OPERATING_PRINCIPLES = [
@@ -778,7 +781,7 @@ OPERATING_PRINCIPLES = [
      "and its exit criteria. A programme without one is not launched."),
     ("Concentrate, don't spread",
      "We would rather run a few programmes properly and prove they worked than run many and prove nothing. This is "
-     "why nine of our twelve programmes are marked as planned rather than launched at once."),
+     "why programmes are introduced in stages rather than launched all at once."),
     ("Plan the exit",
      "Every programme defines what completion looks like. Support ends by a recorded route — completion, "
      "progression, graduation or handover — and is never simply allowed to lapse."),
@@ -1107,30 +1110,31 @@ PARTNERS = [
     {"slug": "covenant-academy", "name": "Covenant Academy", "category": "education-skills", "order": 1,
      "description": "School partner for the Learning Access & Retention Programme from September 2026",
      "programmes": ["learning-access-retention"], "logo_permission": None, "logo": None, "url": None},
-    {"slug": "deborah-counselling-consult", "name": "Deborah Counselling Consult", "category": "education-skills", "order": 2,
-     "description": "Girls' health, safeguarding and the Pad A Girl campaign",
-     "programmes": ["learning-access-retention"], "logo_permission": None, "logo": None, "url": None},
-    {"slug": "nasarawa-state-college-of-health", "name": "Nasarawa State College of Health", "category": "education-skills", "order": 3,
-     "description": "Education, awareness and empowerment for students",
-     "programmes": ["youth-skills-employability"], "logo_permission": None, "logo": "partner-nascoal.png", "url": None},
+    {"slug": "nasarawa-state-college-of-health", "name": "Nasarawa State College of Health Sciences & Technology",
+     "category": "education-skills", "order": 2,
+     "description": "Education, awareness and empowerment for students, and student volunteers for community mobilisation",
+     "programmes": ["youth-skills-employability", "community-wellbeing-mental-health"], "logo_permission": None,
+     "logo": None, "url": "https://nascohst.edu.ng/"},
     {"slug": "sam-empowerment-foundation", "name": "Sam Empowerment Foundation", "category": "displacement-response", "order": 1,
      "description": "Medical outreach for internally displaced persons at New Kuchingoro camp",
-     "programmes": ["safe-shelter", "community-wellbeing-mental-health"], "logo_permission": None, "logo": None, "url": None},
+     "programmes": ["safe-shelter", "community-wellbeing-mental-health"], "logo_permission": None, "logo": None,
+     "url": "https://samempowermentfoundation.org/"},
     {"slug": "rotary-club-nigeria-nnewi", "name": "Rotary Club of Nigeria (Nnewi)", "category": "displacement-response", "order": 2,
      "description": "Community relief and charity drives",
-     "programmes": ["emergency-response-household-recovery"], "logo_permission": None, "logo": None, "url": None},
+     "programmes": ["emergency-response-household-recovery"], "logo_permission": None, "logo": None,
+     "url": "https://rotarydistrict9142.org/"},
     {"slug": "speakout-mental-health-outreach", "name": "SpeakOut Mental Health Outreach", "category": "community-outreach", "order": 1,
      "description": "Community wellbeing awareness and the MindCheck platform",
-     "programmes": ["community-wellbeing-mental-health"], "logo_permission": None, "logo": "partner-speakout.jpg", "url": None},
+     "programmes": ["community-wellbeing-mental-health"], "logo_permission": None, "logo": None,
+     "url": "https://speakoutmentalhealth.org/"},
     {"slug": "cnu-medical-institute", "name": "CNU Medical Institute (USA)", "category": "community-outreach", "order": 2,
      "description": "Healthcare support and community-based initiatives",
-     "programmes": ["community-wellbeing-mental-health"], "logo_permission": None, "logo": "partner-cnu.jpg", "url": None},
+     "programmes": ["community-wellbeing-mental-health"], "logo_permission": None, "logo": None,
+     "url": "https://www.cnumedical.com/"},
     {"slug": "kelvin-oluchi-diabetes-foundation", "name": "Kelvin Oluchi Diabetes Foundation", "category": "community-outreach", "order": 3,
      "description": "Community health screening and education",
-     "programmes": ["community-wellbeing-mental-health"], "logo_permission": None, "logo": None, "url": None},
-    {"slug": "college-of-health-science-technology-keffi", "name": "College of Health Science & Technology, Keffi", "category": "community-outreach", "order": 4,
-     "description": "Student volunteers and community mobilisation",
-     "programmes": ["community-wellbeing-mental-health"], "logo_permission": None, "logo": None, "url": None},
+     "programmes": ["community-wellbeing-mental-health"], "logo_permission": None, "logo": None,
+     "url": "https://www.facebook.com/kodiabetesfoundation/"},
 ]
 
 PARTNERS_INTRO = ("We multiply our impact by partnering rather than acting alone. Almost every project in our "
@@ -1274,7 +1278,7 @@ RISKS = [
      "recurring giving"),
     ("Over-extension",
      "Committing to more programmes than we can deliver would damage credibility and dilute quality.",
-     "Phased portfolio; only programmes with a written model launch; honest status labelling"),
+     "Phased portfolio; only programmes with a written model launch; honest reporting"),
     ("Evidence deficit",
      "Without outcome data we cannot prove impact or compete for institutional funding.",
      "Baselines mandatory; monitoring framework; external evaluation planned"),
@@ -1388,22 +1392,22 @@ PUBLICATIONS_PENDING = [
 # ---------------------------------------------------------------------------
 
 GET_INVOLVED = [
-    {"slug": "donate", "num": "01", "title": "Donate", "icon": "heart",
+    {"slug": "donate", "teaser": "Fund a child's school year or a family's shelter.", "num": "01", "title": "Donate", "icon": "heart",
      "summary": "Fund a child's school year, a household's shelter repair, or a trader's start in business. "
                 "One-off or recurring gifts, from ₦5,000 upward.",
      "detail": "Recurring giving matters more to us than any single total, because it lets us commit to a child "
                "for a full academic year.",
      "cta": "Give now"},
-    {"slug": "partner", "num": "02", "title": "Partner with us", "icon": "handshake",
+    {"slug": "partner", "teaser": "Bring your organisation's reach and expertise.", "num": "02", "title": "Partner with us", "icon": "handshake",
      "summary": "Bring your organisation's resources, reach or technical expertise to a shared programme of work.",
      "detail": "Partnership is how we multiply our impact, and we welcome programme partners, funders, technical "
                "collaborators and institutional allies.",
      "cta": "Start a conversation"},
-    {"slug": "volunteer", "num": "03", "title": "Volunteer", "icon": "people",
+    {"slug": "volunteer", "teaser": "Give your time and skills.", "num": "03", "title": "Volunteer", "icon": "people",
      "summary": "Give your time and skills in your own community and on our outreaches.",
      "detail": "Volunteers working with children are subject to vetting and a code of conduct.",
      "cta": "Apply to volunteer"},
-    {"slug": "ambassador", "num": "04", "title": "Become an ambassador", "icon": "megaphone",
+    {"slug": "ambassador", "teaser": "Champion our mission in your network.", "num": "04", "title": "Become an ambassador", "icon": "megaphone",
      "summary": "Champion our mission and amplify its impact beyond borders.",
      "detail": "Our ambassadors carry the Foundation's work into their own networks, at home and in the diaspora.",
      "cta": "Register your interest"},
@@ -1502,9 +1506,7 @@ NEWS = [
             "Economic Inclusion, and Shelter, WASH &amp; Protection — with twelve programmes underneath it and a "
             "written model behind each one.",
             "It also produced a discipline that now runs through all of the Foundation's published material: we "
-            "describe what is running as running, what is planned as planned, and we do not claim a number we "
-            "cannot evidence. Three programmes are operating today, one is in set-up, and the remainder are "
-            "scheduled.",
+            "describe our work as it is, and we do not claim a number we cannot evidence.",
             "The review scored the portfolio at 52 out of 100 against the standard expected of an "
             "institutional-donor-ready organisation, and identified a path to 75 within twelve months. That number "
             "is published deliberately. The same assessment will be re-run and the result reported.",

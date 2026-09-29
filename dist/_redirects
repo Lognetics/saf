@@ -12,3 +12,7 @@
 /blog/*                /news/:splat            301
 /donate.html           /donate/                301
 /contact.html          /contact/               301
+/about/our-story       /about/#our-story       301
+/about/our-story/      /about/#our-story       301
+/accountability/how-we-measure-impact   /impact/#how-we-measure-impact   301
+/accountability/how-we-measure-impact/  /impact/#how-we-measure-impact   301

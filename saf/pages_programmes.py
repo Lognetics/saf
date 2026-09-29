@@ -4,17 +4,17 @@
 from . import data as D
 from .layout import (icon, esc, chip, btn, section_head, note, table, stat_grid,
                      bullets, paras, image_placeholder, section_nav, cta_band)
-from .components import (page_hero, status_board, pillar_card, programme_card,
+from .components import (page_hero, pillar_card, programme_card, pillar_badge,
                          news_card, story_card, donate_band, newsletter_band,
                          programme_url, pillar_url, pillar_name, PILLAR_INDEX,
                          PILLAR_BY_SLUG, PROGRAMME_BY_SLUG, PARTNER_BY_SLUG,
                          photo, photo_credit_line)
+from .graphics import checklist_graphic
 
 IMPACT_NAV = [
-    ("Overview", "/impact/"),
+    ("Overview & How We Measure Impact", "/impact/"),
     ("Stories", "/impact/stories/"),
     ("Projects", "/impact/projects/"),
-    ("How we measure impact", "/accountability/how-we-measure-impact/"),
 ]
 
 
@@ -24,22 +24,6 @@ IMPACT_NAV = [
 
 def what_we_do():
     pillars = "".join(pillar_card(p, PILLAR_INDEX[p["slug"]]) for p in D.PILLARS)
-
-    rows = []
-    for p in D.PILLARS + [D.CROSS_CUTTING]:
-        progs = [x for x in D.PROGRAMMES if x["pillar"] == p["slug"]]
-        for i, x in enumerate(progs):
-            pub = (f'<br><span class="small" style="color:var(--orange-700)">{esc(x["public_name"])}</span>'
-                   if x.get("public_name") else "")
-            rows.append([
-                f'<strong>{esc(p["name"])}</strong>' if i == 0 else "",
-                f'<a href="{programme_url(x["slug"])}"><strong>{esc(x["short_name"])}</strong></a>{pub}',
-                chip(x["status"]),
-                esc(x["one_line"]),
-            ])
-
-    portfolio = table(["Pillar", "Programme", "Status", "In one line"], rows)
-
     cross = "".join(programme_card(x) for x in D.PROGRAMMES if x["pillar"] == "across-all-pillars")
 
     flow = "".join(
@@ -47,8 +31,9 @@ def what_we_do():
         + "".join(f"<li>{esc(i)}</li>" for i in items) + "</ul></div>"
         for h, items in D.THEORY_OF_CHANGE)
 
-    assumptions = table(["The assumption", "How we test it"],
-                        [[f"<strong>{esc(a)}</strong>", esc(b)] for a, b in D.TOC_ASSUMPTIONS])
+    assumptions = "".join(
+        f'<details class="value"><summary><span class="value__n">{i+1:02d}</span>{esc(a)}</summary>'
+        f'<p>{esc(b)}</p></details>' for i, (a, b) in enumerate(D.TOC_ASSUMPTIONS))
 
     return page_hero(
         title="What we do",
@@ -56,6 +41,7 @@ def what_we_do():
              "lightbulb and the house. Together they form a continuum of care: educate the mind, equip the "
              "hands, secure the home.",
         eyebrow_text="Three pillars · twelve programmes",
+        image="classroom-desks",
         trail=[("Home", "/"), ("What We Do", None)],
     ) + f'''
 <section class="section section--tight">
@@ -69,30 +55,15 @@ def what_we_do():
   <div class="container">
     <div class="grid grid--split">
       <div>
-        {section_head("Why three pillars, and not more",
-                      None, eyebrow_text="How the work is organised")}
+        {section_head("One road out, not three services", None, eyebrow_text="How the pillars work together")}
         <p>A family that has been displaced does not have one problem. The children are out of school, the
-           adults have lost their trade, and the home is gone. Relief alone treats the symptom. Our three
-           pillars are designed to be used together, and a household may be supported by more than one at the
-           same time.</p>
+           adults have lost their trade, and the home is gone. Our three pillars are designed to be used
+           together, and a household may be supported by more than one at the same time.</p>
         <p>We have deliberately kept the structure small. It is easier to do a few things properly, and to
            prove that they worked, than to do many things and prove nothing.</p>
-        {note('<p><strong>Take one family.</strong> Safe Shelter makes the home weatherproof and secure, and '
-              'Protection &amp; Rights confirms they cannot be moved off the land. With the home settled, '
-              'Train a Child gets the two younger children back into school, and the eldest applies to the '
-              'Synia Scholars Fund. The mother joins Enterprise Development and a savings group. Eighteen '
-              'months later the family is housed, the children are learning, and the household has an income.</p>'
-              '<p>That is what we mean by educate the mind, equip the hands, secure the home. '
-              'Not three services, but one road out.</p>', "How the pillars work together", "good", "check")}
       </div>
       <div>
-        {photo("classroom-friends", "16x9", sizes="(min-width: 880px) 540px, 100vw", cls="mb-5")}
-        {status_board()}
-        {note('<p>It would be easy to print all twelve programmes and let a reader assume they are all '
-              'operating. We would rather tell you plainly which three are running today, which is being set '
-              'up, and which are scheduled. An organisation that describes its plans as its achievements '
-              'cannot be trusted with the achievements either.</p>',
-              "Why we publish what is not yet running", "warn", "alert")}
+        {photo("classroom-friends", "16x9", sizes="(min-width: 880px) 540px, 100vw")}
       </div>
     </div>
   </div>
@@ -100,71 +71,51 @@ def what_we_do():
 
 <section class="section">
   <div class="container">
-    {section_head("The whole portfolio on one page",
-                  "Every programme carries a status label, and we keep it current.",
-                  eyebrow_text="Twelve programmes")}
-    {portfolio}
+    {section_head(esc(D.CROSS_CUTTING["name"]), esc(D.CROSS_CUTTING["lede"]),
+                  eyebrow_text="Running through everything")}
+    <div class="grid grid--2">{cross}</div>
+    {note('<p>Every person delivering our work is vetted and bound by a code of conduct, and no child is ever '
+          'met alone. A plain-language route to raise a concern is displayed wherever we work.</p>'
+          '<p><a href="/safeguarding/">Read our safeguarding statement</a></p>',
+          "Safeguarding runs through everything", "good", "shield")}
   </div>
 </section>
 
 <section class="section section--surface">
   <div class="container">
-    {section_head(esc(D.CROSS_CUTTING["name"]), esc(D.CROSS_CUTTING["lede"]),
-                  eyebrow_text="Running through everything")}
-    <div class="grid grid--2">{cross}</div>
-    {photo("children-community", "21x9", sizes="100vw", cls="mt-6",
-           caption=photo_credit_line())}
-    {note('<p>Every person delivering our work is vetted and bound by a code of conduct; no child is ever met '
-          'alone; and a plain-language route to raise a concern is displayed wherever we work. A programme does '
-          'not begin until this is in place. Safeguarding is not a section of our plan — it is a condition of '
-          'operating.</p><p><a href="/safeguarding/">Read our safeguarding statement</a></p>',
-          "Safeguarding also runs through everything", "good", "shield")}
-  </div>
-</section>
-
-<section class="section">
-  <div class="container">
     {section_head("Our theory of change",
                   "We follow a simple, repeatable method: identify needs, provide support, and create lasting "
-                  "impact. We assess each community to understand its most urgent challenges, deliver targeted "
-                  "programmes on the ground, and build toward solutions that outlast any single project.",
+                  "impact. Open a section to read more.",
                   eyebrow_text="Our logic")}
-    <div class="flow">{flow}</div>
-    <div class="grid grid--split mt-7">
-      <div>
-        <h3>From outputs to outcomes</h3>
-        <p>The distinction between the fourth and third columns above is the most important one on this site.
-           An output is what we did: a fee paid, a grant disbursed, a roof repaired. An outcome is what changed:
-           a child still in school at the end of the year, a business still trading twelve months later, a
-           family still housed and secure.</p>
-        <p>Outputs are easy to count and easy to inflate. Outcomes are harder, slower and more honest — and
-           they are what we are building our monitoring framework to capture.</p>
-      </div>
-      <div>
-        <blockquote class="pullquote">We measure not only how much relief was delivered, but whether children
-          stayed in school, whether adults sustained an income, and whether families remained housed and
-          healthy.</blockquote>
-      </div>
+    <div class="accordion">
+      <details>
+        <summary>The method, from inputs to impact</summary>
+        <div class="accordion__body"><div class="flow">{flow}</div></div>
+      </details>
+      <details>
+        <summary>From outputs to outcomes</summary>
+        <div class="accordion__body">
+          <p>An output is what we did: a fee paid, a grant disbursed, a roof repaired. An outcome is what
+             changed: a child still in school at the end of the year, a business still trading twelve months
+             later, a family still housed and secure. We are building our monitoring framework to capture
+             outcomes. <a href="/impact/#how-we-measure-impact">How we measure impact</a>.</p>
+        </div>
+      </details>
+      <details>
+        <summary>The assumptions we test</summary>
+        <div class="accordion__body">
+          <p>A theory of change that carries no assumptions is not a theory; it is a wish. Ours rests on four,
+             each of which we test rather than presume.</p>
+          <div class="values values--single">{assumptions}</div>
+        </div>
+      </details>
     </div>
-    <div class="photo-band mt-7">
-      {photo("classroom-writing", "4x3", sizes="(min-width: 700px) 25vw, 50vw", max_width=640)}
-      {photo("woman-portrait", "4x3", sizes="(min-width: 700px) 25vw, 50vw", max_width=640)}
-      {photo("children-outside", "4x3", sizes="(min-width: 700px) 25vw, 50vw", max_width=640)}
-      {photo("elder-seated", "4x3", sizes="(min-width: 700px) 25vw, 50vw", max_width=640)}
-    </div>
-    <p class="small text-muted mt-4">Educate the mind, equip the hands, secure the home. {photo_credit_line()}</p>
-
-    <h3 class="mt-7">The assumptions we test</h3>
-    <p class="measure">A theory of change that carries no assumptions is not a theory; it is a wish. Ours rests
-      on four, each of which we test rather than presume.</p>
-    <div class="mt-5">{assumptions}</div>
   </div>
 </section>
 
 {cta_band("Every programme has a written model behind it",
           "Who it serves, what the standard package contains, what it costs per person, how it is measured and "
-          "when support ends. We are glad to share the relevant model, and to talk openly about what we can and "
-          "cannot yet evidence.",
+          "when support ends. We are glad to share the relevant model.",
           [btn("Talk to us about funding", "/contact/?subject=funding", "cta"),
            btn("Download the programme guide", "/assets/documents/SAF-Our-Programmes-Structure-Guide.pdf",
                "ghost-light", "download")])}
@@ -193,6 +144,7 @@ def pillar_page(p):
         eyebrow_text="What we do",
         meta=meta,
         variant="page-hero--pillar",
+        image=D.PILLAR_PHOTOS[p["slug"]],
         trail=[("Home", "/"), ("What We Do", "/what-we-do/"), (p["name"], None)],
     ) + f'''
 <section class="section section--tight">
@@ -200,8 +152,6 @@ def pillar_page(p):
     <h2 class="visually-hidden">About this pillar</h2>
     <div class="grid grid--sidebar">
       <div class="prose">
-        {photo(D.PILLAR_PHOTOS[p["slug"]], "3x2", sizes="(min-width: 940px) 720px, 100vw",
-               cls="mb-6", eager=True)}
         {paras([esc(x) for x in p["intro"]])}
       </div>
       <aside>
@@ -217,7 +167,7 @@ def pillar_page(p):
 <section class="section section--surface">
   <div class="container">
     {section_head(f"Programmes in this pillar",
-                  f"{len(progs)} programmes. Each carries a status label showing whether it is running today.",
+                  f"{len(progs)} programmes sit within this pillar.",
                   eyebrow_text="The work")}
     <div class="grid grid--3">{cards}</div>
     <div class="photo-band mt-7">
@@ -277,7 +227,7 @@ def programme_page(p):
     if siblings:
         items = "".join(
             f'<li><a href="{programme_url(x["slug"])}"><span><strong>{esc(x["short_name"])}</strong>'
-            f'<small>{esc(x["one_line"])}</small></span>{chip(x["status"])}</a></li>'
+            f'<small>{esc(x["one_line"])}</small></span>{icon("arrow-right", "", 18)}</a></li>'
             for x in siblings)
         sib_html = (f'<div class="card card--quiet mt-5"><h3>Also in {esc(pil_label)}</h3>'
                     f'<ul class="linklist mt-4">{items}</ul></div>')
@@ -293,15 +243,15 @@ def programme_page(p):
     pub = (f'<span class="hero__motto">Known publicly as {esc(p["public_name"])}</span>'
            if p.get("public_name") else "")
     flag = f'<span class="hero__motto">{esc(p["flagship"])}</span>' if p.get("flagship") else ""
-    status_note = (f'<span class="hero__motto">{esc(p["status_note"])}</span>'
-                   if p.get("status_note") else "")
-    meta = f'{chip(p["status"])}{pub}{flag}{status_note}'
+    meta = f'{pub}{flag}'
 
     return page_hero(
         title=esc(p["name"]),
         lede=esc(p["one_line"]),
         eyebrow_text=pil_label,
         meta=meta,
+        badge=pillar_badge(pil_slug, "hero"),
+        image=D.PROGRAMME_PHOTOS[p["slug"]],
         trail=[("Home", "/"), ("What We Do", "/what-we-do/"),
                (pil_label, pil_href if pil else None), (p["short_name"], None)],
     ) + f'''
@@ -309,8 +259,6 @@ def programme_page(p):
   <div class="container">
     <div class="grid grid--sidebar">
       <div class="prose">
-        {photo(D.PROGRAMME_PHOTOS[p["slug"]], "3x2", sizes="(min-width: 940px) 720px, 100vw",
-               cls="mb-6", eager=True)}
         <h2>What it does</h2>
         {paras([esc(x) for x in p["what_it_does"]])}
 
@@ -332,10 +280,6 @@ def programme_page(p):
 
       <aside>
         <div class="card">
-          <p class="eyebrow">Status</p>
-          {chip(p["status"], p.get("status_note"))}
-          <p class="small text-muted mt-4">{esc(D.STATUSES[p["status"]]["definition"])}</p>
-          <hr>
           <h3>Support this programme</h3>
           <p class="small">{esc(p["support_line"])}</p>
           <div class="btn-row mt-4">
@@ -368,12 +312,26 @@ def impact():
         [[f"<strong>{y}</strong>", esc(n), esc(pr), esc(d)]
          for y, n, pr, _t, d, _loc, _pil in reversed(D.PROJECTS[-5:])])
 
+    prelaunch = checklist_graphic(D.PROGRAMME_PRELAUNCH)
+
+    pillar_icon = {pl["name"]: pl["icon"] for pl in D.PILLARS}
+    ind_rows = []
+    for a_, b_, c_ in D.INDICATORS:
+        ic = pillar_icon.get(a_.replace("&amp;", "&"))
+        badge = f'<span class="group-icon">{icon(ic, "", 18)}</span>' if ic else ""
+        ind_rows.append([f'<span class="group-name">{badge}<strong>{esc(a_)}</strong></span>',
+                         esc(b_), esc(c_)])
+    indicators = table(["Pillar", "Output: what we did", "Outcome: what changed"], ind_rows)
+
+    ig = next(x for x in D.SITE["social"] if x["name"] == "Instagram")
+
     return page_hero(
         title="Our impact",
         lede="Since 2018 we have moved from family-and-friends donations to structured, partner-led delivery. "
              "Our early projects built the relationships and credibility on which our larger programmes are "
              "now being designed.",
         eyebrow_text="What we have delivered",
+        image="children-yard",
         trail=[("Home", "/"), ("Our Impact", None)],
     ) + f'''
 <div class="container">{section_nav(IMPACT_NAV, "/impact/")}</div>
@@ -382,36 +340,34 @@ def impact():
   <div class="container">
     {note(f'<p>{esc(D.TRACK_RECORD_NOTE)}</p>', "How to read this record", "info")}
     {stat_grid(D.GLANCE_STATS)}
-    <div class="photo-band mt-6">
-      {photo("classroom-lesson", "1x1", sizes="(min-width: 700px) 25vw, 50vw")}
-      {photo("children-outside", "1x1", sizes="(min-width: 700px) 25vw, 50vw", focus="upper")}
-      {photo("women-gathering", "1x1", sizes="(min-width: 700px) 25vw, 50vw")}
-      {photo("children-playing", "1x1", sizes="(min-width: 700px) 25vw, 50vw")}
-    </div>
-    <p class="small text-muted mt-4">{photo_credit_line()}</p>
-  </div>
-</section>
-
-<section class="section">
-  <div class="container">
-    <div class="grid grid--split">
-      <div>
-        {section_head("A note on measurement, stated plainly", None, eyebrow_text="Honest reporting")}
-        {paras([esc(x) for x in D.MEASUREMENT_NOTE])}
-        <div class="btn-row mt-5">
-          {btn("How we measure impact", "/accountability/how-we-measure-impact/", "primary")}
-        </div>
-      </div>
-      <div>
-        {photo("classroom-writing", "4x3", sizes="(min-width: 880px) 540px, 100vw", cls="mb-5")}
-        <blockquote class="pullquote">We would rather publish a smaller number we can defend than a larger one
-          we cannot.<cite>Corporate Profile 2026, Section 16</cite></blockquote>
-      </div>
-    </div>
   </div>
 </section>
 
 <section class="section section--surface">
+  <div class="container">
+    {section_head("The work in pictures", "Photographs from our outreaches, classrooms and communities. "
+                  "Films and more of the people's own stories are added as they are cleared for publication.",
+                  eyebrow_text="Photos and films")}
+    <div class="mosaic">
+      {photo("classroom-lesson", "4x3", sizes="(min-width: 700px) 33vw, 50vw", max_width=960)}
+      {photo("children-outside", "4x3", sizes="(min-width: 700px) 33vw, 50vw", focus="upper", max_width=960)}
+      {photo("women-gathering", "4x3", sizes="(min-width: 700px) 33vw, 50vw", max_width=960)}
+      {photo("children-playing", "4x3", sizes="(min-width: 700px) 33vw, 50vw", max_width=960)}
+      {photo("wheelchair-crossing", "4x3", sizes="(min-width: 700px) 33vw, 50vw", max_width=960)}
+      {photo("classroom-group", "4x3", sizes="(min-width: 700px) 33vw, 50vw", max_width=960)}
+    </div>
+    <p class="small text-muted mt-4">{photo_credit_line()}</p>
+    <div class="card card--quiet mt-6">
+      <h3>Follow the work on Instagram</h3>
+      <p class="small">More of our projects and the stories of the people we work with are shared on Instagram
+        as {esc(ig["handle"])}.</p>
+      <p class="card__foot"><a class="card__more" href="{ig["url"]}" target="_blank" rel="noopener">
+        Open Instagram{icon("arrow-up-right", "", 18)}</a></p>
+    </div>
+  </div>
+</section>
+
+<section class="section">
   <div class="container">
     <div class="section-head" style="display:flex;justify-content:space-between;align-items:flex-end;gap:1rem;max-width:none;flex-wrap:wrap">
       <div style="max-width:52ch">
@@ -424,7 +380,7 @@ def impact():
   </div>
 </section>
 
-<section class="section">
+<section class="section section--surface">
   <div class="container">
     <div class="section-head" style="display:flex;justify-content:space-between;align-items:flex-end;gap:1rem;max-width:none;flex-wrap:wrap">
       <div style="max-width:52ch">
@@ -434,6 +390,68 @@ def impact():
       {btn("All projects", "/impact/projects/", "ghost")}
     </div>
     {recent_projects}
+  </div>
+</section>
+
+<section class="section" id="how-we-measure-impact">
+  <div class="container">
+    {section_head("How we measure impact",
+                  "Monitoring, evaluation, accountability and learning is being built into the Foundation as a "
+                  "system, not added as a report at the end of a grant.", eyebrow_text="Measurement")}
+    <div class="grid grid--split">
+      <div class="prose">
+        <h3>Outputs and outcomes are not the same thing</h3>
+        <p>An <strong>output</strong> is what we did: a fee paid, a grant disbursed, a roof repaired.
+           An <strong>outcome</strong> is what changed: a child still in school at the end of the year, a
+           business still trading twelve months later, a family still housed and secure.</p>
+        {paras([esc(x) for x in D.MEASUREMENT_NOTE])}
+      </div>
+      <div>
+        {photo("classroom-boy-yellow", "4x3", sizes="(min-width: 880px) 540px, 100vw", cls="mb-5")}
+        <blockquote class="pullquote">We would rather publish a smaller number we can defend than a larger one
+          we cannot.<cite>Corporate Profile 2026, Section 16</cite></blockquote>
+        {note(f'<p>{esc(D.MEL_POSITION)}</p>', "Our current position, stated openly", "warn", "alert")}
+      </div>
+    </div>
+
+    <h3 class="mt-7">What each programme must have before it launches</h3>
+    <p class="measure">A programme without these five is not launched. Each is a gate, in order.</p>
+    {prelaunch}
+
+    <h3 class="mt-7">Illustrative indicators by pillar</h3>
+    <div class="mt-4">{indicators}</div>
+    <p class="small text-muted mt-5">All indicators are disaggregated by sex, displacement status, disability
+      and age group. Attendance and completion are verified by physical visit at least once per term.
+      Administrative records alone are not sufficient evidence for a donor report, or for us.</p>
+  </div>
+</section>
+
+<section class="section section--navy">
+  <div class="container">
+    <div class="grid grid--split">
+      <div>
+        {section_head("Accountability to the people we serve", None, eyebrow_text="Not only upward")}
+        <p>Measurement that reports only upward to funders is incomplete. We are establishing a beneficiary
+           feedback and complaints mechanism so that the people in our programmes can tell us when something is
+           wrong, in plain language, without fear and without going through the person whose conduct they may
+           be questioning.</p>
+        <p>Findings are reported to the Board, and we intend to publish what we learn, including where a
+           programme did not work.</p>
+        <div class="btn-row mt-5">{btn("How to raise a concern", "/complaints/", "light")}</div>
+      </div>
+      <div>
+        <div class="note note--dark">
+          <p class="note__title">{icon("target", "note__icon", 20)}Unit economics</p>
+          <div class="note__body">
+            <p>Each flagship programme carries a documented cost per participant, built up from its standard
+               package and its share of programme support costs.</p>
+            <p>We publish the cost per <em>outcome</em> as well as per participant, because that is the
+               figure that prices what actually changed. Unit costs are re-priced at least twice a year and
+               every figure is dated.</p>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </section>
 

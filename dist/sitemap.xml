@@ -11,14 +11,39 @@
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://www.syniafoundation.org/about/our-story/</loc>
+    <loc>https://www.syniafoundation.org/about/leadership/</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://www.syniafoundation.org/about/leadership/</loc>
+    <loc>https://www.syniafoundation.org/about/leadership/mmaobi-nwafor-orizu/</loc>
     <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://www.syniafoundation.org/about/leadership/henry-leonard/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://www.syniafoundation.org/about/leadership/chinasa-fabian-ijeruh/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://www.syniafoundation.org/about/leadership/sariki-abungwo/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://www.syniafoundation.org/about/leadership/amos-endem-rejoice/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://www.syniafoundation.org/about/leadership/offorka-n-jerry/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
   </url>
   <url>
     <loc>https://www.syniafoundation.org/about/partners/</loc>
@@ -172,11 +197,6 @@
   </url>
   <url>
     <loc>https://www.syniafoundation.org/accountability/reports-and-publications/</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://www.syniafoundation.org/accountability/how-we-measure-impact/</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>

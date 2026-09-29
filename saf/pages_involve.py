@@ -47,9 +47,9 @@ def get_involved():
     <h2 class="visually-hidden">Four ways to stand with the Foundation</h2>
     <div class="grid grid--2">
       {"".join(f"""
-      <article class="card card--link">
-        <span class="pillar__icon">{icon(g["icon"], "", 26)}</span>
-        <p class="eyebrow" style="margin-bottom:.3em">{g["num"]}</p>
+      <article class="card card--link card--route">
+        <div class="route__top"><span class="pillar__icon">{icon(g["icon"], "", 26)}</span>
+          <span class="route__num">{g["num"]}</span></div>
         <h3><a class="stretched" href="{'/donate/' if g['slug'] == 'donate' else '/get-involved/' + g['slug'] + '/'}">{esc(g["title"])}</a></h3>
         <p class="lede" style="font-size:var(--step-0)">{esc(g["summary"])}</p>
         <p>{esc(g["detail"])}</p>
@@ -64,21 +64,15 @@ def get_involved():
     <div class="grid grid--split">
       <div>
         {section_head("If you are considering funding us", None, eyebrow_text="For institutional funders")}
-        <p>Each programme on this site has a written model behind it — who it serves, what the standard package
-           contains, what it costs per person, how it is measured and when support ends. We are glad to share
-           the relevant model and to talk openly about what we can and cannot yet evidence.</p>
-        <p>We would rather begin a funding relationship with an accurate picture than an impressive one.</p>
+        <p>Every programme has a written model behind it, and we would rather begin a funding relationship with
+           an accurate picture than an impressive one. Everything a funder needs to assess us is in one place.</p>
         <div class="btn-row mt-5">
-          {btn("Talk to us about funding", "/contact/?subject=funding", "primary")}
-          {btn("See our accountability section", "/accountability/", "ghost", None)}
+          {btn("See our accountability section", "/accountability/", "primary")}
+          {btn("Talk to us about funding", "/contact/?subject=funding", "ghost", None)}
         </div>
       </div>
       <div>
-        {photo("classroom-lesson", "4x3", sizes="(min-width: 880px) 540px, 100vw", cls="mb-5")}
-        <div class="card">
-          <h3>What a funder can expect from us</h3>
-          {bullets(D.FUNDER_EXPECTATIONS)}
-        </div>
+        {photo("classroom-lesson", "4x3", sizes="(min-width: 880px) 540px, 100vw")}
       </div>
     </div>
   </div>
@@ -104,16 +98,50 @@ def get_involved():
 # DONATE
 # ===========================================================================
 
+DONATE_FAQS = [
+    ("Will I get a receipt?",
+     "Yes. A receipt is emailed to you immediately, showing our registered name, our registration number "
+     "CAC/IT/NO 121882, the amount and the date. If it does not arrive, check your spam folder and then "
+     "email us — we will resend it."),
+    ("Can I cancel a monthly gift?",
+     "At any time, without giving a reason. Email info@syniafoundation.org or call us and we will cancel it "
+     "and confirm in writing. You can also cancel through the payment provider directly."),
+    ("Can I choose what my gift funds?",
+     "Yes. You can direct your gift to a pillar, to a specific programme, or leave it where it is most "
+     "needed. Whatever you choose is recorded against your donation, and a restriction you place on a gift "
+     "is honoured absolutely."),
+    ("Can I give anonymously?",
+     "Yes. You may withhold your name from any public acknowledgement. We will still need your email "
+     "address to send you a receipt, and we will not publish your name anywhere."),
+    ("Is my card safe?",
+     "Card details are handled entirely by the payment provider on their own secure pages. No card details "
+     "are ever stored on this website. The whole site runs over HTTPS."),
+    ("Can I give from outside Nigeria?",
+     "Yes. Foreign cards are accepted and the currency is shown clearly before you confirm. Our diaspora "
+     "supporters are a real and valued segment of our income."),
+    ("How do I know the money is used well?",
+     "Programme budgets are approved by the Board before expenditure is committed; payment authorisation "
+     "is separated from payment requests; grants to participants are released against milestones rather "
+     "than as lump sums; and no one both selects a participant and releases their funds. We publish our "
+     "controls, our risks and what we have not yet achieved."),
+]
+
+
+# Each preset is tied back to the pillar it funds (book: educate, house: secure, lightbulb: equip).
+AMOUNT_ICONS = ["book", "book", "book", "house", "lightbulb"]
+
+
 def donate():
     amounts = "".join(f'''
     <div class="amount">
       <input type="radio" name="amount" id="amt-{t["amount"]}" value="{t["amount"]}"
              {"checked" if t["amount"] == 25000 else ""}>
       <label for="amt-{t["amount"]}">
+        <span class="amount__icon">{icon(AMOUNT_ICONS[i], "", 20)}</span>
         <span class="amount__value">{esc(t["label"])}</span>
         <span class="amount__funds">{esc(t["funds"])}</span>
       </label>
-    </div>''' for t in D.DONATION_TIERS)
+    </div>''' for i, t in enumerate(D.DONATION_TIERS))
 
     designations = "".join(
         f'<option value="{esc(v)}">{esc(l)}</option>' for v, l in D.DONATION_DESIGNATIONS)
@@ -126,33 +154,7 @@ def donate():
         ("Reference", esc(D.BANK_TRANSFER["reference"])),
     ])
 
-    faqs = [
-        ("Will I get a receipt?",
-         "Yes. A receipt is emailed to you immediately, showing our registered name, our registration number "
-         "CAC/IT/NO 121882, the amount and the date. If it does not arrive, check your spam folder and then "
-         "email us — we will resend it."),
-        ("Can I cancel a monthly gift?",
-         "At any time, without giving a reason. Email info@syniafoundation.org or call us and we will cancel it "
-         "and confirm in writing. You can also cancel through the payment provider directly."),
-        ("Can I choose what my gift funds?",
-         "Yes. You can direct your gift to a pillar, to a specific programme, or leave it where it is most "
-         "needed. Whatever you choose is recorded against your donation, and a restriction you place on a gift "
-         "is honoured absolutely."),
-        ("Can I give anonymously?",
-         "Yes. You may withhold your name from any public acknowledgement. We will still need your email "
-         "address to send you a receipt, and we will not publish your name anywhere."),
-        ("Is my card safe?",
-         "Card details are handled entirely by the payment provider on their own secure pages. No card details "
-         "are ever stored on this website. The whole site runs over HTTPS."),
-        ("Can I give from outside Nigeria?",
-         "Yes. Foreign cards are accepted and the currency is shown clearly before you confirm. Our diaspora "
-         "supporters are a real and valued segment of our income."),
-        ("How do I know the money is used well?",
-         "Programme budgets are approved by the Board before expenditure is committed; payment authorisation "
-         "is separated from payment requests; grants to participants are released against milestones rather "
-         "than as lump sums; and no one both selects a participant and releases their funds. We publish our "
-         "controls, our risks and what we have not yet achieved."),
-    ]
+    faqs = DONATE_FAQS
     faq_html = "".join(
         f'<details><summary>{esc(q)}</summary><div class="accordion__body"><p>{esc(a)}</p></div></details>'
         for q, a in faqs)
@@ -271,8 +273,7 @@ def donate():
           <ul class="linklist mt-4">
             {"".join(f'<li><a href="{programme_url(s)}"><span>{esc(PROGRAMME_BY_SLUG[s]["short_name"])}<small>{esc(PROGRAMME_BY_SLUG[s]["one_line"])}</small></span>{icon("arrow-right", "", 18)}</a></li>' for s in ["learning-access-retention", "enterprise-development", "safe-shelter"])}
           </ul>
-          <p class="small text-muted mt-4">These three programmes are running today. You can also give to a
-            pillar, or wherever it is most needed.</p>
+          <p class="small text-muted mt-4">You can also give to a pillar, or wherever it is most needed.</p>
         </div>
 
         <div class="card card--quiet mt-5">
@@ -545,14 +546,17 @@ def partner():
 # ===========================================================================
 
 def volunteer():
-    roles = "".join(f'<div class="card"><h3>{esc(t)}</h3><p>{esc(b)}</p></div>'
-                    for t, b in D.VOLUNTEER_ROLES)
+    role_icons = ["people", "book", "handshake", "megaphone"]
+    roles = "".join(f'<div class="card card--role"><span class="pillar__icon">{icon(role_icons[i % 4], "", 24)}</span>'
+                    f'<h3>{esc(t)}</h3><p>{esc(b)}</p></div>'
+                    for i, (t, b) in enumerate(D.VOLUNTEER_ROLES))
 
     return page_hero(
         title="Volunteer",
         lede="Give your time and skills in your own community and on our outreaches. Our volunteer network "
              "spans several Nigerian states.",
         eyebrow_text="Get involved",
+        image="women-gathering",
         trail=[("Home", "/"), ("Get Involved", "/get-involved/"), ("Volunteer", None)],
     ) + f'''
 <div class="container">{section_nav(INVOLVE_NAV, "/get-involved/volunteer/")}</div>
@@ -649,7 +653,7 @@ def volunteer():
           <h3>Read the standards</h3>
           <p class="small">Our Code of Conduct and Safeguarding Policy are published in full.</p>
           <p class="card__foot"><a class="card__more" href="/accountability/governance-and-policies/">
-            Governance &amp; policies{icon("arrow-right", "", 18)}</a></p>
+            Governance &amp; Policies{icon("arrow-right", "", 18)}</a></p>
         </div>
       </aside>
     </div>
@@ -679,7 +683,7 @@ def ambassador():
         {bullets(D.AMBASSADOR_WHAT)}
         <p class="mt-5">Our ambassadors are often people with a network we do not have — in the diaspora, in a
           profession, in a faith community or in business. What we ask is honesty about what we are: a growing
-          Nigerian foundation with three programmes running and nine more scheduled.</p>
+          Nigerian foundation.</p>
       </div>
       <div>
         {photo("women-smiling", "4x3", sizes="(min-width: 880px) 540px, 100vw", cls="mb-5")}

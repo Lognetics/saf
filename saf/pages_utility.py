@@ -577,10 +577,9 @@ def terms():
          Foundation.</p>
 
       <h2>Accuracy of information</h2>
-      <p>We take care that the information on this site is accurate and current. Programme status labels,
-         figures and partner listings are reviewed as circumstances change. Where a figure is not yet verified
-         we describe the work rather than quantify it. Nothing described on this site as <em>planned</em> or
-         <em>in set-up</em> should be taken as currently operating.</p>
+      <p>We take care that the information on this site is accurate and current. Figures and partner
+         listings are reviewed as circumstances change. Where a figure is not yet verified we describe the
+         work rather than quantify it.</p>
 
       <h2>Donations</h2>
       <p>Donations are processed by our payment provider on its own secure pages. A gift given for a specific
@@ -787,7 +786,7 @@ def not_found():
     <div class="grid grid--3">
       <article class="card card--link">
         <h3><a class="stretched" href="/what-we-do/">What we do</a></h3>
-        <p>Three pillars and twelve programmes, each with its current status.</p>
+        <p>Three pillars and twelve programmes.</p>
       </article>
       <article class="card card--link">
         <h3><a class="stretched" href="/donate/">Donate</a></h3>
@@ -795,7 +794,7 @@ def not_found():
       </article>
       <article class="card card--link">
         <h3><a class="stretched" href="/accountability/">Accountability</a></h3>
-        <p>Governance, policies, reports and how we measure impact.</p>
+        <p>Governance, policies and reports.</p>
       </article>
     </div>
     <div class="btn-row mt-6">

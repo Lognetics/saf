@@ -17,20 +17,19 @@ from .data import SITE, STATUSES
 NAV = [
     {"label": "Home", "url": "/", "children": []},
     {"label": "About Us", "url": "/about/", "children": [
-        {"label": "Who We Are", "url": "/about/", "desc": "Story, vision, mission and values"},
-        {"label": "Our Story", "url": "/about/our-story/", "desc": "Milestones from 2018"},
+        {"label": "Who We Are & Our Story", "url": "/about/", "desc": "Vision, mission, values and milestones from 2018"},
         {"label": "Leadership & Governance", "url": "/about/leadership/", "desc": "Board, advisers and executive team"},
         {"label": "Partners", "url": "/about/partners/", "desc": "Who we deliver alongside"},
+        {"label": "Who We Serve", "url": "/who-we-serve/", "desc": "The people our work is for"},
     ]},
     {"label": "What We Do", "url": "/what-we-do/", "children": [
         {"label": "Overview", "url": "/what-we-do/", "desc": "Three pillars, twelve programmes"},
         {"label": "Education & Skills", "url": "/what-we-do/education-skills/", "desc": "Educate the mind"},
         {"label": "Livelihoods & Economic Inclusion", "url": "/what-we-do/livelihoods-economic-inclusion/", "desc": "Equip the hands"},
         {"label": "Shelter, WASH & Protection", "url": "/what-we-do/shelter-wash-protection/", "desc": "Secure the home"},
-        {"label": "Who We Serve", "url": "/who-we-serve/", "desc": "The people our work is for"},
     ]},
     {"label": "Our Impact", "url": "/impact/", "children": [
-        {"label": "Overview", "url": "/impact/", "desc": "What we have delivered, reported conservatively"},
+        {"label": "Overview & How We Measure Impact", "url": "/impact/", "desc": "What we have delivered, and how we count it"},
         {"label": "Stories", "url": "/impact/stories/", "desc": "Films, photo essays and written pieces"},
         {"label": "Projects", "url": "/impact/projects/", "desc": "Delivered work, by year"},
     ]},
@@ -40,14 +39,15 @@ NAV = [
         {"label": "Volunteer", "url": "/get-involved/volunteer/", "desc": "Give time and skills"},
         {"label": "Become an Ambassador", "url": "/get-involved/ambassador/", "desc": "Champion the mission"},
     ]},
-    {"label": "Accountability", "url": "/accountability/", "children": [
-        {"label": "Overview", "url": "/accountability/", "desc": "For institutional funders"},
-        {"label": "Governance & Policies", "url": "/accountability/governance-and-policies/", "desc": "How we are governed, and our policy suite"},
-        {"label": "Reports & Publications", "url": "/accountability/reports-and-publications/", "desc": "Document library"},
-        {"label": "How We Measure Impact", "url": "/accountability/how-we-measure-impact/", "desc": "Monitoring, evaluation and learning"},
-    ]},
     {"label": "News", "url": "/news/", "children": []},
     {"label": "Contact", "url": "/contact/", "children": []},
+]
+
+# Accountability moved out of the main menu into the footer (IA audit, section E).
+ACCOUNTABILITY_LINKS = [
+    ("Overview", "/accountability/"),
+    ("Governance & Policies", "/accountability/governance-and-policies/"),
+    ("Reports & Publications", "/accountability/reports-and-publications/"),
 ]
 
 FOOTER_UTILITY = [
@@ -200,7 +200,8 @@ def stat_grid(stats, cls=""):
     cards = []
     for s in stats:
         sub = f'<p class="stat__sub">{esc(s["sub"])}</p>' if s.get("sub") else ""
-        cards.append(f'<div class="stat"><p class="stat__figure">{esc(s["figure"])}</p>'
+        pic = f'<span class="stat__icon">{icon(s["icon"], "", 22)}</span>' if s.get("icon") else ""
+        cards.append(f'<div class="stat">{pic}<p class="stat__figure">{esc(s["figure"])}</p>'
                      f'<p class="stat__label">{esc(s["label"])}</p>{sub}</div>')
     return f'<div class="stat-grid {cls}">{"".join(cards)}</div>'
 
@@ -307,7 +308,7 @@ def header(current_url):
 <a class="skip-link" href="#main">Skip to main content</a>
 <div class="topbar">
   <div class="container topbar__inner">
-    <p class="topbar__reg">Registered with the Corporate Affairs Commission&nbsp;·&nbsp;{SITE["reg_number"]}</p>
+    <p class="topbar__reg">Empowering Communities Since 2018 &#x2014; <a href="mailto:{SITE["email"]}">{SITE["email"]}</a></p>
     <div class="topbar__right">
       <a class="topbar__link" href="tel:{SITE["hotline_href"]}">{icon("phone", "topbar__icon", 16)}
         <span><strong>{SITE["hotline"]}</strong> 24/7 hotline</span></a>
@@ -318,12 +319,10 @@ def header(current_url):
 <header class="header" data-header>
   <div class="container header__inner">
     <a class="brand" href="/">
-      <img class="brand__mark" src="/assets/img/logo-mark-300.png" width="300" height="240"
-           alt="" decoding="async">
-      <span class="brand__text">
-        <span class="brand__name">Synia Aid Foundation</span>
-        <span class="brand__tag">{esc(SITE["tagline"])}</span>
-      </span>
+      <img class="brand__logo" src="/assets/img/logo-full-240.png"
+           srcset="/assets/img/logo-full-240.png 240w, /assets/img/logo-full-480.png 480w"
+           sizes="72px" width="240" height="244" alt="Synia Aid Foundation. Education, entrepreneurship, shelter."
+           decoding="async">
     </a>
     <nav class="nav" id="site-nav" aria-label="Main">
       <ul class="nav__list">{_nav_markup(current_url)}</ul>
@@ -360,8 +359,9 @@ def footer():
   <div class="container">
     <div class="footer__top">
       <div class="footer__brand">
-        <img class="footer__mark" src="/assets/img/logo-mark-white-300.png" width="300" height="240"
-             alt="" loading="lazy" decoding="async">
+        <span class="footer__logo-card"><img class="footer__logo" src="/assets/img/logo-full-240.png"
+             srcset="/assets/img/logo-full-240.png 240w, /assets/img/logo-full-480.png 480w" sizes="110px"
+             width="240" height="244" alt="Synia Aid Foundation logo" loading="lazy" decoding="async"></span>
         <p class="footer__name">Synia Aid Foundation</p>
         <p class="footer__tag">{esc(SITE["tagline"])}</p>
         <p class="footer__mottos">Educate the mind&nbsp;· Equip the hands&nbsp;· Secure the home</p>
@@ -382,12 +382,20 @@ def footer():
         <h2 class="footer__h">Explore</h2>
         <ul>
           <li><a href="/">Home</a></li>
-          <li><a href="/about/">Who we are</a></li>
+          <li><a href="/about/">Who we are &amp; our story</a></li>
           <li><a href="/what-we-do/">What we do</a></li>
           <li><a href="/who-we-serve/">Who we serve</a></li>
           <li><a href="/impact/">Our impact</a></li>
-          <li><a href="/accountability/">Accountability</a></li>
           <li><a href="/news/">News</a></li>
+          <li><a href="/contact/">Contact</a></li>
+        </ul>
+      </nav>
+
+      <nav class="footer__col" aria-label="Accountability">
+        <h2 class="footer__h">Accountability</h2>
+        <ul>
+          {"".join(f'<li><a href="{u}">{esc(l)}</a></li>' for l, u in ACCOUNTABILITY_LINKS)}
+          <li><a href="/complaints/">Raise a concern</a></li>
         </ul>
       </nav>
 

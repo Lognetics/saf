@@ -27,58 +27,68 @@ def pillar_name(slug):
 
 # ---------------------------------------------------------------------------
 
+# Landscape-friendly frames used behind interior page titles. Each page picks
+# one deterministically from its title, so the choice is stable between builds
+# and neighbouring pages do not repeat the same picture.
+HERO_ROTATION = ["children-community", "women-gathering", "classroom-desks", "children-yard",
+                 "women-smiling", "classroom-lesson", "children-outside", "elder-smiling",
+                 "classroom-friends", "boys-lorry"]
+
+
+def hero_photo_key(title):
+    plain = "".join(c for c in str(title) if c.isalnum())
+    return HERO_ROTATION[sum(ord(c) for c in plain) % len(HERO_ROTATION)]
+
+
 def page_hero(*, title, lede=None, trail=None, eyebrow_text=None, meta=None,
-              variant="", actions=None):
+              variant="", actions=None, image=None, badge=None):
     crumbs = breadcrumbs(trail) if trail else ""
     eb = f'<p class="eyebrow">{esc(eyebrow_text)}</p>' if eyebrow_text else ""
     ld = f'<p class="lede">{lede}</p>' if lede else ""
     mt = f'<div class="page-hero__meta">{meta}</div>' if meta else ""
     ac = f'<div class="btn-row mt-5">{"".join(actions)}</div>' if actions else ""
+    bd = badge or ""
+    key = image or hero_photo_key(title)
+    media = (f'<div class="page-hero__media" aria-hidden="true">'
+             f'{photo(key, "21x9", sizes="100vw", eager=True, rounded=False, decorative=True)}</div>')
     return f'''
-<section class="page-hero {variant}">
+<section class="page-hero page-hero--photo {variant}">
+  {media}
   <div class="container">
     {crumbs}
     <div class="page-hero__inner">
-      {eb}<h1>{title}</h1>{ld}{mt}{ac}
+      {bd}{eb}<h1>{title}</h1>{ld}{mt}{ac}
     </div>
   </div>
 </section>'''
 
 
-def status_board():
-    counts = {"running": 0, "setup": 0, "planned": 0}
-    for p in D.PROGRAMMES:
-        counts[p["status"]] += 1
-    items = []
-    for key in ("running", "setup", "planned"):
-        st = D.STATUSES[key]
-        items.append(
-            f'<div class="status-board__item">{chip(key)}'
-            f'<p class="status-board__count">{counts[key]} '
-            f'<span class="small text-muted">of {len(D.PROGRAMMES)}</span></p>'
-            f'<p class="status-board__def">{esc(st["definition"])}</p></div>')
-    return f'<div class="status-board">{"".join(items)}</div>'
+def pillar_badge(slug, size="card"):
+    """Small pillar-icon badge: quick wayfinding between programme pages."""
+    pil = PILLAR_BY_SLUG.get(slug)
+    if pil:
+        return (f'<span class="pillar-badge pillar-badge--{size} p{PILLAR_INDEX[slug]}">'
+                f'{icon(pil["icon"], "", 18)}<span>{esc(pil["name"])}</span></span>')
+    return (f'<span class="pillar-badge pillar-badge--{size}">{icon("target", "", 18)}'
+            f'<span>Across all pillars</span></span>')
 
 
 def programme_card(p, show_pillar=False):
-    st_note = p.get("status_note")
     pub = (f'<p class="card__public-name">Known publicly as {esc(p["public_name"])}</p>'
            if p.get("public_name") else "")
-    pil = (f'<p class="card__meta">{esc(pillar_name(p["pillar"]))}</p>' if show_pillar else "")
     flag = f'<span class="tag tag--muted">{esc(p["flagship"])}</span>' if p.get("flagship") else ""
     key = D.PROGRAMME_PHOTOS.get(p["slug"])
     media = (photo(key, "3x2", sizes="(min-width: 940px) 360px, 100vw", max_width=640)
              if key else "")
     cls = "card card--link card--programme" + (" card--photo" if media else "")
     return f'''
-<article class="{cls}" data-facets="{p["pillar"]} {p["status"]}">
+<article class="{cls}" data-facets="{p["pillar"]}">
   {media}
   <div class="card__body">
-    <div class="card__top">{chip(p["status"])}{flag}</div>
+    <div class="card__top">{pillar_badge(p["pillar"])}{flag}</div>
     <h3><a class="stretched" href="{programme_url(p["slug"])}">{esc(p["short_name"])}</a></h3>
-    {pub}{pil}
+    {pub}
     <p>{esc(p["one_line"])}</p>
-    {f'<p class="card__meta small">{esc(st_note)}</p>' if st_note else ''}
     <p class="card__foot"><span class="card__more">Read the programme{icon("arrow-right", "", 18)}</span></p>
   </div>
 </article>'''
@@ -87,7 +97,7 @@ def programme_card(p, show_pillar=False):
 def pillar_card(p, index):
     progs = [x for x in D.PROGRAMMES if x["pillar"] == p["slug"]]
     lis = "".join(
-        f'<li><a href="{programme_url(x["slug"])}">{esc(x["short_name"])}</a>{chip(x["status"])}</li>'
+        f'<li><a href="{programme_url(x["slug"])}">{esc(x["short_name"])}</a></li>'
         for x in progs)
     return f'''
 <article class="card card--link card--pillar p{index}">
@@ -99,16 +109,28 @@ def pillar_card(p, index):
 </article>'''
 
 
-def person_card(person, url_base="/about/leadership/"):
+ROLE_ICON = {"board": ("scale", "Board of Trustees"), "adviser": ("lightbulb", "Adviser to the Board"),
+             "executive": ("target", "Executive team")}
+
+
+def person_url(person):
+    return f"/about/leadership/{person['slug']}/"
+
+
+def person_card(person, group="board"):
     initials = "".join(w[0] for w in person["name"].replace("Dr ", "").split()[:2]).upper()
+    ic, label = ROLE_ICON[group]
     return f'''
-<article class="card card--person" id="{person["slug"]}">
-  <span class="person__avatar" aria-hidden="true">{initials}</span>
+<article class="card card--person card--person-{group}" id="{person["slug"]}">
+  <div class="person__head">
+    <span class="person__avatar" aria-hidden="true">{initials}</span>
+    <span class="person__group" title="{esc(label)}">{icon(ic, "", 16)}<span>{esc(label)}</span></span>
+  </div>
   <h3>{esc(person["name"])}</h3>
   <p class="person__role">{esc(person["role"])}</p>
   <p class="person__creds">{esc(person["credentials"])}</p>
   <p>{esc(person["summary"])}</p>
-  <p class="card__foot"><a class="card__more" href="{url_base}#{person["slug"]}-bio">
+  <p class="card__foot"><a class="card__more" href="{person_url(person)}">
     Read full biography{icon("arrow-right", "", 18)}</a></p>
 </article>'''
 
@@ -123,6 +145,11 @@ def partner_card(partner):
     else:
         slot = ('<div class="partner__logo-slot" aria-hidden="true">'
                 f'{esc(partner["name"])}</div>')
+    if partner.get("url"):
+        name_html = (f'<a href="{partner["url"]}" target="_blank" rel="noopener">{esc(partner["name"])}'
+                     f'<span class="visually-hidden"> (opens in a new tab)</span></a>')
+    else:
+        name_html = esc(partner["name"])
     progs = [PROGRAMME_BY_SLUG[s] for s in partner["programmes"] if s in PROGRAMME_BY_SLUG]
     links = ("".join(f'<a href="{programme_url(x["slug"])}">{esc(x["short_name"])}</a>'
                      for x in progs))
@@ -130,7 +157,7 @@ def partner_card(partner):
     return f'''
 <article class="card card--partner">
   {slot}
-  <p class="partner__name">{esc(partner["name"])}</p>
+  <p class="partner__name">{name_html}</p>
   <p>{esc(partner["description"])}</p>
   {links_html}
 </article>'''
@@ -189,7 +216,7 @@ def doc_card(title, summary, meta, href, cta="Download PDF"):
 </article>'''
 
 
-def get_involved_grid(exclude=None):
+def get_involved_grid(exclude=None, teaser=False):
     cards = []
     for g in D.GET_INVOLVED:
         if g["slug"] == exclude:
@@ -197,13 +224,14 @@ def get_involved_grid(exclude=None):
         url = "/donate/" if g["slug"] == "donate" else f'/get-involved/{g["slug"]}/'
         key = D.GET_INVOLVED_PHOTOS.get(g["slug"])
         media = photo(key, "3x2", sizes="(min-width: 940px) 280px, 50vw", max_width=640) if key else ""
+        text = g["teaser"] if teaser else g["summary"]
         cards.append(f'''
-<article class="card card--link card--photo">
+<article class="card card--link card--photo card--involve">
   {media}
   <div class="card__body">
     <span class="pillar__icon">{icon(g["icon"], "", 26)}</span>
     <h3><a class="stretched" href="{url}">{esc(g["title"])}</a></h3>
-    <p>{esc(g["summary"])}</p>
+    <p>{esc(text)}</p>
     <p class="card__foot"><span class="card__more">{esc(g["cta"])}{icon("arrow-right", "", 18)}</span></p>
   </div>
 </article>''')
@@ -245,29 +273,12 @@ def newsletter_band():
 
 
 def contact_strip():
-    return f'''
+    """One line, not a repeated contact block: the footer already carries the
+    full details and the Contact page is the canonical home for them."""
+    return '''
 <section class="section section--tight section--surface">
   <div class="container">
-    <div class="grid grid--3">
-      <div class="card card--quiet">
-        <span class="doc__icon">{icon("phone", "", 22)}</span>
-        <h3>Speak to someone</h3>
-        <p><a href="tel:{D.SITE["phone_href"]}">{D.SITE["phone"]}</a><br>
-           <a href="tel:{D.SITE["hotline_href"]}">{D.SITE["hotline"]}</a> <span class="tag">24/7 hotline</span></p>
-      </div>
-      <div class="card card--quiet">
-        <span class="doc__icon">{icon("mail", "", 22)}</span>
-        <h3>Email us</h3>
-        <p><a href="mailto:{D.SITE["email"]}">{D.SITE["email"]}</a><br>
-           <span class="text-muted small">{esc(D.SITE["hours"])}</span></p>
-      </div>
-      <div class="card card--quiet">
-        <span class="doc__icon">{icon("shield", "", 22)}</span>
-        <h3>Raise a concern</h3>
-        <p>Anyone may raise a concern about our work or the conduct of anyone acting in our name.
-           <a href="/complaints/">How to raise a concern</a>.</p>
-      </div>
-    </div>
+    <p class="contact-line mb-0">Questions? <a href="/contact/">Contact us</a></p>
   </div>
 </section>'''
 
@@ -298,7 +309,7 @@ DEFAULT_MAX = {"1x1": 640, "4x5": 960, "3x4": 960, "2x3": 960, "4x3": 960}
 
 def photo(key, ratio="16x9", *, sizes="(min-width: 940px) 620px, 100vw",
           eager=False, caption=None, cls="", focus=None, rounded=True,
-          max_width=None):
+          max_width=None, decorative=False):
     """A responsive, art-directed image. WebP first, JPEG fallback.
 
     The crop anchor defaults to the one recorded against the photograph, so a
@@ -326,7 +337,7 @@ def photo(key, ratio="16x9", *, sizes="(min-width: 940px) 620px, 100vw",
   <picture>
     <source type="image/webp" srcset="{webp}" sizes="{sizes}">
     <img src="{base}-{fallback_w}.jpg" srcset="{jpg}" sizes="{sizes}"
-         width="{w * 100}" height="{h * 100}" alt="{esc(meta["alt"])}"{loading}{priority}>
+         width="{w * 100}" height="{h * 100}" alt="{"" if decorative else esc(meta["alt"])}"{loading}{priority}>
   </picture>{cap}
 </figure>'''
 

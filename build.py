@@ -21,13 +21,13 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
 
 from saf import data as D                                    # noqa: E402
-from saf.layout import render, NAV, FOOTER_UTILITY           # noqa: E402
+from saf.layout import render, NAV, FOOTER_UTILITY, ACCOUNTABILITY_LINKS   # noqa: E402
 from saf import pages_home_about as PA                       # noqa: E402
 from saf import pages_programmes as PB                       # noqa: E402
 from saf import pages_involve as PC                          # noqa: E402
 from saf import pages_accountability as PD                   # noqa: E402
 from saf import pages_utility as PE                          # noqa: E402
-from saf.components import programme_url, pillar_url         # noqa: E402
+from saf.components import programme_url, pillar_url, person_url   # noqa: E402
 
 DIST = os.path.join(HERE, "dist")
 ASSETS = os.path.join(HERE, "assets")
@@ -42,7 +42,23 @@ LEGACY_DOCS = os.path.dirname(HERE)          # original hand-over folder, as a f
 PAGES = []       # (url, title, description, html_body, kind, schema, noindex)
 
 
+def fit_description(text, limit=155):
+    """Meta descriptions are cut off by search engines at about 155 characters, so keep the first whole
+    sentence (or, failing that, the first whole clause) that fits and never end mid-word."""
+    text = re.sub(r"\s+", " ", text).strip()
+    if len(text) <= limit:
+        return text
+    head = text[:limit + 1]
+    for stop in (". ", "; ", ": "):
+        i = head.rfind(stop)
+        if i > 60:
+            return head[:i].rstrip(".;:") + "."
+    i = head.rfind(" ")
+    return head[:i].rstrip(",;:. ") + "."
+
+
 def add(url, title, description, body, kind="Page", schema=None, noindex=False):
+    description = fit_description(description)
     PAGES.append((url, title, description, body, kind, schema, noindex))
 
 
@@ -100,6 +116,17 @@ WEBSITE_SCHEMA = {
 }
 
 
+DONATE_SCHEMA = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+        {"@type": "Question", "name": q,
+         "acceptedAnswer": {"@type": "Answer", "text": a}}
+        for q, a in PC.DONATE_FAQS
+    ],
+}
+
+
 def article_schema(item, path, kind="NewsArticle"):
     return {
         "@context": "https://schema.org",
@@ -122,48 +149,45 @@ def article_schema(item, path, kind="NewsArticle"):
 
 def register_pages():
     add("/", "Synia Aid Foundation",
-        "Synia Aid Foundation is a Nigerian humanitarian and development foundation working with internally "
-        "displaced persons and indigent communities — education, livelihoods, shelter, WASH and protection. "
-        "Registered with the Corporate Affairs Commission, CAC/IT/NO 121882.",
+        "A Nigerian foundation helping displaced families and indigent communities through education, "
+        "livelihoods, shelter and protection.",
         PA.home(), "Home", [ORG_SCHEMA, WEBSITE_SCHEMA])
 
     # --- About -------------------------------------------------------------
-    add("/about/", "Who we are",
-        "A Nigerian humanitarian and development organisation working to restore hope and dignity to people "
-        "pushed to the margins of society — our story, vision, mission and eight core values.",
-        PA.who_we_are(), "About")
-    add("/about/our-story/", "Our story",
-        "Milestones from the Foundation's establishment in December 2018 to the programme architecture adopted "
-        "in July 2026.", PA.our_story(), "About")
-    add("/about/leadership/", "Leadership & governance",
+    add("/about/", "Who we are & our story",
+        "Our vision, mission and eight core values, and the milestones from our founding in December 2018 "
+        "to today.", PA.who_we_are(), "About")
+    add("/about/leadership/", "Leadership & Governance",
         "The Board of Trustees, its specialist advisers in law, human resources and media strategy, and the "
-        "executive team responsible for delivering the Foundation's work.", PA.leadership(), "About")
+        "executive team delivering our work.", PA.leadership(), "About")
+    for group, people in (("board", [p for p in D.BOARD if p["group"] == "board"]),
+                          ("adviser", [p for p in D.BOARD if p["group"] == "adviser"]),
+                          ("executive", D.EXECUTIVE)):
+        for person in people:
+            add(person_url(person), person["name"],
+                f'{person["role"]} at Synia Aid Foundation. {person["summary"]}'[:155].rsplit(" ", 1)[0],
+                PA.leadership_bio(person, group), "About")
     add("/about/partners/", "Partners",
-        "The nine organisations we deliver alongside — schools, health bodies, service organisations and "
-        "fellow foundations — grouped by the pillar each partnership supports.", PA.partners(), "About")
+        "The seven organisations we deliver alongside: schools, health bodies, service organisations and "
+        "fellow foundations.", PA.partners(), "About")
 
     # --- What we do --------------------------------------------------------
     add("/what-we-do/", "What we do",
-        "Three pillars and twelve programmes: educate the mind, equip the hands, secure the home. Three "
-        "programmes are running today, one is in set-up, and the rest are scheduled — each is labelled.",
+        "Three pillars and twelve programmes: educate the mind, equip the hands, secure the home.",
         PB.what_we_do(), "Programmes")
     for p in D.PILLARS:
         add(pillar_url(p["slug"]), p["name"],
-            f'{p["motto"]} — {p["lede"]}', PB.pillar_page(p), "Programmes")
+            f'{p["motto"]}. {p["lede"]}', PB.pillar_page(p), "Programmes")
     for p in D.PROGRAMMES:
-        pub = f' (known publicly as {p["public_name"]})' if p.get("public_name") else ""
-        add(programme_url(p["slug"]), p["name"],
-            f'{p["one_line"]} Status: {D.STATUSES[p["status"]]["label"]}.{pub}',
-            PB.programme_page(p), "Programme")
+        add(programme_url(p["slug"]), p["name"], p["one_line"], PB.programme_page(p), "Programme")
     add("/who-we-serve/", "Who we serve",
-        "Internally displaced persons, vulnerable children and youth, women and widows, families in poverty, "
-        "persons with disability, and host communities — and how we select, with sources on displacement in "
-        "Nigeria.", PA.who_we_serve(), "Programmes")
+        "Internally displaced persons and the wider community of vulnerable Nigerians we serve, how we "
+        "select, and the sources on displacement.", PA.who_we_serve(), "About")
 
     # --- Impact ------------------------------------------------------------
     add("/impact/", "Our impact",
-        "What we have delivered since 2019, reported conservatively — and an honest account of what our "
-        "figures do and do not yet show.", PB.impact(), "Impact")
+        "What we have delivered since 2019, reported conservatively, and how we measure impact.",
+        PB.impact(), "Impact")
     add("/impact/stories/", "Stories",
         "Films, photo essays and written pieces from the communities we work in, filterable by pillar and "
         "format.", PB.stories_index(), "Impact")
@@ -179,9 +203,9 @@ def register_pages():
         "Four ways to stand with the Foundation: donate, partner with us, volunteer, or become an ambassador.",
         PC.get_involved(), "Get involved")
     add("/donate/", "Donate",
-        "Fund a child's school year, a household's shelter repair, or a trader's start in business. One-off or "
-        "monthly gifts from ₦5,000, in Naira or from abroad, with an emailed receipt.",
-        PC.donate(), "Get involved")
+        "Fund a child's school year, a family's shelter repair or a trader's start. Give once or monthly "
+        "from ₦5,000, in Naira or from abroad.",
+        PC.donate(), "Get involved", DONATE_SCHEMA)
     add("/donate/thank-you/", "Thank you",
         "Your gift has been received. What happens next, and how to reach us with a question.",
         PC.thank_you(), "Get involved", None, noindex=True)
@@ -197,17 +221,14 @@ def register_pages():
 
     # --- Accountability ----------------------------------------------------
     add("/accountability/", "Accountability",
-        "Governance, policies, published documents, financial controls, risk register and roadmap — everything "
-        "an institutional funder needs in order to assess us.", PD.accountability(), "Accountability")
-    add("/accountability/governance-and-policies/", "Governance & policies",
+        "Governance, policies, published documents, financial controls and our risk register, for "
+        "institutional funders.", PD.accountability(), "Accountability")
+    add("/accountability/governance-and-policies/", "Governance & Policies",
         "How the Foundation is governed, our legal identity, our safeguarding controls, and the full policy "
-        "suite available to download.", PD.governance_policies(), "Accountability")
-    add("/accountability/reports-and-publications/", "Reports & publications",
-        "Our Corporate Profile, programme structure guide, leadership biographies and policy suite — free to "
+        "suite to download.", PD.governance_policies(), "Accountability")
+    add("/accountability/reports-and-publications/", "Reports & Publications",
+        "Our Corporate Profile, programme structure guide, leadership biographies and policy suite, free to "
         "download.", PD.reports_publications(), "Accountability")
-    add("/accountability/how-we-measure-impact/", "How we measure impact",
-        "What each programme must have before it launches, the indicators we use, and what we do not yet "
-        "claim.", PD.how_we_measure_impact(), "Accountability")
 
     # --- News --------------------------------------------------------------
     add("/news/", "News",
@@ -248,21 +269,21 @@ def register_pages():
 
 
 def sitemap_groups():
+    people = [(p["name"], person_url(p)) for p in D.BOARD + D.EXECUTIVE]
     return [
         ("Home", [("Home", "/")]),
-        ("About us", [(c["label"], c["url"]) for c in NAV[1]["children"]]),
+        ("About us", [(c["label"], c["url"]) for c in NAV[1]["children"]] + people),
         ("What we do", [("Overview", "/what-we-do/")]
          + [(p["name"], pillar_url(p["slug"])) for p in D.PILLARS]
-         + [(p["short_name"], programme_url(p["slug"])) for p in D.PROGRAMMES]
-         + [("Who we serve", "/who-we-serve/")]),
-        ("Our impact", [("Overview", "/impact/"), ("Stories", "/impact/stories/")]
+         + [(p["short_name"], programme_url(p["slug"])) for p in D.PROGRAMMES]),
+        ("Our impact", [("Overview & How We Measure Impact", "/impact/"), ("Stories", "/impact/stories/")]
          + [(s["title"], f'/impact/stories/{s["slug"]}/') for s in D.STORIES]
          + [("Projects", "/impact/projects/")]),
         ("Get involved", [("Overview", "/get-involved/"), ("Donate", "/donate/"),
                           ("Partner with us", "/get-involved/partner/"),
                           ("Volunteer", "/get-involved/volunteer/"),
                           ("Become an ambassador", "/get-involved/ambassador/")]),
-        ("Accountability", [(c["label"], c["url"]) for c in NAV[5]["children"]]
+        ("Accountability", list(ACCOUNTABILITY_LINKS)
          + [("Safeguarding statement", "/safeguarding/"), ("Complaints", "/complaints/")]),
         ("News", [("All news", "/news/")] + [(n["title"], f'/news/{n["slug"]}/') for n in D.NEWS]),
         ("Contact and utility", [("Contact", "/contact/"), ("Search", "/search/")]
@@ -299,6 +320,16 @@ def build_search_index():
 # ---------------------------------------------------------------------------
 # Output helpers
 # ---------------------------------------------------------------------------
+
+# The Foundation asked for em dashes to be removed from the writing, because they read as machine
+# generated. Spaced dashes become a comma; anything else is left alone (a lone dash in a table cell
+# means "not applicable", and a numeric range such as 2026–27 is not a dash in prose).
+_DASH = re.compile(r"(?<=\S)\s+(?:—|&mdash;|&#8212;)\s+(?=\S)")
+
+
+def clean_prose(text):
+    return _DASH.sub(", ", text)
+
 
 def write(path, content, binary=False):
     full = os.path.join(DIST, path.lstrip("/"))
@@ -510,21 +541,29 @@ def main():
     copy_assets()
     missing_docs = copy_documents()
 
+    too_long = []
     for url, title, description, body, kind, schema, noindex in PAGES:
+        if len(description) > 160:
+            too_long.append((url, len(description)))
+        # Organisation structured data on every page (the home page already carries it).
+        blocks = schema if isinstance(schema, list) else ([schema] if schema else [])
+        if ORG_SCHEMA not in blocks:
+            blocks = [ORG_SCHEMA] + blocks
         html_doc = render(url=url, title=title, description=description, body=body,
                           page_class="page-" + re.sub(r"[^a-z0-9]+", "-", kind.lower()).strip("-"),
-                          schema=schema, noindex=noindex,
+                          schema=blocks, noindex=noindex,
                           og_type="article" if kind in ("News", "Story") else "website")
-        write(url_to_path(url), html_doc)
+        write(url_to_path(url), clean_prose(html_doc))
 
     # 404 — served by the host's error handler, so it lives at the root.
-    write("404.html", render(url="/404.html", title="Page not found",
-                             description="The page you asked for could not be found.",
-                             body=PE.not_found(), page_class="page-utility", noindex=True))
+    write("404.html", clean_prose(render(url="/404.html", title="Page not found",
+                                         description="The page you asked for could not be found.",
+                                         body=PE.not_found(), page_class="page-utility", noindex=True)))
 
     photo_files, photo_bytes = build_photos()
 
-    write("search-index.json", json.dumps(build_search_index(), ensure_ascii=False, separators=(",", ":")))
+    write("search-index.json", clean_prose(json.dumps(build_search_index(), ensure_ascii=False,
+                                                         separators=(",", ":"))))
     write("sitemap.xml", sitemap_xml())
     write("robots.txt", robots())
     write("site.webmanifest", manifest())
@@ -556,7 +595,22 @@ def main():
         "/blog/*                /news/:splat            301\n"
         "/donate.html           /donate/                301\n"
         "/contact.html          /contact/               301\n"
+        "/about/our-story       /about/#our-story       301\n"
+        "/about/our-story/      /about/#our-story       301\n"
+        "/accountability/how-we-measure-impact   /impact/#how-we-measure-impact   301\n"
+        "/accountability/how-we-measure-impact/  /impact/#how-we-measure-impact   301\n"
     ))
+
+    # Pages that moved keep a working address even where the host ignores redirect rules.
+    for old, new in (("/about/our-story/", "/about/#our-story"),
+                     ("/accountability/how-we-measure-impact/", "/impact/#how-we-measure-impact")):
+        write(url_to_path(old), (
+            '<!doctype html><html lang="en-NG"><head><meta charset="utf-8">'
+            '<meta name="robots" content="noindex">'
+            f'<link rel="canonical" href="{D.SITE["base_url"]}{new}">'
+            f'<meta http-equiv="refresh" content="0; url={new}">'
+            '<title>This page has moved</title></head><body>'
+            f'<p>This page has moved. <a href="{new}">Continue to the new page</a>.</p></body></html>'))
 
     # ---- report -----------------------------------------------------------
     total_bytes = 0
@@ -565,9 +619,11 @@ def main():
             total_bytes += os.path.getsize(os.path.join(root, f))
 
     print(f"Built {len(PAGES) + 1} pages into {DIST}")
-    print(f"  programmes : {len(D.PROGRAMMES)}  ({sum(1 for p in D.PROGRAMMES if p['status'] == 'running')} running,"
-          f" {sum(1 for p in D.PROGRAMMES if p['status'] == 'setup')} in set-up,"
-          f" {sum(1 for p in D.PROGRAMMES if p['status'] == 'planned')} planned)")
+    print(f"  programmes : {len(D.PROGRAMMES)}")
+    if too_long:
+        print("  WARNING: meta descriptions over 160 characters:")
+        for u, n in too_long:
+            print(f"    {n}  {u}")
     print(f"  partners   : {len(D.PARTNERS)}")
     print(f"  news       : {len(D.NEWS)}   stories: {len(D.STORIES)}   projects: {len(D.PROJECTS)}")
     print(f"  photos     : {len(D.PHOTOS)} published, {len(D.PHOTOS_WITHHELD)} withheld → "

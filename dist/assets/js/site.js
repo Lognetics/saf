@@ -437,7 +437,7 @@
         if (k === 'website' || !String(v).trim()) return;
         lines.push(k.replace(/[-_]/g, ' ').replace(/^./, function (c) { return c.toUpperCase(); }) + ': ' + v);
       });
-      var subject = form.getAttribute('data-subject') || ('Website enquiry — ' + kind);
+      var subject = form.getAttribute('data-subject') || ('Website enquiry: ' + kind);
       var to = INBOX[kind] || CONTACT_EMAIL;
       window.location.href = 'mailto:' + to +
         '?subject=' + encodeURIComponent(subject) +
