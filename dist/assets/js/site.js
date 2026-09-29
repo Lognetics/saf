@@ -14,6 +14,7 @@
   var CONFIG = window.SAF_CONFIG || {};
   var FORM_ENDPOINT   = CONFIG.formEndpoint || '';     // e.g. '/api/forms'
   var DONATE_ENDPOINT = CONFIG.donateEndpoint || '';   // Paystack / Flutterwave checkout
+  var PAYSTACK_KEY    = CONFIG.paystackPublicKey || '';
   var ANALYTICS_SRC   = CONFIG.analyticsSrc || '';     // privacy-respecting analytics
   var CONTACT_EMAIL   = 'info@syniafoundation.org';
 
@@ -376,6 +377,42 @@
       if (kind === 'donation') {
         if (DONATE_ENDPOINT) { form.action = DONATE_ENDPOINT; return; }
         e.preventDefault();
+        if (PAYSTACK_KEY) {
+          var amt = currentAmount();
+          var fd = new FormData(form);
+          var freqEl = form.querySelector('input[name="frequency"]:checked');
+          var loadPaystack = function (cb) {
+            if (window.PaystackPop) return cb();
+            var sc = document.createElement('script');
+            sc.src = 'https://js.paystack.co/v1/inline.js';
+            sc.onload = cb;
+            sc.onerror = function () {
+              if (status) {
+                status.textContent = 'Could not reach the payment provider. Please try again or give by bank transfer below.';
+                status.className = 'form-status is-error';
+              }
+            };
+            document.head.appendChild(sc);
+          };
+          loadPaystack(function () {
+            window.PaystackPop.setup({
+              key: PAYSTACK_KEY,
+              email: fd.get('email'),
+              amount: Math.round(amt * 100),
+              currency: 'NGN',
+              ref: 'SAF-' + Date.now(),
+              metadata: { custom_fields: [
+                { display_name: 'Donor name', variable_name: 'donor_name', value: fd.get('name') || '' },
+                { display_name: 'Designation', variable_name: 'designation', value: fd.get('designation') || '' },
+                { display_name: 'Frequency', variable_name: 'frequency', value: freqEl ? freqEl.value : 'once' },
+                { display_name: 'Anonymous', variable_name: 'anonymous', value: fd.get('anonymous') || 'no' }
+              ] },
+              callback: function () { window.location.href = '/donate/thank-you/'; },
+              onClose: function () {}
+            }).openIframe();
+          });
+          return;
+        }
         if (status) {
           status.innerHTML = 'Card and mobile payments are not connected on this site yet. ' +
             'You can give by bank transfer using the details below, or email ' +

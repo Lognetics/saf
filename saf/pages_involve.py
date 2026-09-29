@@ -119,10 +119,10 @@ def donate():
         f'<option value="{esc(v)}">{esc(l)}</option>' for v, l in D.DONATION_DESIGNATIONS)
 
     bank_rows = "".join(f'<div><dt>{esc(k)}</dt><dd>{v}</dd></div>' for k, v in [
-        ("Bank", f'<span class="placeholder-value">{esc(D.BANK_TRANSFER["bank"])}</span>'),
+        ("Bank", esc(D.BANK_TRANSFER["bank"])),
         ("Account name", esc(D.BANK_TRANSFER["account_name"])),
-        ("Account number", f'<span class="placeholder-value">{esc(D.BANK_TRANSFER["account_number"])}</span>'),
-        ("For international transfers", f'<span class="placeholder-value">{esc(D.BANK_TRANSFER["sort_or_swift"])}</span>'),
+        ("Account number", esc(D.BANK_TRANSFER["account_number"])),
+        ("For international transfers", esc(D.BANK_TRANSFER["sort_or_swift"])),
         ("Reference", esc(D.BANK_TRANSFER["reference"])),
     ])
 

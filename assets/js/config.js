@@ -17,5 +17,6 @@
 window.SAF_CONFIG = {
   formEndpoint:   '',
   donateEndpoint: '',
+  paystackPublicKey: 'pk_live_8f53bc53f490e3eb1ad5e86d60ff4a6a983e22d1',   // public key only; the secret key must never be placed in this file
   analyticsSrc:   ''
 };

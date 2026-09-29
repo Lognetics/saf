@@ -1435,10 +1435,10 @@ DONATION_DESIGNATIONS = [
 # any handover document. Placeholders are marked so they cannot go live by
 # accident — the build fails loudly on these if PLACEHOLDER_GUARD is enabled.
 BANK_TRANSFER = {
-    "bank": "[BANK NAME — to be supplied by the Foundation]",
+    "bank": "Zenith Bank",
     "account_name": "Synia Aid Foundation",
-    "account_number": "[ACCOUNT NUMBER — to be supplied]",
-    "sort_or_swift": "[SWIFT/BIC — to be supplied for international transfers]",
+    "account_number": "1016927457",
+    "sort_or_swift": "Details on request — please email info@syniafoundation.org",
     "reference": "Please use the reference SAF-[YOUR SURNAME] so we can reconcile your gift, and email "
                  "info@syniafoundation.org so we can send your receipt.",
 }
