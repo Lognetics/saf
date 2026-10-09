@@ -311,7 +311,7 @@ def header(current_url):
     <p class="topbar__reg">Empowering Communities Since 2018 &#x2014; <a href="mailto:{SITE["email"]}">{SITE["email"]}</a></p>
     <div class="topbar__right">
       <a class="topbar__link" href="tel:{SITE["hotline_href"]}">{icon("phone", "topbar__icon", 16)}
-        <span><strong>{SITE["hotline"]}</strong> 24/7 hotline</span></a>
+        <span><strong>{SITE["hotline"]}</strong></span></a>
       <span class="topbar__socials">{socials}</span>
     </div>
   </div>
@@ -329,7 +329,7 @@ def header(current_url):
       <div class="nav__footer">
         <a class="nav__util" href="/search/">{icon("search", "", 18)} Search</a>
         <a class="nav__util" href="/complaints/">{icon("shield", "", 18)} Raise a concern</a>
-        <a class="nav__util" href="tel:{SITE["hotline_href"]}">{icon("phone", "", 18)} {SITE["hotline"]} (24/7)</a>
+        <a class="nav__util" href="tel:{SITE["hotline_href"]}">{icon("phone", "", 18)} {SITE["hotline"]}</a>
       </div>
     </nav>
     <div class="header__actions">
@@ -405,7 +405,7 @@ def footer():
           <p>{addr}</p>
           <p><a href="mailto:{SITE["email"]}">{SITE["email"]}</a></p>
           <p><a href="tel:{SITE["phone_href"]}">{SITE["phone"]}</a></p>
-          <p><a href="tel:{SITE["hotline_href"]}">{SITE["hotline"]}</a> <span class="tag-24">24/7 hotline</span></p>
+          <p><a href="tel:{SITE["hotline_href"]}">{SITE["hotline"]}</a></p>
           <p class="footer__hours">{esc(SITE["hours"])}</p>
         </address>
       </div>

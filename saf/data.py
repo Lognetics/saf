@@ -1447,6 +1447,10 @@ BANK_TRANSFER = {
                  "info@syniafoundation.org so we can send your receipt.",
 }
 
+# Foreign-currency accounts. Until each account's details are added to BANK_TRANSFER_FOREIGN
+# (bank, account name, number, SWIFT or IBAN), the donate page offers them on request.
+FOREIGN_CURRENCIES = [("GBP", "British pound", "£"), ("EUR", "Euro", "€"), ("USD", "US dollar", "$")]
+
 VOLUNTEER_ROLES = [
     ("Community outreach volunteer",
      "Support health, wellbeing and dignity outreaches in Keffi, the FCT and Ogun. Mobilisation, registration, "
@@ -1651,6 +1655,18 @@ STORIES = [
         ],
     },
 ]
+
+# The documentary is published on YouTube. Set "url" to its YouTube address when it goes live and
+# the Home page panel becomes a link; until then it announces the film without a dead link.
+DOCUMENTARY = {
+    "title": "The Synia Aid Foundation documentary",
+    "blurb": "The people we serve tell their own story, on film.",
+    "url": None,
+}
+
+# Stories that live on YouTube or Instagram. Each entry shows on the Home and Stories pages and
+# links straight out. Format: {"title", "platform": "YouTube" | "Instagram", "url", "excerpt", "photo"}.
+EXTERNAL_STORIES = []
 
 STORIES_NOTE = ("Three documentary narratives are in production from September 2026. This section is built to "
                 "receive them: film, photo essays and written pieces, filterable by pillar and by format.")

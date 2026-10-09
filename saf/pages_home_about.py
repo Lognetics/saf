@@ -10,7 +10,7 @@ from .layout import (icon, esc, chip, btn, section_head, note, table, stat_grid,
 from .components import (page_hero, pillar_card, programme_card,
                          person_card, partner_card, news_card, get_involved_grid,
                          donate_band, newsletter_band, contact_strip, programme_url,
-                         pillar_url, PILLAR_INDEX, photo, photo_credit_line, person_url,
+                         pillar_url, PILLAR_INDEX, photo, photo_credit_line, person_url, stories_strip,
                          ROLE_ICON)
 from .graphics import nigeria_map, map_legend
 
@@ -37,7 +37,6 @@ def home():
         f'<span class="hero__motto">{icon(p["icon"], "", 18)}{esc(p["motto"])}</span>'
         for p in D.PILLARS)
 
-    story = D.STORIES[0]
     headline = D.NEED_STATS[2]
 
     # The hero opens with the Foundation's film once assets/video/hero.mp4 is
@@ -76,15 +75,15 @@ def home():
   </div>
 </section>
 
+{stories_strip()}
+
 <section class="section">
   <div class="container">
-    {section_head("Three pillars, one road out",
-                  "A family that has been displaced does not have one problem. The children are out of school, "
-                  "the adults have lost their trade, and the home is gone. Our three pillars are designed to be "
-                  "used together.",
+    {section_head("Our programmes",
+                  "Three pillars, designed to be used together: educate the mind, equip the hands, secure the home.",
                   eyebrow_text="What we do")}
     <div class="grid grid--3" data-reveal>{pillars}</div>
-    <div class="btn-row mt-6">{btn("How the pillars fit together", "/what-we-do/", "ghost")}</div>
+    <div class="btn-row mt-6">{btn("All our programmes", "/what-we-do/", "ghost")}</div>
   </div>
 </section>
 
@@ -112,28 +111,6 @@ def home():
           <p class="mb-0 mt-4"><a class="card__more card__more--light" href="/who-we-serve/#need">
             The full figures and sources{icon("arrow-right", "", 18)}</a></p>
         </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="section section--surface">
-  <div class="container">
-    {section_head("A story from the work", None, eyebrow_text="Featured")}
-    <div class="grid grid--split">
-      <div>
-        {photo("classroom-desks", "4x3", sizes="(min-width: 880px) 560px, 100vw")}
-      </div>
-      <div>
-        <p class="card__cat" style="color:var(--blue);font-weight:750;letter-spacing:.08em;text-transform:uppercase;font-size:.74rem">
-          Education &amp; Skills</p>
-        <h3 style="font-size:var(--step-3)">{esc(story["title"])}</h3>
-        <p class="lede">{esc(story["excerpt"])}</p>
-        <p>Where a community holds the skill, we buy it there. The same expenditure creates a learning space
-           and an income, and a piece of furniture made by a neighbour is a piece of furniture that gets
-           repaired rather than replaced.</p>
-        <div class="btn-row">{btn("Read the story", "/impact/stories/" + story["slug"] + "/", "primary")}
-          {btn("All stories", "/impact/stories/", "ghost", None)}</div>
       </div>
     </div>
   </div>

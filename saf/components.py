@@ -94,18 +94,25 @@ def programme_card(p, show_pillar=False):
 </article>'''
 
 
-def pillar_card(p, index):
+def pillar_card(p, index, show_programmes=False):
+    """Photo-led pillar card: a picture, the pillar's name and one short line."""
     progs = [x for x in D.PROGRAMMES if x["pillar"] == p["slug"]]
-    lis = "".join(
-        f'<li><a href="{programme_url(x["slug"])}">{esc(x["short_name"])}</a></li>'
-        for x in progs)
+    first = p["lede"].split(". ")[0].rstrip(".") + "."
+    lis = ""
+    if show_programmes:
+        lis = '<ul class="pillar__list">' + "".join(
+            f'<li><a href="{programme_url(x["slug"])}">{esc(x["short_name"])}</a></li>' for x in progs) + "</ul>"
+    media = photo(D.PILLAR_PHOTOS[p["slug"]], "3x2", sizes="(min-width: 940px) 360px, 100vw", max_width=640)
     return f'''
-<article class="card card--link card--pillar p{index}">
-  <span class="pillar__icon">{icon(p["icon"], "", 28)}</span>
-  <p class="pillar__motto">{esc(p["motto"])}</p>
-  <h3><a class="stretched" href="{pillar_url(p["slug"])}">{esc(p["name"])}</a></h3>
-  <p>{esc(p["lede"])}</p>
-  <ul class="pillar__list">{lis}</ul>
+<article class="card card--link card--photo card--pillar p{index}">
+  {media}
+  <div class="card__body">
+    <p class="pillar__motto">{icon(p["icon"], "", 18)}{esc(p["motto"])}</p>
+    <h3><a class="stretched" href="{pillar_url(p["slug"])}">{esc(p["name"])}</a></h3>
+    <p>{esc(first)}</p>
+    {lis}
+    <p class="card__foot"><span class="card__more">{len(progs)} programmes{icon("arrow-right", "", 18)}</span></p>
+  </div>
 </article>'''
 
 
@@ -202,6 +209,56 @@ def story_card(item, with_photo=True):
 </article>'''
 
 
+def external_story_card(item):
+    """A story that lives on YouTube or Instagram: the card links straight out."""
+    ic = "film" if item["platform"] == "YouTube" else "instagram"
+    media = (photo(item["photo"], "3x2", sizes="(min-width: 940px) 360px, 100vw", max_width=640)
+             if item.get("photo") else "")
+    cls = "card card--link" + (" card--photo" if media else "")
+    return f'''
+<article class="{cls}" data-facets="{item["platform"].lower()}">
+  {media}
+  <div class="card__body">
+    <p class="card__cat"><span class="tag">{icon(ic, "", 16)} {esc(item["platform"])}</span></p>
+    <h3><a class="stretched" href="{item["url"]}" target="_blank" rel="noopener">{esc(item["title"])}
+      <span class="visually-hidden">(opens {esc(item["platform"])} in a new tab)</span></a></h3>
+    <p>{esc(item["excerpt"])}</p>
+    <p class="card__foot"><span class="card__more">Watch on {esc(item["platform"])}{icon("arrow-up-right", "", 18)}</span></p>
+  </div>
+</article>'''
+
+
+def stories_strip():
+    """Home page: the people's own stories first, then the documentary."""
+    ig = next(x for x in D.SITE["social"] if x["name"] == "Instagram")
+    cards = "".join(story_card(s) for s in D.STORIES[:3]) + "".join(
+        external_story_card(x) for x in D.EXTERNAL_STORIES[:3])
+    doc = D.DOCUMENTARY
+    if doc.get("url"):
+        film = (f'<a class="film film--live" href="{doc["url"]}" target="_blank" rel="noopener">'
+                f'<span class="film__play">{icon("film", "", 34)}</span>'
+                f'<span class="film__title">{esc(doc["title"])}</span>'
+                f'<span class="film__blurb">{esc(doc["blurb"])} Watch on YouTube.</span></a>')
+    else:
+        film = (f'<div class="film"><span class="film__play">{icon("film", "", 34)}</span>'
+                f'<span class="film__title">{esc(doc["title"])}</span>'
+                f'<span class="film__blurb">{esc(doc["blurb"])} Coming soon to our YouTube channel.</span></div>')
+    return f'''
+<section class="section section--surface">
+  <div class="container">
+    <div class="section-head" style="display:flex;justify-content:space-between;align-items:flex-end;gap:1rem;max-width:none;flex-wrap:wrap">
+      <div style="max-width:56ch">
+        <p class="eyebrow">Stories</p>
+        <h2>The work, in the words of the people in it</h2>
+      </div>
+      <div class="btn-row">{btn("All stories", "/impact/stories/", "ghost")}
+        <a class="btn btn--ghost" href="{ig["url"]}" target="_blank" rel="noopener">{icon("instagram", "btn__icon", 18)} More on Instagram</a></div>
+    </div>
+    <div class="grid grid--3" data-reveal>{film}{cards}</div>
+  </div>
+</section>'''
+
+
 def doc_card(title, summary, meta, href, cta="Download PDF"):
     return f'''
 <article class="card card--doc">
@@ -244,7 +301,7 @@ def donate_band():
   <div class="container cta-band__inner">
     <div>
       <h2>Recurring giving lets us commit to a child for a full academic year</h2>
-      <p>One-off or monthly gifts, from ₦5,000 upward, in Naira or from abroad. Every gift is receipted
+      <p>One-off or monthly gifts, from ₦5,000 upward, by card or bank transfer. Every gift is receipted
          with our name and registration number.</p>
     </div>
     <div class="cta-band__actions">

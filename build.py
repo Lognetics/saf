@@ -97,8 +97,8 @@ ORG_SCHEMA = {
         {"@type": "ContactPoint", "contactType": "customer service",
          "telephone": D.SITE["phone"], "email": D.SITE["email"],
          "areaServed": "NG", "availableLanguage": "English"},
-        {"@type": "ContactPoint", "contactType": "emergency",
-         "name": "24/7 hotline", "telephone": D.SITE["hotline"], "areaServed": "NG"},
+        {"@type": "ContactPoint", "contactType": "customer service",
+         "name": "Phone", "telephone": D.SITE["hotline"], "areaServed": "NG"},
     ],
 }
 
@@ -204,7 +204,7 @@ def register_pages():
         PC.get_involved(), "Get involved")
     add("/donate/", "Donate",
         "Fund a child's school year, a family's shelter repair or a trader's start. Give once or monthly "
-        "from ₦5,000, in Naira or from abroad.",
+        "from ₦5,000, by card or bank transfer.",
         PC.donate(), "Get involved", DONATE_SCHEMA)
     add("/donate/thank-you/", "Thank you",
         "Your gift has been received. What happens next, and how to reach us with a question.",
@@ -243,7 +243,7 @@ def register_pages():
 
     # --- Contact and utility ----------------------------------------------
     add("/contact/", "Contact us",
-        "Head office in Maitama, Abuja. Phone, 24/7 hotline, email, office hours, a map and a contact form "
+        "Head office in Maitama, Abuja. Phone, email, office hours, a map and a contact form "
         "with subject routing.", PE.contact(), "Contact")
     add("/complaints/", "Raise a concern or make a complaint",
         "How to raise a concern about our work or the conduct of anyone acting in our name — including a "

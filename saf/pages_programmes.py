@@ -5,7 +5,7 @@ from . import data as D
 from .layout import (icon, esc, chip, btn, section_head, note, table, stat_grid,
                      bullets, paras, image_placeholder, section_nav, cta_band)
 from .components import (page_hero, pillar_card, programme_card, pillar_badge,
-                         news_card, story_card, donate_band, newsletter_band,
+                         news_card, story_card, external_story_card, donate_band, newsletter_band,
                          programme_url, pillar_url, pillar_name, PILLAR_INDEX,
                          PILLAR_BY_SLUG, PROGRAMME_BY_SLUG, PARTNER_BY_SLUG,
                          photo, photo_credit_line)
@@ -23,7 +23,7 @@ IMPACT_NAV = [
 # ===========================================================================
 
 def what_we_do():
-    pillars = "".join(pillar_card(p, PILLAR_INDEX[p["slug"]]) for p in D.PILLARS)
+    pillars = "".join(pillar_card(p, PILLAR_INDEX[p["slug"]], show_programmes=True) for p in D.PILLARS)
     cross = "".join(programme_card(x) for x in D.PROGRAMMES if x["pillar"] == "across-all-pillars")
 
     flow = "".join(
@@ -460,8 +460,13 @@ def impact():
 
 
 def stories_index():
-    cards = "".join(story_card(s) for s in D.STORIES)
+    cards = "".join(story_card(s) for s in D.STORIES) + "".join(external_story_card(x) for x in D.EXTERNAL_STORIES)
 
+    ig = next(x for x in D.SITE["social"] if x["name"] == "Instagram")
+    ig_card = (f'<div class="card card--quiet mb-5"><h3>More stories on Instagram</h3>'
+               f'<p class="small">Many more stories from the people we work with are shared as {esc(ig["handle"])}.</p>'
+               f'<p class="card__foot"><a class="card__more" href="{ig["url"]}" target="_blank" rel="noopener">'
+               f'Open Instagram{icon("arrow-up-right", "", 18)}</a></p></div>')
     pillar_filters = "".join(
         f'<button class="filter" type="button" data-filter="{p["slug"]}" data-dimension="pillar" '
         f'aria-pressed="false">{esc(p["name"])}</button>' for p in D.PILLARS)
@@ -498,6 +503,7 @@ def stories_index():
       <p class="results-count" data-filter-count="stories" role="status"></p>
     </div>
 
+    {ig_card}
     <h2 class="visually-hidden">All stories</h2>
     <div class="grid grid--3" data-filter-target="stories">{cards}</div>
     <div class="empty-state mt-5" data-filter-empty="stories" hidden>

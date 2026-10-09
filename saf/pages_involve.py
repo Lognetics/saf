@@ -117,8 +117,10 @@ DONATE_FAQS = [
      "Card details are handled entirely by the payment provider on their own secure pages. No card details "
      "are ever stored on this website. The whole site runs over HTTPS."),
     ("Can I give from outside Nigeria?",
-     "Yes. Foreign cards are accepted and the currency is shown clearly before you confirm. Our diaspora "
-     "supporters are a real and valued segment of our income."),
+     "Card payments on this site are in Nigerian naira for now. If you are abroad, please give by bank "
+     "transfer in pounds, euros or US dollars: email info@syniafoundation.org and we will send you the "
+     "account details and a reference to use. Our diaspora supporters are a real and valued segment of "
+     "our income, and we are working to add international card payments."),
     ("How do I know the money is used well?",
      "Programme budgets are approved by the Board before expenditure is committed; payment authorisation "
      "is separated from payment requests; grants to participants are released against milestones rather "
@@ -150,9 +152,15 @@ def donate():
         ("Bank", esc(D.BANK_TRANSFER["bank"])),
         ("Account name", esc(D.BANK_TRANSFER["account_name"])),
         ("Account number", esc(D.BANK_TRANSFER["account_number"])),
-        ("For international transfers", esc(D.BANK_TRANSFER["sort_or_swift"])),
         ("Reference", esc(D.BANK_TRANSFER["reference"])),
     ])
+
+    foreign_html = "".join(
+        f'<details><summary>{esc(name)} ({sym})</summary><div class="accordion__body">'
+        f'<p>Our {esc(name.lower())} account details are available on request. Email '
+        f'<a href="mailto:{D.SITE["email"]}?subject=Bank%20details%20({cur})">{D.SITE["email"]}</a> and we '
+        f'will reply with them and a reference to use.</p></div></details>'
+        for cur, name, sym in D.FOREIGN_CURRENCIES)
 
     faqs = DONATE_FAQS
     faq_html = "".join(
@@ -162,7 +170,7 @@ def donate():
     return page_hero(
         title="Donate",
         lede="Fund a child's school year, a household's shelter repair, or a trader's start in business. "
-             "One-off or monthly, from ₦5,000 upward, in Naira or from abroad.",
+             "One-off or monthly, from ₦5,000 upward, by card or bank transfer.",
         eyebrow_text="Get involved",
         trail=[("Home", "/"), ("Get Involved", "/get-involved/"), ("Donate", None)],
     ) + f'''
@@ -259,42 +267,14 @@ def donate():
       </div>
 
       <aside>
-        {photo("classroom-writing", "4x3", sizes="(min-width: 940px) 336px, 100vw", cls="mb-5", max_width=640)}
         <div class="card">
           <p class="eyebrow">Why monthly matters</p>
           <h3>A school year is nine months long</h3>
-          <p class="small">A one-off gift pays a term. A monthly gift lets us tell a family, in writing, that
-            their child's place is covered to the end of the year — which is the difference between a child
-            who returns to school and a child who stays there.</p>
-        </div>
-
-        <div class="card mt-5">
-          <h3>Where your gift goes</h3>
-          <ul class="linklist mt-4">
-            {"".join(f'<li><a href="{programme_url(s)}"><span>{esc(PROGRAMME_BY_SLUG[s]["short_name"])}<small>{esc(PROGRAMME_BY_SLUG[s]["one_line"])}</small></span>{icon("arrow-right", "", 18)}</a></li>' for s in ["learning-access-retention", "enterprise-development", "safe-shelter"])}
-          </ul>
-          <p class="small text-muted mt-4">You can also give to a pillar, or wherever it is most needed.</p>
-        </div>
-
-        <div class="card card--quiet mt-5">
-          <h3>Other ways to give</h3>
-          <p class="small">Bank transfer details are below. For corporate giving, payroll giving or a gift in
-            a will, please <a href="/contact/?subject=donation">talk to us directly</a>.</p>
+          <p class="small">A monthly gift lets us tell a family, in writing, that their child's place is covered
+            to the end of the year.</p>
         </div>
       </aside>
     </div>
-  </div>
-</section>
-
-<section class="section section--tight">
-  <div class="container">
-    <div class="photo-band">
-      {photo("classroom-boy-desk", "4x3", sizes="(min-width: 700px) 25vw, 50vw", max_width=640)}
-      {photo("classroom-group", "4x3", sizes="(min-width: 700px) 25vw, 50vw", max_width=640)}
-      {photo("woman-portrait", "4x3", sizes="(min-width: 700px) 25vw, 50vw", max_width=640)}
-      {photo("children-outside", "4x3", sizes="(min-width: 700px) 25vw, 50vw", max_width=640)}
-    </div>
-    <p class="small text-muted mt-4">What your gift pays for. {photo_credit_line()}</p>
   </div>
 </section>
 
@@ -311,11 +291,12 @@ def donate():
               "Please use a reference", "warn", "alert")}
       </div>
       <div>
-        <div class="card">
-          <dl class="bank-details">{bank_rows}</dl>
-          <p class="small text-muted mt-4">Account details are issued by the Foundation directly. If any detail
-            on this page is shown as a placeholder, it has not yet been published — please
-            <a href="/contact/?subject=donation">contact us</a> for confirmed details before transferring.</p>
+        <div class="accordion">
+          <details open>
+            <summary>Nigerian naira (₦)</summary>
+            <div class="accordion__body"><dl class="bank-details">{bank_rows}</dl></div>
+          </details>
+          {foreign_html}
         </div>
       </div>
     </div>
@@ -326,7 +307,6 @@ def donate():
   <div class="container">
     <div class="grid grid--split">
       <div>
-        {photo("children-laughing", "4x3", sizes="(min-width: 880px) 540px, 100vw", cls="mb-5")}
         {section_head("Questions about giving", None, eyebrow_text="Before you give")}
         <p>If your question is not answered here, call us on
           <a href="tel:{D.SITE["phone_href"]}">{D.SITE["phone"]}</a> or email

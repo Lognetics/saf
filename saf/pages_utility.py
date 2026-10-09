@@ -88,8 +88,7 @@ def contact():
             <p>{addr}</p>
             <p><a href="mailto:{D.SITE["email"]}">{D.SITE["email"]}</a></p>
             <p><a href="tel:{D.SITE["phone_href"]}">{D.SITE["phone"]}</a></p>
-            <p><a href="tel:{D.SITE["hotline_href"]}">{D.SITE["hotline"]}</a>
-              <span class="tag">24/7 hotline</span></p>
+            <p><a href="tel:{D.SITE["hotline_href"]}">{D.SITE["hotline"]}</a></p>
           </address>
           <p class="small text-muted">{icon("clock", "", 16)} {esc(D.SITE["hours"])}</p>
         </div>
@@ -170,8 +169,7 @@ def complaints():
       <div class="card">
         <span class="doc__icon">{icon("phone", "", 22)}</span>
         <h3>By phone</h3>
-        <p><a href="tel:{D.SITE["hotline_href"]}"><strong>{D.SITE["hotline"]}</strong></a>
-          <span class="tag">24/7 hotline</span></p>
+        <p><a href="tel:{D.SITE["hotline_href"]}"><strong>{D.SITE["hotline"]}</strong></a></p>
         <p><a href="tel:{D.SITE["phone_href"]}">{D.SITE["phone"]}</a>
           <span class="small text-muted">office hours</span></p>
       </div>
@@ -314,8 +312,7 @@ def safeguarding():
         {photo("children-outside", "4x3", sizes="(min-width: 940px) 336px, 100vw", cls="mb-5", max_width=640)}
         <div class="card">
           <h3>Report a concern now</h3>
-          <p><a href="tel:{D.SITE["hotline_href"]}"><strong>{D.SITE["hotline"]}</strong></a>
-            <span class="tag">24/7</span></p>
+          <p><a href="tel:{D.SITE["hotline_href"]}"><strong>{D.SITE["hotline"]}</strong></a></p>
           <p><a href="mailto:{D.SITE["email"]}?subject=Safeguarding%20concern">{D.SITE["email"]}</a></p>
           <div class="btn-row mt-4">{btn("How to raise a concern", "/complaints/", "cta", "shield")}</div>
         </div>
