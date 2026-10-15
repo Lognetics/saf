@@ -118,8 +118,8 @@ DONATE_FAQS = [
      "are ever stored on this website. The whole site runs over HTTPS."),
     ("Can I give from outside Nigeria?",
      "Card payments on this site are in Nigerian naira for now. If you are abroad, please give by bank "
-     "transfer in pounds, euros or US dollars: email info@syniafoundation.org and we will send you the "
-     "account details and a reference to use. Our diaspora supporters are a real and valued segment of "
+     "transfer in pounds, euros or US dollars to the matching account shown on this page, and email "
+     "info@syniafoundation.org if your bank needs the SWIFT code. Our diaspora supporters are a real and valued segment of "
      "our income, and we are working to add international card payments."),
     ("How do I know the money is used well?",
      "Programme budgets are approved by the Board before expenditure is committed; payment authorisation "
@@ -155,12 +155,17 @@ def donate():
         ("Reference", esc(D.BANK_TRANSFER["reference"])),
     ])
 
-    foreign_html = "".join(
-        f'<details><summary>{esc(name)} ({sym})</summary><div class="accordion__body">'
-        f'<p>Our {esc(name.lower())} account details are available on request. Email '
-        f'<a href="mailto:{D.SITE["email"]}?subject=Bank%20details%20({cur})">{D.SITE["email"]}</a> and we '
-        f'will reply with them and a reference to use.</p></div></details>'
-        for cur, name, sym in D.FOREIGN_CURRENCIES)
+    foreign_html = ""
+    for cur, name, sym in D.FOREIGN_CURRENCIES:
+        acct = D.FOREIGN_ACCOUNTS[cur]
+        rows = "".join(f'<div><dt>{esc(k)}</dt><dd>{esc(v)}</dd></div>' for k, v in [
+            ("Bank", acct["bank"]), ("Account name", acct["account_name"]),
+            ("Account number", acct["account_number"]), ("Currency", f"{name} ({cur})")])
+        foreign_html += (f'<details><summary>{esc(name)} ({sym})</summary><div class="accordion__body">'
+                         f'<dl class="bank-details">{rows}</dl>'
+                         f'<p class="small text-muted mt-3">Sending from abroad? Email '
+                         f'<a href="mailto:{D.SITE["email"]}?subject=International%20transfer%20({cur})">{D.SITE["email"]}</a> '
+                         f'for the SWIFT code and any other detail your bank asks for.</p></div></details>')
 
     faqs = DONATE_FAQS
     faq_html = "".join(

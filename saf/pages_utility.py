@@ -88,7 +88,6 @@ def contact():
             <p>{addr}</p>
             <p><a href="mailto:{D.SITE["email"]}">{D.SITE["email"]}</a></p>
             <p><a href="tel:{D.SITE["phone_href"]}">{D.SITE["phone"]}</a></p>
-            <p><a href="tel:{D.SITE["hotline_href"]}">{D.SITE["hotline"]}</a></p>
           </address>
           <p class="small text-muted">{icon("clock", "", 16)} {esc(D.SITE["hours"])}</p>
         </div>
@@ -169,9 +168,7 @@ def complaints():
       <div class="card">
         <span class="doc__icon">{icon("phone", "", 22)}</span>
         <h3>By phone</h3>
-        <p><a href="tel:{D.SITE["hotline_href"]}"><strong>{D.SITE["hotline"]}</strong></a></p>
-        <p><a href="tel:{D.SITE["phone_href"]}">{D.SITE["phone"]}</a>
-          <span class="small text-muted">office hours</span></p>
+        <p><a href="tel:{D.SITE["phone_href"]}"><strong>{D.SITE["phone"]}</strong></a></p>
       </div>
       <div class="card">
         <span class="doc__icon">{icon("mail", "", 22)}</span>
@@ -533,6 +530,10 @@ def cookies():
       <p>The contact page embeds a map from Google Maps, which may set its own cookies when it loads. If you
          would rather it did not, use the plain link to Google Maps on that page instead, or view our address
          in text.</p>
+      <p>Our films are hosted on YouTube. The film behind the headline on the home page loads from YouTube's
+         privacy-enhanced address (youtube-nocookie.com) when the page opens, and every other video loads only
+         when you press play. Visitors who prefer reduced motion, or who are saving data, are not sent the
+         background film at all.</p>
 
       <h2>Change your choice</h2>
       <p>You can change your mind at any time.</p>
@@ -648,7 +649,7 @@ def accessibility():
 
         <h2>Designed for a real connection</h2>
         <p>We design for a first-time visitor on a mid-range Android phone using mobile data. The site uses no
-           web fonts, no icon fonts and no third-party scripts, because our visitors pay for their data and
+           web fonts, no icon fonts and no third-party scripts of our own (videos are embedded from YouTube), because our visitors pay for their data and
            page weight is a real cost to them, not a metric.</p>
 
         <h2>Known limitations</h2>

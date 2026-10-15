@@ -37,10 +37,10 @@ SITE = {
     "address_lines": ["No. 34 Osun Crescent", "Ancestor's Court", "Maitama, FCT", "Abuja, Nigeria"],
     "address_one_line": "No. 34 Osun Crescent, Ancestor's Court, Maitama, FCT, Abuja, Nigeria",
     "email": "info@syniafoundation.org",
-    "phone": "+234 703 446 3791",
-    "phone_href": "+2347034463791",
-    "hotline": "+234 814 129 4061",
-    "hotline_href": "+2348141294061",
+    "phone": "+234 707 339 1222",
+    "phone_href": "+2347073391222",
+    "hotline": "+234 707 339 1222",       # one number: the 24/7 hotline was retired
+    "hotline_href": "+2347073391222",
     "hours": "Monday to Saturday, 8am to 6pm",
     "domain": "www.syniafoundation.org",
     "base_url": "https://www.syniafoundation.org",
@@ -53,6 +53,10 @@ SITE = {
          "url": "https://www.linkedin.com/company/syniaaidfoundation", "icon": "linkedin"},
         {"name": "Instagram", "handle": "@synia_aid_foundation",
          "url": "https://www.instagram.com/synia_aid_foundation", "icon": "instagram"},
+        {"name": "YouTube",   "handle": "@SyniaAidFoundation",
+         "url": "https://www.youtube.com/@SyniaAidFoundation", "icon": "youtube"},
+        {"name": "TikTok",    "handle": "@syniaaidfoundation",
+         "url": "https://www.tiktok.com/@syniaaidfoundation", "icon": "tiktok"},
     ],
 }
 
@@ -1450,6 +1454,11 @@ BANK_TRANSFER = {
 # Foreign-currency accounts. Until each account's details are added to BANK_TRANSFER_FOREIGN
 # (bank, account name, number, SWIFT or IBAN), the donate page offers them on request.
 FOREIGN_CURRENCIES = [("GBP", "British pound", "£"), ("EUR", "Euro", "€"), ("USD", "US dollar", "$")]
+FOREIGN_ACCOUNTS = {
+    "GBP": {"bank": "Zenith Bank", "account_name": "Synia Aid Foundation", "account_number": "5061863665"},
+    "EUR": {"bank": "Zenith Bank", "account_name": "Synia Aid Foundation", "account_number": "5081577139"},
+    "USD": {"bank": "Zenith Bank", "account_name": "Synia Aid Foundation", "account_number": "5076272384"},
+}
 
 VOLUNTEER_ROLES = [
     ("Community outreach volunteer",
@@ -1659,17 +1668,53 @@ STORIES = [
 # The documentary is published on YouTube. Set "url" to its YouTube address when it goes live and
 # the Home page panel becomes a link; until then it announces the film without a dead link.
 DOCUMENTARY = {
-    "title": "The Synia Aid Foundation documentary",
-    "blurb": "The people we serve tell their own story, on film.",
-    "url": None,
+    "title": "Tent Emergency Intervention: documentary trailer",
+    "blurb": "The people we serve, on film. The full documentary is coming soon.",
+    "url": "https://youtu.be/TFVHujtfCNI",
+    "youtube_id": "TFVHujtfCNI",
+}
+
+# Short film about the story behind the Foundation, shown on the founder's biography page.
+FOUNDER_VIDEO = {
+    "title": "The story behind Synia Aid Foundation, our mission and vision",
+    "url": "https://youtu.be/qXS5VxiDrmw",
+    "youtube_id": "qXS5VxiDrmw",
 }
 
 # Stories that live on YouTube or Instagram. Each entry shows on the Home and Stories pages and
 # links straight out. Format: {"title", "platform": "YouTube" | "Instagram", "url", "excerpt", "photo"}.
-EXTERNAL_STORIES = []
+EXTERNAL_STORIES = [
+    {"title": "Ruth David Andras's story", "platform": "YouTube", "youtube_id": "MhT8N45sSC8",
+     "url": "https://www.youtube.com/shorts/MhT8N45sSC8",
+     "excerpt": "Ruth's story is one of the many that reminds us that finding shelter is only the beginning. "
+                "Displaced families need access to healthcare, safe housing and education to rebuild their lives."},
+    {"title": "Luka Yazama recounts John Ambana's story", "platform": "YouTube", "youtube_id": "PLbulXUJit8",
+     "url": "https://www.youtube.com/shorts/PLbulXUJit8",
+     "excerpt": "The Secretary of New Kuchingoro IDP Camp, Mr Luka Yazama, shows us the conditions John Ambana "
+                "now lives in."},
+    {"title": "Yakubu Hodo Gameche's story", "platform": "YouTube", "youtube_id": "cSSAGcUHxMs",
+     "url": "https://www.youtube.com/shorts/cSSAGcUHxMs",
+     "excerpt": "Yakubu, a farmer originally from Madagali Local Government Area of Adamawa State, shared his "
+                "experience with us during our visit to the Gurku IDP community."},
+    {"title": "Lami John's story", "platform": "YouTube", "youtube_id": "iEd1scsIjXc",
+     "url": "https://www.youtube.com/shorts/iEd1scsIjXc",
+     "excerpt": "A mother from Madagali LGA, Adamawa State, Lami told us how displacement has affected her "
+                "ability to provide for her children, including keeping them in school."},
+    {"title": "Meet Selena Maja, a health practitioner in the Gurku camp", "platform": "YouTube",
+     "youtube_id": "h1KdpSOhp2E", "url": "https://www.youtube.com/shorts/h1KdpSOhp2E",
+     "excerpt": "Selena's perspective on the healthcare realities within the Gurku community."},
+    {"title": "Naomi Andrus Warka's story", "platform": "YouTube", "youtube_id": "-_os-1OCcrY",
+     "url": "https://www.youtube.com/shorts/-_os-1OCcrY",
+     "excerpt": "Naomi shared her experience of fleeing her home due to the Boko Haram insurgency and her hope "
+                "for an opportunity to rebuild her life."},
+    {"title": "Iliayasu Tisa Amos's story", "platform": "YouTube", "youtube_id": "nrXlfEv0FGA",
+     "url": "https://www.youtube.com/shorts/nrXlfEv0FGA",
+     "excerpt": "Iliayasu was living in peace in his small village of Bitiku in Adamawa State before he was "
+                "forced to flee due to the Boko Haram crisis."},
+]
 
-STORIES_NOTE = ("Three documentary narratives are in production from September 2026. This section is built to "
-                "receive them: film, photo essays and written pieces, filterable by pillar and by format.")
+STORIES_NOTE = ("The people we serve tell their own stories on film, and we publish them here and on YouTube. "
+                "Press play to watch on this page. A full documentary is coming soon.")
 
 STORY_FORMATS = ["Film", "Photo essay", "Written"]
 

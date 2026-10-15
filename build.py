@@ -97,8 +97,6 @@ ORG_SCHEMA = {
         {"@type": "ContactPoint", "contactType": "customer service",
          "telephone": D.SITE["phone"], "email": D.SITE["email"],
          "areaServed": "NG", "availableLanguage": "English"},
-        {"@type": "ContactPoint", "contactType": "customer service",
-         "name": "Phone", "telephone": D.SITE["hotline"], "areaServed": "NG"},
     ],
 }
 

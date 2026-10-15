@@ -209,21 +209,35 @@ def story_card(item, with_photo=True):
 </article>'''
 
 
-def external_story_card(item):
-    """A story that lives on YouTube or Instagram: the card links straight out."""
-    ic = "film" if item["platform"] == "YouTube" else "instagram"
-    media = (photo(item["photo"], "3x2", sizes="(min-width: 940px) 360px, 100vw", max_width=640)
-             if item.get("photo") else "")
-    cls = "card card--link" + (" card--photo" if media else "")
+def yt_inline(video_id, title, url):
+    """Click-to-play YouTube embed. Nothing is requested from YouTube until the visitor presses play."""
     return f'''
-<article class="{cls}" data-facets="{item["platform"].lower()}">
-  {media}
+<div class="yt" data-yt-inline="{video_id}" data-yt-title="{esc(title)}">
+  <button class="yt__btn" type="button" aria-label="Play video: {esc(title)}">
+    <span class="yt__play">{icon("play", "", 34)}</span>
+    <span class="yt__title">{esc(title)}</span>
+    <span class="yt__hint">Plays here on the site</span>
+  </button>
+  <noscript><p class="small"><a href="{url}" target="_blank" rel="noopener">Watch on YouTube</a></p></noscript>
+</div>'''
+
+
+def external_story_card(item):
+    """A story published on YouTube: plays in a window on the site, with a link to the original."""
+    short = "/shorts/" in item["url"]
+    return f'''
+<article class="card card--story-video" data-facets="film">
+  <button class="story__poster" type="button" data-yt="{item["youtube_id"]}"
+          data-yt-title="{esc(item["title"])}" data-yt-ratio="{"vertical" if short else "wide"}"
+          aria-label="Play: {esc(item["title"])}">
+    <span class="yt__play">{icon("play", "", 30)}</span>
+    <span class="story__src">{icon("youtube", "", 16)} YouTube</span>
+  </button>
   <div class="card__body">
-    <p class="card__cat"><span class="tag">{icon(ic, "", 16)} {esc(item["platform"])}</span></p>
-    <h3><a class="stretched" href="{item["url"]}" target="_blank" rel="noopener">{esc(item["title"])}
-      <span class="visually-hidden">(opens {esc(item["platform"])} in a new tab)</span></a></h3>
+    <h3>{esc(item["title"])}</h3>
     <p>{esc(item["excerpt"])}</p>
-    <p class="card__foot"><span class="card__more">Watch on {esc(item["platform"])}{icon("arrow-up-right", "", 18)}</span></p>
+    <p class="card__foot"><a class="card__more" href="{item["url"]}" target="_blank" rel="noopener">
+      Open on YouTube{icon("arrow-up-right", "", 18)}</a></p>
   </div>
 </article>'''
 
@@ -231,18 +245,13 @@ def external_story_card(item):
 def stories_strip():
     """Home page: the people's own stories first, then the documentary."""
     ig = next(x for x in D.SITE["social"] if x["name"] == "Instagram")
-    cards = "".join(story_card(s) for s in D.STORIES[:3]) + "".join(
-        external_story_card(x) for x in D.EXTERNAL_STORIES[:3])
+    cards = "".join(external_story_card(x) for x in D.EXTERNAL_STORIES[:5])
     doc = D.DOCUMENTARY
-    if doc.get("url"):
-        film = (f'<a class="film film--live" href="{doc["url"]}" target="_blank" rel="noopener">'
-                f'<span class="film__play">{icon("film", "", 34)}</span>'
-                f'<span class="film__title">{esc(doc["title"])}</span>'
-                f'<span class="film__blurb">{esc(doc["blurb"])} Watch on YouTube.</span></a>')
-    else:
-        film = (f'<div class="film"><span class="film__play">{icon("film", "", 34)}</span>'
-                f'<span class="film__title">{esc(doc["title"])}</span>'
-                f'<span class="film__blurb">{esc(doc["blurb"])} Coming soon to our YouTube channel.</span></div>')
+    film = (f'<button class="film film--live" type="button" data-yt="{doc["youtube_id"]}" '
+            f'data-yt-title="{esc(doc["title"])}" data-yt-ratio="wide">'
+            f'<span class="film__play">{icon("play", "", 34)}</span>'
+            f'<span class="film__title">{esc(doc["title"])}</span>'
+            f'<span class="film__blurb">{esc(doc["blurb"])}</span></button>')
     return f'''
 <section class="section section--surface">
   <div class="container">

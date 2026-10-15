@@ -306,7 +306,8 @@ def programme_page(p):
 # ===========================================================================
 
 def impact():
-    latest = "".join(story_card(s) for s in D.STORIES[:3])
+    latest = "".join(external_story_card(x) for x in D.EXTERNAL_STORIES[:3]) + "".join(
+        story_card(s) for s in D.STORIES[:3])
     recent_projects = table(
         ["Year", "Project", "Partner", "Delivered"],
         [[f"<strong>{y}</strong>", esc(n), esc(pr), esc(d)]
@@ -487,7 +488,7 @@ def stories_index():
   <div class="container">
     {photo("classroom-lesson", "21x9", sizes="100vw", cls="mb-6", eager=True,
            caption=photo_credit_line())}
-    {note(f'<p>{esc(D.STORIES_NOTE)}</p>', "Documentary work from September 2026", "info", "film")}
+    {note(f'<p>{esc(D.STORIES_NOTE)}</p>', "Their words, on film", "info", "film")}
 
     <div data-filter-group="stories">
       <div class="filters">
@@ -507,7 +508,7 @@ def stories_index():
     <h2 class="visually-hidden">All stories</h2>
     <div class="grid grid--3" data-filter-target="stories">{cards}</div>
     <div class="empty-state mt-5" data-filter-empty="stories" hidden>
-      <p>No stories match that combination yet. The first documentary films arrive from September 2026.</p>
+      <p>No stories match that combination yet.</p>
     </div>
   </div>
 </section>

@@ -10,7 +10,7 @@ from .layout import (icon, esc, chip, btn, section_head, note, table, stat_grid,
 from .components import (page_hero, pillar_card, programme_card,
                          person_card, partner_card, news_card, get_involved_grid,
                          donate_band, newsletter_band, contact_strip, programme_url,
-                         pillar_url, PILLAR_INDEX, photo, photo_credit_line, person_url, stories_strip,
+                         pillar_url, PILLAR_INDEX, photo, photo_credit_line, person_url, stories_strip, yt_inline,
                          ROLE_ICON)
 from .graphics import nigeria_map, map_legend
 
@@ -22,7 +22,6 @@ ABOUT_NAV = [
 ]
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-HERO_VIDEO = os.path.join(os.path.dirname(HERE), "assets", "video", "hero.mp4")
 
 
 # ===========================================================================
@@ -39,21 +38,15 @@ def home():
 
     headline = D.NEED_STATS[2]
 
-    # The hero opens with the Foundation's film once assets/video/hero.mp4 is
-    # supplied. Until then it shows the photograph, so nothing is ever broken.
-    if os.path.isfile(HERO_VIDEO):
-        hero_visual = ""
-        hero_bg = ('<div class="hero__video" aria-hidden="true"><video autoplay muted loop playsinline '
-                   'preload="metadata" poster="/assets/img/photos/classroom-boy-desk-4x5-upper-960.jpg">'
-                   '<source src="/assets/video/hero.mp4" type="video/mp4"></video></div>')
-        hero_cls = "hero hero--home hero--video"
-    else:
-        hero_bg = ""
-        hero_visual = f'''<div>
+    # The hero plays the Foundation's film behind the headline. The video is attached by site.js after
+    # the page loads (and not at all for visitors who prefer reduced motion or are saving data), so the
+    # photograph below is what everyone sees first, and what no-JavaScript visitors keep.
+    hero_bg = (f'<div class="hero__video" data-hero-video="{D.DOCUMENTARY["youtube_id"]}" aria-hidden="true"></div>')
+    hero_visual = f'''<div class="hero__photo">
         {photo("classroom-boy-desk", "4x5", sizes="(min-width: 980px) 460px, 100vw",
                eager=True, focus="upper")}
       </div>'''
-        hero_cls = "hero hero--home"
+    hero_cls = "hero hero--home"
 
     return f'''
 <section class="{hero_cls}">
@@ -391,6 +384,12 @@ def leadership_bio(person, group):
     ic, label = ROLE_ICON[group]
     initials = "".join(w[0] for w in person["name"].replace("Dr ", "").split()[:2]).upper()
     others = [p for p in D.BOARD + D.EXECUTIVE if p["slug"] != person["slug"]]
+    founder_video = ""
+    if person["slug"] == "mmaobi-nwafor-orizu":
+        v = D.FOUNDER_VIDEO
+        founder_video = (f'<h2>The story behind the Foundation</h2>'
+                         f'<p>A short film on how Synia Aid Foundation began, and on our mission and vision.</p>'
+                         f'{yt_inline(v["youtube_id"], v["title"], v["url"])}')
     people = "".join(
         f'<li><a href="{person_url(o)}"><span>{esc(o["name"])}<small>{esc(o["role"])}</small></span>'
         f'{icon("arrow-right", "", 18)}</a></li>' for o in others)
@@ -415,6 +414,7 @@ def leadership_bio(person, group):
           </div>
         </div>
         {"".join(f"<p>{x}</p>" for x in person["bio"])}
+        {founder_video}
         {note(f'<p>{esc(person["remit"])}</p>', "Remit at the Foundation", "info", "target")}
         <div class="btn-row mt-5">
           {btn("Back to leadership", "/about/leadership/", "primary")}

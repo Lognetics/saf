@@ -17,3 +17,4 @@ venv/
 
 # Local scratch
 *.log
+.vercel

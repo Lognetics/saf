@@ -102,6 +102,9 @@ _ICON_PATHS = {
     "linkedin": '<path d="M6.6 9.4H3.9V21h2.7zM5.2 3.2a1.6 1.6 0 1 0 0 3.2 1.6 1.6 0 0 0 0-3.2M20.1 21h-2.7v-5.7c0-1.4-.5-2.3-1.7-2.3-.9 0-1.5.6-1.7 1.3-.1.2-.1.6-.1.9V21H11.2s0-9.7 0-10.7h2.7v1.5a2.7 2.7 0 0 1 2.4-1.4c1.8 0 3.8 1.1 3.8 4.2z" fill="currentColor" stroke="none"/>',
     "instagram": '<rect x="3.4" y="3.4" width="17.2" height="17.2" rx="5"/><circle cx="12" cy="12" r="4"/>'
                  '<circle cx="17" cy="7" r="1.1" fill="currentColor" stroke="none"/>',
+    "youtube": '<rect x="2.6" y="5.6" width="18.8" height="12.8" rx="4"/><path d="m10 9.4 4.6 2.6-4.6 2.6z" fill="currentColor" stroke="none"/>',
+    "tiktok": '<path d="M14.2 3.5v10.6a3.3 3.3 0 1 1-3.3-3.3"/><path d="M14.2 3.5c.3 2.3 1.8 3.8 4.1 4"/>',
+    "play": '<path d="M8 5.5v13l11-6.5z" fill="currentColor" stroke="none"/>',
     "alert": '<path d="M12 3.6 2.8 19.5h18.4z"/><path d="M12 9.5v4.4"/><circle cx="12" cy="16.8" r="1" fill="currentColor" stroke="none"/>',
     "info": '<circle cx="12" cy="12" r="9"/><path d="M12 11v5.5"/><circle cx="12" cy="7.8" r="1" fill="currentColor" stroke="none"/>',
     "target": '<circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="4.5"/><circle cx="12" cy="12" r="1" fill="currentColor" stroke="none"/>',
@@ -405,7 +408,6 @@ def footer():
           <p>{addr}</p>
           <p><a href="mailto:{SITE["email"]}">{SITE["email"]}</a></p>
           <p><a href="tel:{SITE["phone_href"]}">{SITE["phone"]}</a></p>
-          <p><a href="tel:{SITE["hotline_href"]}">{SITE["hotline"]}</a></p>
           <p class="footer__hours">{esc(SITE["hours"])}</p>
         </address>
       </div>
