@@ -318,7 +318,8 @@ def impact():
     pillar_icon = {pl["name"]: pl["icon"] for pl in D.PILLARS}
     ind_rows = []
     for a_, b_, c_ in D.INDICATORS:
-        ic = pillar_icon.get(a_.replace("&amp;", "&"))
+        key_ = a_.replace("&amp;", "&")
+        ic = next((v for k, v in pillar_icon.items() if k.startswith(key_)), None)
         badge = f'<span class="group-icon">{icon(ic, "", 18)}</span>' if ic else ""
         ind_rows.append([f'<span class="group-name">{badge}<strong>{esc(a_)}</strong></span>',
                          esc(b_), esc(c_)])
@@ -486,8 +487,6 @@ def stories_index():
 
 <section class="section section--tight">
   <div class="container">
-    {photo("classroom-lesson", "21x9", sizes="100vw", cls="mb-6", eager=True,
-           caption=photo_credit_line())}
     {note(f'<p>{esc(D.STORIES_NOTE)}</p>', "Their words, on film", "info", "film")}
 
     <div data-filter-group="stories">

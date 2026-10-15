@@ -213,6 +213,7 @@ def yt_inline(video_id, title, url):
     """Click-to-play YouTube embed. Nothing is requested from YouTube until the visitor presses play."""
     return f'''
 <div class="yt" data-yt-inline="{video_id}" data-yt-title="{esc(title)}">
+  <img class="yt__thumb" src="/assets/img/video/{video_id}.jpg" alt="" width="960" height="540" loading="lazy" decoding="async">
   <button class="yt__btn" type="button" aria-label="Play video: {esc(title)}">
     <span class="yt__play">{icon("play", "", 34)}</span>
     <span class="yt__title">{esc(title)}</span>
@@ -228,8 +229,9 @@ def external_story_card(item):
     return f'''
 <article class="card card--story-video" data-facets="film">
   <button class="story__poster" type="button" data-yt="{item["youtube_id"]}"
-          data-yt-title="{esc(item["title"])}" data-yt-ratio="{"vertical" if short else "wide"}"
+          data-yt-title="{esc(item["title"])}" data-yt-url="{item["url"]}" data-yt-ratio="{"vertical" if short else "wide"}"
           aria-label="Play: {esc(item["title"])}">
+    <img class="story__thumb" src="/assets/img/video/{item["youtube_id"]}.jpg" alt="" width="720" height="450" loading="lazy" decoding="async">
     <span class="yt__play">{icon("play", "", 30)}</span>
     <span class="story__src">{icon("youtube", "", 16)} YouTube</span>
   </button>
@@ -248,7 +250,8 @@ def stories_strip():
     cards = "".join(external_story_card(x) for x in D.EXTERNAL_STORIES[:5])
     doc = D.DOCUMENTARY
     film = (f'<button class="film film--live" type="button" data-yt="{doc["youtube_id"]}" '
-            f'data-yt-title="{esc(doc["title"])}" data-yt-ratio="wide">'
+            f'data-yt-title="{esc(doc["title"])}" data-yt-url="{doc["url"]}" data-yt-ratio="wide">'
+            f'<img class="film__thumb" src="/assets/img/video/{doc["youtube_id"]}.jpg" alt="" width="960" height="540" loading="lazy" decoding="async">'
             f'<span class="film__play">{icon("play", "", 34)}</span>'
             f'<span class="film__title">{esc(doc["title"])}</span>'
             f'<span class="film__blurb">{esc(doc["blurb"])}</span></button>')

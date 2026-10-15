@@ -38,15 +38,14 @@ def home():
 
     headline = D.NEED_STATS[2]
 
-    # The hero plays the Foundation's film behind the headline. The video is attached by site.js after
-    # the page loads (and not at all for visitors who prefer reduced motion or are saving data), so the
-    # photograph below is what everyone sees first, and what no-JavaScript visitors keep.
-    hero_bg = (f'<div class="hero__video" data-hero-video="{D.DOCUMENTARY["youtube_id"]}" aria-hidden="true"></div>')
-    hero_visual = f'''<div class="hero__photo">
-        {photo("classroom-boy-desk", "4x5", sizes="(min-width: 980px) 460px, 100vw",
-               eager=True, focus="upper")}
-      </div>'''
-    hero_cls = "hero hero--home"
+    # The hero plays the Foundation's film behind the headline: a muted, looping, self-hosted video, so it
+    # starts by itself on every browser. Visitors who prefer reduced motion see the poster frame instead.
+    hero_bg = ('''<div class="hero__video" aria-hidden="true">
+    <video autoplay muted loop playsinline preload="auto" poster="/assets/video/hero-poster.jpg" tabindex="-1">
+      <source src="/assets/video/hero.mp4" type="video/mp4">
+    </video></div>''')
+    hero_visual = ""
+    hero_cls = "hero hero--home hero--video-on"
 
     return f'''
 <section class="{hero_cls}">

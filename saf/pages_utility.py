@@ -530,10 +530,9 @@ def cookies():
       <p>The contact page embeds a map from Google Maps, which may set its own cookies when it loads. If you
          would rather it did not, use the plain link to Google Maps on that page instead, or view our address
          in text.</p>
-      <p>Our films are hosted on YouTube. The film behind the headline on the home page loads from YouTube's
-         privacy-enhanced address (youtube-nocookie.com) when the page opens, and every other video loads only
-         when you press play. Visitors who prefer reduced motion, or who are saving data, are not sent the
-         background film at all.</p>
+      <p>The film behind the headline on the home page is hosted on this site. Our other videos are hosted on
+         YouTube and load, from YouTube's privacy-enhanced address (youtube-nocookie.com), only when you press
+         play. Visitors who prefer reduced motion see a still picture instead of the film.</p>
 
       <h2>Change your choice</h2>
       <p>You can change your mind at any time.</p>
@@ -766,7 +765,8 @@ def sitemap_page(groups):
 
 def not_found():
     return f'''
-<section class="page-hero">
+<section class="page-hero page-hero--photo">
+  <div class="page-hero__media" aria-hidden="true">{photo("children-laughing", "21x9", sizes="100vw", eager=True, rounded=False, decorative=True)}</div>
   <div class="container">
     <div class="page-hero__inner">
       <p class="eyebrow">Error 404</p>

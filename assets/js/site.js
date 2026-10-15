@@ -163,25 +163,19 @@
     return f;
   }
 
-  var heroVideo = $('[data-hero-video]');
-  if (heroVideo) {
-    var saveData = navigator.connection && navigator.connection.saveData;
-    if (!reduceMotion && !saveData) {
-      var startHero = function () {
-        var id = heroVideo.getAttribute('data-hero-video');
-        var f = ytFrame(id, 'Background film', 'autoplay=1&mute=1&loop=1&playlist=' + id +
-          '&controls=0&modestbranding=1&playsinline=1&rel=0&iv_load_policy=3&disablekb=1');
-        f.setAttribute('tabindex', '-1');
-        f.setAttribute('aria-hidden', 'true');
-        f.className = 'hero__frame';
-        f.addEventListener('load', function () {
-          var hero = heroVideo.closest('.hero');
-          if (hero) hero.classList.add('hero--video-on');
-        });
-        heroVideo.appendChild(f);
-      };
-      if (document.readyState === 'complete') startHero();
-      else window.addEventListener('load', startHero);
+  // Hero film: the <video> element autoplays on its own. This only nudges browsers that paused it
+  // (low-power mode) and respects the reduced-motion preference.
+  var heroFilm = $('.hero__video video');
+  if (heroFilm) {
+    if (reduceMotion) { heroFilm.removeAttribute('autoplay'); heroFilm.pause(); }
+    else {
+      heroFilm.muted = true;
+      var tryPlay = function () { var pr = heroFilm.play(); if (pr && pr.catch) pr.catch(function () {}); };
+      tryPlay();
+      document.addEventListener('visibilitychange', function () { if (!document.hidden) tryPlay(); });
+      ['touchstart', 'click', 'scroll'].forEach(function (ev) {
+        document.addEventListener(ev, function once() { if (heroFilm.paused) tryPlay(); document.removeEventListener(ev, once); }, { passive: true });
+      });
     }
   }
 
@@ -209,7 +203,8 @@
       player.className = 'player';
       player.setAttribute('aria-label', 'Video player');
       player.innerHTML = '<button class="player__close" type="button" aria-label="Close video">&times;</button>' +
-        '<div class="player__stage"></div>';
+        '<div class="player__stage"></div>' +
+        '<p class="player__bar"><a class="player__yt" target="_blank" rel="noopener"></a></p>';
       document.body.appendChild(player);
       $('.player__close', player).addEventListener('click', function () { player.close(); });
       player.addEventListener('click', function (e) { if (e.target === player) player.close(); });
@@ -218,6 +213,10 @@
         if (lastTrigger) lastTrigger.focus();
       });
     }
+    var link = $('.player__yt', player);
+    var url = trigger.getAttribute('data-yt-url') || ('https://www.youtube.com/watch?v=' + id);
+    link.href = url;
+    link.textContent = 'Watch on YouTube (opens in a new tab)';
     var stage = $('.player__stage', player);
     stage.innerHTML = '';
     stage.className = 'player__stage' + (vertical ? ' player__stage--vertical' : '');
