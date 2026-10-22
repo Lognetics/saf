@@ -1432,3 +1432,9 @@ legend { font-weight: 700; color: var(--navy); padding: 0; margin-bottom: .6rem;
 .partner__logo-slot { height: 96px; background: #fff; border-style: solid; }
 .partner__logo-slot img { max-height: 76px; max-width: 100%; width: auto; height: auto; object-fit: contain; display: block; }
 .partner__logo-slot[aria-hidden] { background: var(--surface); border-style: dashed; }
+
+/* Partner logos: contained inside their box at every width, never over the text */
+.partner__logo-slot { display: flex; align-items: center; justify-content: center; overflow: hidden; position: relative; padding: .5rem .75rem; }
+.partner__logo-slot img { flex: 0 1 auto; min-width: 0; max-width: 100%; max-height: 76px; width: auto; height: auto; object-fit: contain; }
+.card--partner > * { min-width: 0; }
+.card--partner .partner__name, .card--partner p { overflow-wrap: anywhere; }
