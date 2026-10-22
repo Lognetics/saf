@@ -32,20 +32,15 @@ def home():
     pillars = "".join(pillar_card(p, PILLAR_INDEX[p["slug"]]) for p in D.PILLARS)
     news = "".join(news_card(n) for n in D.NEWS[:3])
 
-    mottos = "".join(
-        f'<span class="hero__motto">{icon(p["icon"], "", 18)}{esc(p["motto"])}</span>'
-        for p in D.PILLARS)
-
     headline = D.NEED_STATS[2]
 
-    # The hero plays the Foundation's film behind the headline: a muted, looping, self-hosted video, so it
-    # starts by itself on every browser. Visitors who prefer reduced motion see the poster frame instead.
-    hero_bg = ('''<div class="hero__video" aria-hidden="true">
-    <video autoplay muted loop playsinline preload="auto" poster="/assets/video/hero-poster.jpg" tabindex="-1">
-      <source src="/assets/video/hero.mp4" type="video/mp4">
-    </video></div>''')
-    hero_visual = ""
-    hero_cls = "hero hero--home hero--video-on"
+    # The hero is the photograph. (A film behind the headline was tried and withdrawn: it looked soft.)
+    hero_bg = ""
+    hero_visual = f'''<div class="hero__photo">
+        {photo("classroom-boy-desk", "4x5", sizes="(min-width: 980px) 460px, 100vw",
+               eager=True, focus="upper")}
+      </div>'''
+    hero_cls = "hero hero--home"
 
     return f'''
 <section class="{hero_cls}">
@@ -60,7 +55,6 @@ def home():
           {btn("Donate", "/donate/", "cta")}
           {btn("See what we do", "/what-we-do/", "ghost-light", None)}
         </div>
-        <div class="hero__mottos">{mottos}</div>
       </div>
       {hero_visual}
     </div>
@@ -383,12 +377,13 @@ def leadership_bio(person, group):
     ic, label = ROLE_ICON[group]
     initials = "".join(w[0] for w in person["name"].replace("Dr ", "").split()[:2]).upper()
     others = [p for p in D.BOARD + D.EXECUTIVE if p["slug"] != person["slug"]]
-    founder_video = ""
+    paras_ = [f"<p>{x}</p>" for x in person["bio"]]
     if person["slug"] == "mmaobi-nwafor-orizu":
+        # The film sits straight after the opening paragraph, so it is seen before the long read.
         v = D.FOUNDER_VIDEO
-        founder_video = (f'<h2>The story behind the Foundation</h2>'
-                         f'<p>A short film on how Synia Aid Foundation began, and on our mission and vision.</p>'
+        paras_.insert(1, f'<h2>The story behind the Foundation</h2>'
                          f'{yt_inline(v["youtube_id"], v["title"], v["url"])}')
+    bio_html = "".join(paras_)
     people = "".join(
         f'<li><a href="{person_url(o)}"><span>{esc(o["name"])}<small>{esc(o["role"])}</small></span>'
         f'{icon("arrow-right", "", 18)}</a></li>' for o in others)
@@ -405,15 +400,14 @@ def leadership_bio(person, group):
     <div class="grid grid--sidebar">
       <article class="prose">
         <div class="bio__head">
-          <span class="person__avatar person__avatar--lg" aria-hidden="true">{initials}</span>
+          <img class="bio__photo" src="/assets/img/people/{person["slug"]}.jpg" alt="Portrait of {esc(person["name"])}" width="640" height="640">
           <div>
             <p class="person__role">{esc(person["role"])}</p>
             <p class="person__creds mb-0">{esc(person["credentials"])}</p>
             <p class="person__group mt-2">{icon(ic, "", 16)}<span>{esc(label)}</span></p>
           </div>
         </div>
-        {"".join(f"<p>{x}</p>" for x in person["bio"])}
-        {founder_video}
+        {bio_html}
         {note(f'<p>{esc(person["remit"])}</p>', "Remit at the Foundation", "info", "target")}
         <div class="btn-row mt-5">
           {btn("Back to leadership", "/about/leadership/", "primary")}

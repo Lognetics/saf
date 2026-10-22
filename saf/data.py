@@ -1067,6 +1067,44 @@ EXECUTIVE = [
                  "cross-cutting Community Wellbeing & Mental Health work, delivered publicly as MindCheck.",
         "group": "executive",
     },
+    {
+        "slug": "nancy-nzom",
+        "name": "Dr Nancy Nzom",
+        "role": "Director, Policy and Institutional Development",
+        "credentials": "Ph.D. Law (Employment Law) · LL.M. · M.Sc. Industrial and Employment Relations · Notary Public",
+        "summary": "Leads policy and institutional development: governance structures, policy frameworks, "
+                   "regulatory compliance and strategic partnerships.",
+        "bio": [
+            "Dr Nancy Nzom is a distinguished legal practitioner, policy expert, researcher and institutional "
+            "development leader whose work strengthens organisations, advances sound governance and delivers "
+            "sustainable social impact.",
+            "With extensive expertise in employment and labour law, workplace governance, industrial relations, "
+            "alternative dispute resolution, policy development and organisational capacity building, she "
+            "provides strategic leadership at the intersection of law, research and institutional practice. Her "
+            "work equips organisations to address complex social and workplace challenges, improve governance "
+            "systems and translate policy into effective, measurable action.",
+            "Dr Nzom holds a Ph.D. in Law, specialising in Employment Law, an LL.M. in General Law and an M.Sc. "
+            "in Industrial and Employment Relations from the University of Turin and the International Training "
+            "Centre of the International Labour Organization. She is a Notary Public for Nigeria and a member of "
+            "leading professional bodies, including the Nigerian Bar Association, the Labor and Employment "
+            "Relations Association USA, the Chartered Institute of Arbitrators UK, the Chartered Institute of "
+            "Personnel and Development UK, the Chartered Institute of Personnel Management of Nigeria and the "
+            "Chartered Institute of Taxation of Nigeria.",
+            "She is the Founder and Executive Director of Zinago Institute for Policy &amp; Socio-Legal Research "
+            "Ltd/Gte and the Principal Partner of Zinago Law Practice. Through these leadership roles, she has "
+            "advanced legal, policy and institutional development initiatives across Africa, Europe, the United "
+            "Kingdom, Armenia, Canada and the United States, contributing to stronger systems, more effective "
+            "institutions and sustainable organisational growth.",
+            "At Synia Aid Foundation, Dr Nzom leads policy and institutional development, strengthening "
+            "governance structures, shaping effective policy frameworks, supporting regulatory compliance and "
+            "guiding the development of sustainable programmes and strategic partnerships. Driven by excellence, "
+            "integrity and service, she is committed to building resilient institutions, advancing responsible "
+            "leadership and creating lasting change.",
+        ],
+        "remit": "Policy and institutional development: governance structures, policy frameworks, regulatory "
+                 "compliance, and the development of sustainable programmes and strategic partnerships.",
+        "group": "executive",
+    },
 ]
 
 GOVERNANCE_BODIES = [
@@ -1117,27 +1155,26 @@ PARTNERS = [
     {"slug": "nasarawa-state-college-of-health", "name": "Nasarawa State College of Health Sciences & Technology",
      "category": "education-skills", "order": 2,
      "description": "Education, awareness and empowerment for students, and student volunteers for community mobilisation",
-     "programmes": ["youth-skills-employability", "community-wellbeing-mental-health"], "logo_permission": None,
-     "logo": None, "url": "https://nascohst.edu.ng/"},
+     "programmes": ["youth-skills-employability", "community-wellbeing-mental-health"], "logo_permission": True, "logo": "nasarawa-state-college-of-health.png", "url": "https://nascohst.edu.ng/"},
     {"slug": "sam-empowerment-foundation", "name": "Sam Empowerment Foundation", "category": "displacement-response", "order": 1,
      "description": "Medical outreach for internally displaced persons at New Kuchingoro camp",
-     "programmes": ["safe-shelter", "community-wellbeing-mental-health"], "logo_permission": None, "logo": None,
+     "programmes": ["safe-shelter", "community-wellbeing-mental-health"], "logo_permission": True, "logo": "sam-empowerment-foundation.png",
      "url": "https://samempowermentfoundation.org/"},
     {"slug": "rotary-club-nigeria-nnewi", "name": "Rotary Club of Nigeria (Nnewi)", "category": "displacement-response", "order": 2,
      "description": "Community relief and charity drives",
-     "programmes": ["emergency-response-household-recovery"], "logo_permission": None, "logo": None,
+     "programmes": ["emergency-response-household-recovery"], "logo_permission": True, "logo": "rotary-club-nigeria-nnewi.png",
      "url": "https://rotarydistrict9142.org/"},
     {"slug": "speakout-mental-health-outreach", "name": "SpeakOut Mental Health Outreach", "category": "community-outreach", "order": 1,
      "description": "Community wellbeing awareness and the MindCheck platform",
-     "programmes": ["community-wellbeing-mental-health"], "logo_permission": None, "logo": None,
+     "programmes": ["community-wellbeing-mental-health"], "logo_permission": True, "logo": "speakout-mental-health-outreach.png",
      "url": "https://speakoutmentalhealth.org/"},
     {"slug": "cnu-medical-institute", "name": "CNU Medical Institute (USA)", "category": "community-outreach", "order": 2,
      "description": "Healthcare support and community-based initiatives",
-     "programmes": ["community-wellbeing-mental-health"], "logo_permission": None, "logo": None,
+     "programmes": ["community-wellbeing-mental-health"], "logo_permission": True, "logo": "cnu-medical-institute.png",
      "url": "https://www.cnumedical.com/"},
     {"slug": "kelvin-oluchi-diabetes-foundation", "name": "Kelvin Oluchi Diabetes Foundation", "category": "community-outreach", "order": 3,
      "description": "Community health screening and education",
-     "programmes": ["community-wellbeing-mental-health"], "logo_permission": None, "logo": None,
+     "programmes": ["community-wellbeing-mental-health"], "logo_permission": True, "logo": "kelvin-oluchi-diabetes-foundation.png",
      "url": "https://www.facebook.com/kodiabetesfoundation/"},
 ]
 
@@ -1668,10 +1705,10 @@ STORIES = [
 # The documentary is published on YouTube. Set "url" to its YouTube address when it goes live and
 # the Home page panel becomes a link; until then it announces the film without a dead link.
 DOCUMENTARY = {
-    "title": "Tent Emergency Intervention: documentary trailer",
-    "blurb": "The people we serve, on film. The full documentary is coming soon.",
-    "url": "https://youtu.be/TFVHujtfCNI",
-    "youtube_id": "TFVHujtfCNI",
+    "title": "Tent Emergency Intervention: the documentary",
+    "blurb": "The people we serve, on film.",
+    "url": "https://youtu.be/a5qbg3sIJc0",
+    "youtube_id": "a5qbg3sIJc0",
 }
 
 # Short film about the story behind the Foundation, shown on the founder's biography page.
@@ -1714,7 +1751,7 @@ EXTERNAL_STORIES = [
 ]
 
 STORIES_NOTE = ("The people we serve tell their own stories on film, and we publish them here and on YouTube. "
-                "Press play to watch on this page. A full documentary is coming soon.")
+                "Press play to watch on this page.")
 
 STORY_FORMATS = ["Film", "Photo essay", "Written"]
 

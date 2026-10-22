@@ -47,13 +47,16 @@ def get_involved():
     <h2 class="visually-hidden">Four ways to stand with the Foundation</h2>
     <div class="grid grid--2">
       {"".join(f"""
-      <article class="card card--link card--route">
-        <div class="route__top"><span class="pillar__icon">{icon(g["icon"], "", 26)}</span>
-          <span class="route__num">{g["num"]}</span></div>
-        <h3><a class="stretched" href="{'/donate/' if g['slug'] == 'donate' else '/get-involved/' + g['slug'] + '/'}">{esc(g["title"])}</a></h3>
-        <p class="lede" style="font-size:var(--step-0)">{esc(g["summary"])}</p>
-        <p>{esc(g["detail"])}</p>
-        <p class="card__foot"><span class="card__more">{esc(g["cta"])}{icon("arrow-right", "", 18)}</span></p>
+      <article class="card card--link card--photo card--route">
+        {photo(D.GET_INVOLVED_PHOTOS[g["slug"]], "16x9", sizes="(min-width: 940px) 560px, 100vw", max_width=960)}
+        <div class="card__body">
+          <div class="route__top"><span class="pillar__icon">{icon(g["icon"], "", 26)}</span>
+            <span class="route__num">{g["num"]}</span></div>
+          <h3><a class="stretched" href="{'/donate/' if g['slug'] == 'donate' else '/get-involved/' + g['slug'] + '/'}">{esc(g["title"])}</a></h3>
+          <p class="lede" style="font-size:var(--step-0)">{esc(g["summary"])}</p>
+          <p>{esc(g["detail"])}</p>
+          <p class="card__foot"><span class="card__more">{esc(g["cta"])}{icon("arrow-right", "", 18)}</span></p>
+        </div>
       </article>""" for g in D.GET_INVOLVED)}
     </div>
   </div>
@@ -404,7 +407,11 @@ def partner():
         ("Institutional allies", "Government agencies, UN bodies and networks working on displacement, "
                                  "resettlement and durable solutions."),
     ]
-    type_cards = "".join(f'<div class="card"><h3>{esc(t)}</h3><p>{esc(b)}</p></div>' for t, b in types)
+    type_photos = ["classroom-desks", "women-smiling", "children-yard", "elder-smiling"]
+    type_cards = "".join(
+        f'<div class="card card--photo">{photo(type_photos[i % 4], "3x2", sizes="(min-width: 940px) 280px, 50vw", max_width=640)}'
+        f'<div class="card__body"><h3>{esc(t)}</h3><p>{esc(b)}</p></div></div>'
+        for i, (t, b) in enumerate(types))
 
     return page_hero(
         title="Partner with us",
@@ -532,8 +539,10 @@ def partner():
 
 def volunteer():
     role_icons = ["people", "book", "handshake", "megaphone"]
-    roles = "".join(f'<div class="card card--role"><span class="pillar__icon">{icon(role_icons[i % 4], "", 24)}</span>'
-                    f'<h3>{esc(t)}</h3><p>{esc(b)}</p></div>'
+    role_photos = ["children-community", "classroom-lesson", "women-gathering", "classroom-friends"]
+    roles = "".join(f'<div class="card card--role card--photo">{photo(role_photos[i % 4], "3x2", sizes="(min-width: 940px) 280px, 50vw", max_width=640)}'
+                    f'<div class="card__body"><span class="pillar__icon">{icon(role_icons[i % 4], "", 24)}</span>'
+                    f'<h3>{esc(t)}</h3><p>{esc(b)}</p></div></div>'
                     for i, (t, b) in enumerate(D.VOLUNTEER_ROLES))
 
     return page_hero(

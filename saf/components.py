@@ -129,10 +129,10 @@ def person_card(person, group="board"):
     ic, label = ROLE_ICON[group]
     return f'''
 <article class="card card--person card--person-{group}" id="{person["slug"]}">
-  <div class="person__head">
-    <span class="person__avatar" aria-hidden="true">{initials}</span>
-    <span class="person__group" title="{esc(label)}">{icon(ic, "", 16)}<span>{esc(label)}</span></span>
-  </div>
+  <a class="person__photo" href="{person_url(person)}" tabindex="-1" aria-hidden="true">
+    <img src="/assets/img/people/{person["slug"]}.jpg" alt="" width="640" height="640" loading="lazy" decoding="async">
+  </a>
+  <p class="person__group" title="{esc(label)}">{icon(ic, "", 16)}<span>{esc(label)}</span></p>
   <h3>{esc(person["name"])}</h3>
   <p class="person__role">{esc(person["role"])}</p>
   <p class="person__creds">{esc(person["credentials"])}</p>
@@ -158,8 +158,8 @@ def partner_card(partner):
     else:
         name_html = esc(partner["name"])
     progs = [PROGRAMME_BY_SLUG[s] for s in partner["programmes"] if s in PROGRAMME_BY_SLUG]
-    links = ("".join(f'<a href="{programme_url(x["slug"])}">{esc(x["short_name"])}</a>'
-                     for x in progs))
+    links = " · ".join(f'<a href="{programme_url(x["slug"])}">{esc(x["short_name"])}</a>'
+                       for x in progs)
     links_html = (f'<p class="card__meta">Works with us on: {links}</p>' if progs else "")
     return f'''
 <article class="card card--partner">
@@ -261,7 +261,7 @@ def stories_strip():
     <div class="section-head" style="display:flex;justify-content:space-between;align-items:flex-end;gap:1rem;max-width:none;flex-wrap:wrap">
       <div style="max-width:56ch">
         <p class="eyebrow">Stories</p>
-        <h2>The work, in the words of the people in it</h2>
+        <h2>Stories from the field</h2>
       </div>
       <div class="btn-row">{btn("All stories", "/impact/stories/", "ghost")}
         <a class="btn btn--ghost" href="{ig["url"]}" target="_blank" rel="noopener">{icon("instagram", "btn__icon", 18)} More on Instagram</a></div>

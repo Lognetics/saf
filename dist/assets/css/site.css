@@ -1418,6 +1418,17 @@ legend { font-weight: 700; color: var(--navy); padding: 0; margin-bottom: .6rem;
 
 .hero__video video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; }
 
-@media (prefers-reduced-motion: reduce) { .hero__video video { display: none; } .hero__video { background: url(/assets/video/hero-poster.jpg) center / cover; } }
 .film::before { background: linear-gradient(180deg, rgba(10,30,52,0) 25%, rgba(10,30,52,.9) 62%, rgba(10,30,52,.97) 100%); }
 .yt__btn::before { background: linear-gradient(180deg, rgba(10,30,52,0) 30%, rgba(10,30,52,.9) 70%, rgba(10,30,52,.97) 100%); }
+
+/* Portraits and partner logos */
+.card--person { padding-top: 0; overflow: hidden; }
+.person__photo { display: block; margin: 0 calc(-1 * var(--sp-5)) var(--sp-4); aspect-ratio: 1 / 1; overflow: hidden; background: var(--surface-2); width: calc(100% + 2 * var(--sp-5)); }
+.person__photo img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .35s var(--ease); }
+.card--person:hover .person__photo img { transform: scale(1.03); }
+.card--person .person__group { margin: 0 0 .5rem; }
+.bio__photo { width: 168px; height: 168px; border-radius: var(--r-xl); object-fit: cover; flex: none; box-shadow: var(--shadow-2); }
+@media (max-width: 560px) { .bio__head { flex-direction: column; align-items: flex-start; } .bio__photo { width: 140px; height: 140px; } }
+.partner__logo-slot { height: 96px; background: #fff; border-style: solid; }
+.partner__logo-slot img { max-height: 76px; max-width: 100%; width: auto; height: auto; object-fit: contain; display: block; }
+.partner__logo-slot[aria-hidden] { background: var(--surface); border-style: dashed; }

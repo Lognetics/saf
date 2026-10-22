@@ -340,13 +340,6 @@ def impact():
 
 <section class="section section--tight">
   <div class="container">
-    {note(f'<p>{esc(D.TRACK_RECORD_NOTE)}</p>', "How to read this record", "info")}
-    {stat_grid(D.GLANCE_STATS)}
-  </div>
-</section>
-
-<section class="section section--surface">
-  <div class="container">
     {section_head("The work in pictures", "Photographs from our outreaches, classrooms and communities. "
                   "Films and more of the people's own stories are added as they are cleared for publication.",
                   eyebrow_text="Photos and films")}
@@ -374,7 +367,7 @@ def impact():
     <div class="section-head" style="display:flex;justify-content:space-between;align-items:flex-end;gap:1rem;max-width:none;flex-wrap:wrap">
       <div style="max-width:52ch">
         <p class="eyebrow">Stories</p>
-        <h2>The work, in the words of the people in it</h2>
+        <h2>Stories from the field</h2>
       </div>
       {btn("All stories", "/impact/stories/", "ghost")}
     </div>
@@ -392,6 +385,13 @@ def impact():
       {btn("All projects", "/impact/projects/", "ghost")}
     </div>
     {recent_projects}
+  </div>
+</section>
+
+<section class="section section--tight" id="record">
+  <div class="container">
+    {note(f'<p>{esc(D.TRACK_RECORD_NOTE)}</p>', "How to read this record", "info")}
+    {stat_grid(D.GLANCE_STATS)}
   </div>
 </section>
 

@@ -163,22 +163,6 @@
     return f;
   }
 
-  // Hero film: the <video> element autoplays on its own. This only nudges browsers that paused it
-  // (low-power mode) and respects the reduced-motion preference.
-  var heroFilm = $('.hero__video video');
-  if (heroFilm) {
-    if (reduceMotion) { heroFilm.removeAttribute('autoplay'); heroFilm.pause(); }
-    else {
-      heroFilm.muted = true;
-      var tryPlay = function () { var pr = heroFilm.play(); if (pr && pr.catch) pr.catch(function () {}); };
-      tryPlay();
-      document.addEventListener('visibilitychange', function () { if (!document.hidden) tryPlay(); });
-      ['touchstart', 'click', 'scroll'].forEach(function (ev) {
-        document.addEventListener(ev, function once() { if (heroFilm.paused) tryPlay(); document.removeEventListener(ev, once); }, { passive: true });
-      });
-    }
-  }
-
   $$('[data-yt-inline]').forEach(function (box) {
     var btn = $('.yt__btn', box);
     if (!btn) return;
