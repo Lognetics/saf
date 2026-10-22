@@ -38,7 +38,7 @@ def what_we_do():
     return page_hero(
         title="What we do",
         lede="Our work rests on three pillars, represented in the Foundation's logo by the open book, the "
-             "lightbulb and the house. Together they form a continuum of care: educate the mind, equip the "
+             "hand holding a seedling and the house. Together they form a continuum of care: educate the mind, equip the "
              "hands, secure the home.",
         eyebrow_text="Three pillars · twelve programmes",
         image="classroom-desks",

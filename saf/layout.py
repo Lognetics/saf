@@ -324,7 +324,7 @@ def header(current_url):
     <a class="brand" href="/">
       <img class="brand__logo" src="/assets/img/logo-full-240.png"
            srcset="/assets/img/logo-full-240.png 240w, /assets/img/logo-full-480.png 480w"
-           sizes="72px" width="240" height="244" alt="Synia Aid Foundation. Education, entrepreneurship, shelter."
+           sizes="72px" width="240" height="244" alt="Synia Aid Foundation. Education, livelihood, shelter."
            decoding="async">
     </a>
     <nav class="nav" id="site-nav" aria-label="Main">
