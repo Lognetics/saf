@@ -50,7 +50,7 @@ SITE = {
         {"name": "Facebook",  "handle": "@syniaaidfoundation",
          "url": "https://www.facebook.com/syniaaidfoundation", "icon": "facebook"},
         {"name": "LinkedIn",  "handle": "@syniaaidfoundation",
-         "url": "https://www.linkedin.com/company/syniaaidfoundation", "icon": "linkedin"},
+         "url": "https://www.linkedin.com/company/synia-aid-foundation/", "icon": "linkedin"},
         {"name": "Instagram", "handle": "@synia_aid_foundation",
          "url": "https://www.instagram.com/synia_aid_foundation", "icon": "instagram"},
         {"name": "YouTube",   "handle": "@SyniaAidFoundation",
